@@ -15,9 +15,8 @@ public class BookingBusiness {
     }
 
     public void add(Booking booking){
-
         if(isAvailable(booking))
-        bookings.add(booking);
+            bookings.add(booking);
     }
 
     private boolean isAvailable(Booking booking){
@@ -45,11 +44,9 @@ public class BookingBusiness {
     }
 
     public Booking search(int id){
-        for(Booking b: bookings){
+        for(Booking b: bookings)
             if(b.getId() == id)
                 return b;
-        }
-
         return null;
     }
 
