@@ -7,14 +7,16 @@ public class User {
     private String name;
     private String surname;
     private String cf;
+    private String sex;
     private String email;
     private String phoneNumber;
     private Date birthdate;
 
-    public User(String name, String surname, String cf, String email, String phoneNumber, Date birthdate) {
+    public User(String name, String surname, String sex, Date birthdate, String cf, String email, String phoneNumber) {
         this.name = name;
         this.surname = surname;
         this.cf = cf;
+        this.sex = sex;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.birthdate = birthdate;
@@ -75,4 +77,6 @@ public class User {
     public void setBirthdate(Date newDate) {
         this.birthdate = newDate;
     }
+
+    public String getSex(){return sex;}
 }

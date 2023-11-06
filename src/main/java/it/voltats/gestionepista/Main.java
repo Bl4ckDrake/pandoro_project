@@ -1,6 +1,8 @@
 package it.voltats.gestionepista;
 
 import com.calendarfx.view.CalendarView;
+import it.voltats.gestionepista.business.UserBusiness;
+import it.voltats.gestionepista.db.entity.Booking;
 import it.voltats.gestionepista.db.entity.User;
 import it.voltats.gestionepista.db.impl.UserRepoImpl;
 
@@ -24,12 +26,9 @@ public class Main extends Application {
 
 
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    public static void main(String[] args) {launch(args);}
 
     @Override
     public void start(Stage stage) throws Exception {
-
     }
 }
