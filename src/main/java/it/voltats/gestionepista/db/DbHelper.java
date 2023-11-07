@@ -32,7 +32,9 @@ public class DbHelper {
                             + "	surname text NOT NULL,\n"
                             + "	email text NOT NULL UNIQUE,\n"
                             + "	phone_number text NOT NULL,\n"
-                            + "	cf text NOT NULL UNIQUE\n"
+                            + "	cf text NOT NULL UNIQUE,\n"
+                            + " birthdate text NOT NULL,\n"
+                            + " gender text NOT NULL\n"
                             + ");";
 
                     // create table if not exists

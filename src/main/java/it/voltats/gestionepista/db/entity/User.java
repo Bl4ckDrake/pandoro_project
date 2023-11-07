@@ -1,5 +1,7 @@
 package it.voltats.gestionepista.db.entity;
 
+import it.voltats.gestionepista.db.entity.model.Gender;
+
 import java.util.Date;
 
 public class User {
@@ -7,16 +9,16 @@ public class User {
     private String name;
     private String surname;
     private String cf;
-    private String sex;
+    private Gender gender;
     private String email;
     private String phoneNumber;
     private Date birthdate;
 
-    public User(String name, String surname, String sex, Date birthdate, String cf, String email, String phoneNumber) {
+    public User(String name, String surname, Gender gender, Date birthdate, String cf, String email, String phoneNumber) {
         this.name = name;
         this.surname = surname;
         this.cf = cf;
-        this.sex = sex;
+        this.gender = gender;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.birthdate = birthdate;
@@ -78,5 +80,9 @@ public class User {
         this.birthdate = newDate;
     }
 
-    public String getSex(){return sex;}
+    public Gender getGender(){return gender;}
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
 }
