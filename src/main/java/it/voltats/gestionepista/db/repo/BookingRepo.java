@@ -1,6 +1,7 @@
 package it.voltats.gestionepista.db.repo;
 
 import it.voltats.gestionepista.db.entity.Booking;
+import java.util.List;
 
 public interface BookingRepo {
     public void insert(Booking booking);
