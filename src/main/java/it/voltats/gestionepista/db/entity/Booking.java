@@ -1,5 +1,8 @@
 package it.voltats.gestionepista.db.entity;
 
+import it.voltats.gestionepista.db.entity.model.BookingStatus;
+
+import java.rmi.server.UID;
 import java.util.Date;
 
 public class Booking {

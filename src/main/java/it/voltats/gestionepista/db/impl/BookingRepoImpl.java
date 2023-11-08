@@ -2,9 +2,16 @@ package it.voltats.gestionepista.db.impl;
 
 import it.voltats.gestionepista.db.DbHelper;
 import it.voltats.gestionepista.db.entity.Booking;
+import it.voltats.gestionepista.db.entity.model.BookingStatus;
 import it.voltats.gestionepista.db.repo.BookingRepo;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookingRepoImpl implements BookingRepo {
     private final Connection connection = DbHelper.getConnection();
@@ -18,7 +25,7 @@ public class BookingRepoImpl implements BookingRepo {
             statement.setInt(1, booking.getUserId());
             statement.setString(2, new SimpleDateFormat("dd-MM-yyyy HH:mm").format(booking.getStartDate()));
             statement.setString(3, new SimpleDateFormat("dd-MM-yyyy HH:mm").format(booking.getEndDate()));
-            statement.setBoolean(4, booking.isConfirmed());
+            statement.setString(4, booking.getStatus().name());
             statement.executeUpdate();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -34,7 +41,7 @@ public class BookingRepoImpl implements BookingRepo {
             statement.setInt(1, booking.getUserId());
             statement.setString(2, new SimpleDateFormat("dd-MM-yyyy HH:mm").format(booking.getStartDate()));
             statement.setString(3, new SimpleDateFormat("dd-MM-yyyy HH:mm").format(booking.getEndDate()));
-            statement.setBoolean(4, booking.isConfirmed());
+            statement.setString(4, booking.getStatus().name());
             statement.setString(5, String.valueOf(booking.getId()));
             statement.executeUpdate();
         } catch (Exception e) {
@@ -84,6 +91,36 @@ public class BookingRepoImpl implements BookingRepo {
         } catch (SQLException | ParseException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    @Override
+    public List<Booking> findAll() {
+        final String QUERY = "SELECT * FROM booking";
+
+        try {
+            var statement = connection.prepareStatement(QUERY);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            List<Booking> result = new ArrayList<>();
+
+            while (resultSet.next()) {
+                Booking booking = new Booking(
+                        resultSet.getInt("user_id"),
+                        new SimpleDateFormat("dd-MM-yyyy HH:mm").parse(resultSet.getString("start_date")),
+                        new SimpleDateFormat("dd-MM-yyyy HH:mm").parse(resultSet.getString("end_date")),
+                        BookingStatus.valueOf(resultSet.getString("status"))
+                );
+
+                result.add(booking);
+            }
+
+            return result;
+        } catch (SQLException | ParseException e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 }

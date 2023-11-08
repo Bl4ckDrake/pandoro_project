@@ -1,16 +1,18 @@
 package it.voltats.gestionepista;
 
+import com.calendarfx.model.Entry;
+import com.calendarfx.model.Interval;
 import com.calendarfx.view.CalendarView;
-import it.voltats.gestionepista.business.UserBusiness;
-import it.voltats.gestionepista.db.entity.Booking;
+import it.voltats.gestionepista.util.ItalianHolidaysUtils;
 import it.voltats.gestionepista.db.entity.User;
+import it.voltats.gestionepista.db.impl.BookingRepoImpl;
 import it.voltats.gestionepista.db.impl.UserRepoImpl;
 
 import com.calendarfx.model.Calendar;
 import com.calendarfx.model.Calendar.Style;
 import com.calendarfx.model.CalendarSource;
-import com.calendarfx.view.CalendarView;
 
+import it.voltats.gestionepista.util.DateConvertUtils;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -18,28 +20,61 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main extends Application {
+    BookingRepoImpl bookingRepo = new BookingRepoImpl();
+    UserRepoImpl userRepo = new UserRepoImpl();
 
 
 
-    public static void main(String[] args) {launch(args);}
+    public static void main(String[] args) {
+        launch(args);
+
+
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         CalendarView calendarView = new CalendarView(); // (1)
 
-        Calendar birthdays = new Calendar("Birthdays"); // (2)
-        Calendar holidays = new Calendar("Holidays");
+        calendarView.setShowAddCalendarButton(false);
 
-        birthdays.setStyle(Style.STYLE1); // (3)
-        holidays.setStyle(Style.STYLE2);
+        ItalianHolidaysUtils italianHolidaysUtils = ItalianHolidaysUtils.getInstance();
+        java.util.Calendar[] calendar = italianHolidaysUtils.fixedHolidays;
+
+
+
+        Calendar bookingsCalendar = new Calendar("Bookings");
+        Calendar holidaysCalendar = new Calendar("Holidays");
+
+
+        bookingRepo.findAll().forEach(booking -> {
+            User user = userRepo.findById(booking.getUserId());
+            Interval interval = new Interval(DateConvertUtils.asLocalDateTime(booking.getStartDate()), DateConvertUtils.asLocalDateTime(booking.getEndDate()));
+            Entry entry = new Entry<>(user.getName() + " " + user.getSurname());
+            entry.setInterval(interval);
+            entry.setId(String.valueOf(booking.getId()));
+            bookingsCalendar.addEntry(entry);
+        });
+
+        for (int i = 0; i < calendar.length; i++) {
+            java.util.Calendar cal = calendar[i];
+            LocalDate date = LocalDate.of(cal.get(java.util.Calendar.YEAR), cal.get(java.util.Calendar.MONTH) + 1, cal.get(java.util.Calendar.DAY_OF_MONTH));
+            Entry entry = new Entry<>("Holiday");
+            entry.setInterval(date);
+            entry.setFullDay(true);
+            entry.setRecurrenceRule("FREQ=YEARLY");
+            holidaysCalendar.addEntry(entry);
+        }
+
+
+        bookingsCalendar.setStyle(Style.STYLE1);
+        holidaysCalendar.setStyle(Style.STYLE2);
 
         CalendarSource myCalendarSource = new CalendarSource("My Calendars"); // (4)
-        myCalendarSource.getCalendars().addAll(birthdays, holidays);
+        myCalendarSource.getCalendars().addAll(bookingsCalendar, holidaysCalendar);
 
         calendarView.getCalendarSources().addAll(myCalendarSource); // (5)
 

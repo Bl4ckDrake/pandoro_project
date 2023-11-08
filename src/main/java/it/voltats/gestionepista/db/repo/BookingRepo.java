@@ -7,4 +7,5 @@ public interface BookingRepo {
     public void update(Booking booking);
     public void delete(Booking booking);
     public List<Booking> findAllByUserId(int userId);
+    public List<Booking> findAll();
 }
