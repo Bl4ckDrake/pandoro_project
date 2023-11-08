@@ -1,36 +1,34 @@
 package it.voltats.gestionepista.business;
 
 import it.voltats.gestionepista.db.entity.Booking;
+import it.voltats.gestionepista.db.impl.BookingRepoImpl;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
 public class BookingBusiness {
-    private ArrayList<Booking> bookings;
-
-    public BookingBusiness(){
-        bookings = new ArrayList<>();
-    }
+    private static final BookingRepoImpl bookings = new BookingRepoImpl();
 
     public void add(Booking booking){
         if(isAvailable(booking))
-            bookings.add(booking);
+            bookings.insert(booking);
     }
 
     private boolean isAvailable(Booking booking){
         if((booking.getEndDate().getTime() - booking.getStartDate().getTime())/(60*60*1000) > 8)
             return false;   //PRENOTAZIONE MAX 8 ORE
 
-        for(Booking b: bookings){
+        for(Booking b: bookings.findAll()){
             if(b.getStartDate().getYear() == booking.getStartDate().getYear() &&
                     b.getStartDate().getMonth() == booking.getStartDate().getMonth() &&
                     b.getStartDate().getDate() == booking.getStartDate().getDate()){
-                for(int h = b.getStartDate().getHours(); h<b.getEndDate().getHours(); h++){
+                for(int h = b.getStartDate().getHours(); h<b.getEndDate().getHours(); h++)
                     if(h == booking.getStartDate().getHours())
                         return false;   //CONTROLLO ORE
-                } if(b.getEndDate().getMinutes() > booking.getEndDate().getMinutes())
+                if(b.getEndDate().getMinutes() > booking.getEndDate().getMinutes())
                     return false;   //CONTROLLO MINUTI
             }
 
@@ -40,11 +38,14 @@ public class BookingBusiness {
     }
 
     public void delete(Booking booking){
-        bookings.remove(booking);
+        LocalDate bookingDate = booking.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        if(bookingDate.isAfter(LocalDate.now()))
+            bookings.delete(booking);
     }
 
     public Booking search(int id){
-        for(Booking b: bookings)
+        for(Booking b: bookings.findAll())
             if(b.getId() == id)
                 return b;
         return null;

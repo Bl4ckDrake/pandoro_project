@@ -34,7 +34,7 @@ public class UserBusiness {
         surname = surname.toUpperCase();
         String consonantsSurname = extractConsonants(surname);
         String consonantsName = extractConsonants(name);
-        String birthYear= birthDate.substring(6, 8);
+        String birthYear= birthDate.substring(7, 9);
         String birthMonth = calculateBirtMonth(birthDate, gender);
         String birthDay = birthDate.substring(0,2);
 
