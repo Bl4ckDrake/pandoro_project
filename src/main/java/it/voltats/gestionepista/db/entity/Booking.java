@@ -7,13 +7,13 @@ public class Booking {
     private int userId;
     private Date startDate;
     private Date endDate;
-    private boolean confirmed;
+    private BookingStatus status;
 
-    public Booking(int userId, Date startDate, Date endDate, boolean confirmed) {
+    public Booking(int userId, Date startDate, Date endDate, BookingStatus status) {
         this.userId = userId;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.confirmed = confirmed;
+        this.status = status;
     }
 
     public int getId() {
@@ -48,12 +48,12 @@ public class Booking {
         this.endDate = endDate;
     }
 
-    public boolean isConfirmed() {
-        return confirmed;
+    public BookingStatus getStatus() {
+        return status;
     }
 
-    public void setConfirmed(boolean confirmed) {
-        this.confirmed = confirmed;
+    public void setStatus(BookingStatus status) {
+        this.status = status;
     }
 
 }

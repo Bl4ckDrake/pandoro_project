@@ -41,7 +41,21 @@ public class UserRepoImpl implements UserRepo {
     public void update(User user) {
         final String QUERY = "UPDATE user SET (name, surname, email, phone_number, cf, birthdate, gender) VALUES(?,?,?,?,?,?,?) WHERE id=?";
 
+        try {
+            var statement = connection.prepareStatement(QUERY);
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getSurname());
+            statement.setString(3, user.getEmail());
+            statement.setString(4, user.getPhoneNumber());
+            statement.setString(5, user.getCf());
+            statement.setString(6, new SimpleDateFormat("dd-MM-yyyy").format(user.getBirthdate()));
+            statement.setString(7, user.getGender().name());
+            statement.setString(8, String.valueOf(user.getId()));
 
+            statement.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
@@ -67,6 +81,36 @@ public class UserRepoImpl implements UserRepo {
             var statement = connection.prepareStatement(QUERY);
 
             statement.setString(1, String.valueOf(userId));
+
+            ResultSet resultSet = statement.executeQuery();
+
+            User result = new User(
+                    resultSet.getString("name"),
+                    resultSet.getString("surname"),
+                    Gender.valueOf(resultSet.getString("gender")),
+                    new SimpleDateFormat("dd-MM-yyyy").parse(resultSet.getString("birthdate")),
+                    resultSet.getString("cf"),
+                    resultSet.getString("email"),
+                    resultSet.getString("phone_number")
+                );
+            result.setId(resultSet.getInt("id"));
+
+            return result;
+
+        } catch (SQLException | ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        final String QUERY = "SELECT * FROM user WHERE email=?";
+
+        try {
+            var statement = connection.prepareStatement(QUERY);
+
+            statement.setString(1, String.valueOf(email));
 
             ResultSet resultSet = statement.executeQuery();
 

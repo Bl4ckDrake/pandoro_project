@@ -7,4 +7,5 @@ public interface UserRepo {
     public void update(User user);
     public void delete(User user);
     public User findById(int userId);
+    public User findByEmail(String email);
 }

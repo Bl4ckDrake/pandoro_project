@@ -16,8 +16,8 @@ public class BookingRepoImpl implements BookingRepo {
         try {
             var statement = connection.prepareStatement(QUERY);
             statement.setInt(1, booking.getUserId());
-            statement.setString(2, booking.getStartDate().toString());
-            statement.setString(3, booking.getEndDate().toString());
+            statement.setString(2, new SimpleDateFormat("dd-MM-yyyy HH:mm").format(booking.getStartDate()));
+            statement.setString(3, new SimpleDateFormat("dd-MM-yyyy HH:mm").format(booking.getEndDate()));
             statement.setBoolean(4, booking.isConfirmed());
             statement.executeUpdate();
         } catch (Exception e) {
@@ -27,11 +27,63 @@ public class BookingRepoImpl implements BookingRepo {
 
     @Override
     public void update(Booking booking) {
+        final String QUERY = "UPDATE booking SET (user_id, start_date, end_date, confirmed) VALUES(?,?,?,?) WHERE id=?";
 
+        try {
+            var statement = connection.prepareStatement(QUERY);
+            statement.setInt(1, booking.getUserId());
+            statement.setString(2, new SimpleDateFormat("dd-MM-yyyy HH:mm").format(booking.getStartDate()));
+            statement.setString(3, new SimpleDateFormat("dd-MM-yyyy HH:mm").format(booking.getEndDate()));
+            statement.setBoolean(4, booking.isConfirmed());
+            statement.setString(5, String.valueOf(booking.getId()));
+            statement.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void delete(Booking booking) {
+        final String QUERY = "DELETE FROM booking WHERE id=?";
 
+        try {
+            var statement = connection.prepareStatement(QUERY);
+            statement.setString(1, String.valueOf(booking.getId()));
+            statement.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<Booking> findAllByUserId(int userId) {
+        final String QUERY = "SELECT * FROM booking WHERE user_id=?";
+
+        try {
+            var statement = connection.prepareStatement(QUERY);
+
+            statement.setString(1, String.valueOf(userId));
+
+            ResultSet resultSet = statement.executeQuery();
+
+            List<Booking> result = new ArrayList<>();
+
+            while (resultSet.next()) {
+                Booking booking = new Booking(
+                        resultSet.getInt("user_id"),
+                        new SimpleDateFormat("dd-MM-yyyy HH:mm").parse(resultSet.getString("start_date")),
+                        new SimpleDateFormat("dd-MM-yyyy HH:mm").parse(resultSet.getString("end_date")),
+                        BookingStatus.valueOf(resultSet.getString("status"))
+                    );
+
+                result.add(booking);
+            }
+
+            return result;
+
+        } catch (SQLException | ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
