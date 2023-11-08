@@ -3,6 +3,7 @@ package it.voltats.gestionepista;
 import com.calendarfx.model.Entry;
 import com.calendarfx.model.Interval;
 import com.calendarfx.view.CalendarView;
+import it.voltats.gestionepista.test.CustomCalendarView;
 import it.voltats.gestionepista.util.ItalianHolidaysUtils;
 import it.voltats.gestionepista.db.entity.User;
 import it.voltats.gestionepista.db.impl.BookingRepoImpl;
@@ -21,6 +22,8 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+
+
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main extends Application {
@@ -37,14 +40,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        CalendarView calendarView = new CalendarView(); // (1)
+        CustomCalendarView calendarView = new CustomCalendarView(); // (1)
 
-        calendarView.setShowAddCalendarButton(false);
+        //calendarView.setShowAddCalendarButton(false);
 
         ItalianHolidaysUtils italianHolidaysUtils = ItalianHolidaysUtils.getInstance();
         java.util.Calendar[] calendar = italianHolidaysUtils.fixedHolidays;
-
-
 
         Calendar bookingsCalendar = new Calendar("Bookings");
         Calendar holidaysCalendar = new Calendar("Holidays");
@@ -68,7 +69,6 @@ public class Main extends Application {
             entry.setRecurrenceRule("FREQ=YEARLY");
             holidaysCalendar.addEntry(entry);
         }
-
 
         bookingsCalendar.setStyle(Style.STYLE1);
         holidaysCalendar.setStyle(Style.STYLE2);
