@@ -6,7 +6,7 @@ import it.voltats.gestionepista.db.entity.model.Gender;
 public class UserBusiness {
 
     private static final String CONSONANTS = "BCDFGHJKLMNPQRSTVWXYZ";
-    private static final String VOCALS = "AEIOU";
+    private static final String VOWELS = "AEIOU";
     private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVXYZ";
 
     public boolean verifyCf(User user){
@@ -78,7 +78,7 @@ public class UserBusiness {
         if (consonants.length() < 3)
             for (int i = 0; i < input.length(); i++) {
                 char c = input.charAt(i);
-                if (Character.isLetter(c) && VOCALS.contains(String.valueOf(c))) {
+                if (Character.isLetter(c) && VOWELS.contains(String.valueOf(c))) {
                     consonants.append(c);
                     if (consonants.length() == 3)
                         break;
