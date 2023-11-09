@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class BookingRepoImpl implements BookingRepo {
@@ -122,5 +123,41 @@ public class BookingRepoImpl implements BookingRepo {
         }
 
         return null;
+    }
+
+    @Override
+    public boolean isAvaiable(Date requestedStartDate, Date requestedEndDate) {
+
+        if((requestedEndDate.getTime() - requestedStartDate.getTime())/(60*60*1000) > 8)
+            return false;
+
+        final String QUERY = "SELECT * FROM booking";
+        List<Booking> bookings = new ArrayList<>();
+
+        try {
+            var statement = connection.prepareStatement(QUERY);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Booking booking = new Booking(
+                        resultSet.getInt("user_id"),
+                        new SimpleDateFormat("dd-MM-yyyy HH:mm").parse(resultSet.getString("start_date")),
+                        new SimpleDateFormat("dd-MM-yyyy HH:mm").parse(resultSet.getString("end_date")),
+                        BookingStatus.valueOf(resultSet.getString("status"))
+                );
+
+                bookings.add(booking);
+            }
+        } catch (SQLException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        for (Booking booking: bookings) {
+            if (booking.getStartDate().compareTo(requestedStartDate) >= 0 && booking.getEndDate().compareTo(requestedEndDate) <=0)
+                return false;
+        }
+
+        return false;
     }
 }

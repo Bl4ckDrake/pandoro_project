@@ -1,6 +1,8 @@
 package it.voltats.gestionepista.db.repo;
 
 import it.voltats.gestionepista.db.entity.Booking;
+
+import java.util.Date;
 import java.util.List;
 
 public interface BookingRepo {
@@ -9,4 +11,5 @@ public interface BookingRepo {
     public void delete(Booking booking);
     public List<Booking> findAllByUserId(int userId);
     public List<Booking> findAll();
+    public boolean isAvaiable(Date requestedStartDate, Date requestedEndDate);
 }
