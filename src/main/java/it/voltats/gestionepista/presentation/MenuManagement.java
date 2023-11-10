@@ -184,7 +184,8 @@ public class MenuManagement {
 
             System.out.println("\n\n");
 
-        }while(choice != 5);
+        }while(choice != 0);
+        scanner.close();
 
     }
     

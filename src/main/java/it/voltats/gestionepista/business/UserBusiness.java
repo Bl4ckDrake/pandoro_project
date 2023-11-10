@@ -60,7 +60,7 @@ public class UserBusiness {
         return String.valueOf(ALPHABET.charAt(remainder));
     }
 
-    private String calculateBirtMonth(String birthDate, Gender gender) {
+    private String calculateBirthMonth(String birthDate, Gender gender) {
         String[] months = {"A", "B", "C", "D", "E", "H", "L", "M", "P", "R", "S", "T"};
         System.out.println(birthDate);
         System.out.println(birthDate.substring(3,5).trim());
