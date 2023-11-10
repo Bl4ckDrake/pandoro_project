@@ -26,6 +26,7 @@ package it.voltats.gestionepista.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Utility class for handling italian holidays. This class is thread safe. <br>
@@ -262,6 +263,13 @@ public class ItalianHolidaysUtils {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.MONTH, month - 1);
         calendar.set(Calendar.DAY_OF_MONTH, day);
+        return calendar;
+    }
+
+    public Calendar fromDate(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH, Integer.parseInt(new SimpleDateFormat("MM").format(date)) - 1);
+        calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(new SimpleDateFormat("dd").format(date)));
         return calendar;
     }
 

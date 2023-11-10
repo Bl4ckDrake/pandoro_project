@@ -3,6 +3,7 @@ package it.voltats.gestionepista.db.entity;
 import it.voltats.gestionepista.db.entity.model.BookingStatus;
 
 import java.rmi.server.UID;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Booking {
@@ -11,6 +12,7 @@ public class Booking {
     private Date startDate;
     private Date endDate;
     private BookingStatus status;
+    private double price;
 
     public Booking(int userId, Date startDate, Date endDate, BookingStatus status, double price) {
         this.userId = userId;
@@ -20,6 +22,7 @@ public class Booking {
         this.price = price;
     }
 
+    /* Getters & Setters */
     public int getId() {
         return id;
     }
@@ -60,4 +63,19 @@ public class Booking {
         this.status = status;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    /* toString */
+    @Override
+    public String toString() {
+        return "ID: "+ id + " - USERID: " + userId + " - DATE: " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(startDate)
+                + " - " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(endDate) + " - STATUS: " + status.name()
+                + " - PRICE: " + price;
+    }
 }

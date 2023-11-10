@@ -25,6 +25,7 @@ public class User {
         this.birthdate = birthdate;
     }
 
+    /* Getters & Setters */
     public int getId() {
         return id;
     }

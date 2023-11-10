@@ -28,7 +28,7 @@ public class UserBusiness {
 
 
         if(!cf.substring(0,11).equals(calculateCf(user.getName(), user.getSurname(),
-                user.getGender(), user.getBirthdate().toString())))
+                user.getGender(), new SimpleDateFormat("dd/MM/yyyy").format(user.getBirthdate()))))
             return false;
         return(cf.substring(15).equals(calculateControlChar(cf)) );
     }

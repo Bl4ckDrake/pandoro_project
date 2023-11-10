@@ -43,7 +43,8 @@ public class DbHelper {
                             + "	user_id integer NOT NULL,\n"
                             + "	start_date text NOT NULL,\n"
                             + "	end_date text NOT NULL,\n"
-                            + "	status text NOT NULL\n"
+                            + "	status text NOT NULL,\n"
+                            + " price real NOT NULL\n"
                             + ");";
 
 

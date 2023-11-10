@@ -5,6 +5,7 @@ import it.voltats.gestionepista.db.entity.model.Promozioni;
 import it.voltats.gestionepista.db.impl.BookingRepoImpl;
 import it.voltats.gestionepista.util.ItalianHolidaysUtils;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -12,33 +13,20 @@ import java.util.List;
 
 public class BookingBusiness {
     private static final BookingRepoImpl bookings = new BookingRepoImpl();
+    private static final ItalianHolidaysUtils italianHolidaysUtil = ItalianHolidaysUtils.getInstance();
 
-    public void add(Booking booking){
-        if(isAvailable(booking))
+    public boolean insert(Booking booking){
+        if(!italianHolidaysUtil.isWeekendOrHoliday(italianHolidaysUtil.fromDate(booking.getStartDate()))
+            && italianHolidaysUtil.getEasterForYear(Integer.parseInt(new SimpleDateFormat("yyyy").format(booking.getStartDate()))).compareTo(italianHolidaysUtil.fromDate(booking.getStartDate())) != 0
+                && bookings.isAvaiable(booking.getStartDate(), booking.getEndDate())) {
+            booking.setPrice(totalCost(booking));
             bookings.insert(booking);
-    }
-
-    private boolean isAvailable(Booking booking){
-        if((booking.getEndDate().getTime() - booking.getStartDate().getTime())/(60*60*1000) > 8)
-            return false;   //PRENOTAZIONE MAX 8 ORE
-
-        for(Booking b: bookings.findAll()){
-            if(b.getStartDate().getYear() == booking.getStartDate().getYear() &&
-                    b.getStartDate().getMonth() == booking.getStartDate().getMonth() &&
-                    b.getStartDate().getDate() == booking.getStartDate().getDate()){
-                for(int h = b.getStartDate().getHours(); h<b.getEndDate().getHours(); h++)
-                    if(h == booking.getStartDate().getHours())
-                        return false;   //CONTROLLO ORE
-                if(b.getEndDate().getMinutes() > booking.getEndDate().getMinutes())
-                    return false;   //CONTROLLO MINUTI
-            }
-
+            return true;
         }
-
-        return true;
+        return false;
     }
 
-    public void delete(Booking booking){
+    public boolean delete(Booking booking){
         LocalDate bookingDate = booking.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         if(bookingDate.isAfter(LocalDate.now()))
@@ -89,7 +77,7 @@ public class BookingBusiness {
                 break;
         }
 
-        if (HolidayCalendar.isHoliday(booking.getStartDate()))
+        if (ItalianHolidaysUtils.getInstance().isWeekendOrHoliday(ItalianHolidaysUtils.getInstance().fromDate(booking.getStartDate())))
             result -= result * Promozioni.FESTIVO.getValue();
 
         return result;

@@ -10,6 +10,7 @@ import it.voltats.gestionepista.db.entity.model.Gender;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
