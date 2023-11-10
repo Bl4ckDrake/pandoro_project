@@ -1,13 +1,14 @@
 package it.voltats.gestionepista.business;
 
 import it.voltats.gestionepista.db.entity.Booking;
+import it.voltats.gestionepista.db.entity.model.Promozioni;
 import it.voltats.gestionepista.db.impl.BookingRepoImpl;
+import it.voltats.gestionepista.util.ItalianHolidaysUtils;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
+import java.util.List;
 
 public class BookingBusiness {
     private static final BookingRepoImpl bookings = new BookingRepoImpl();

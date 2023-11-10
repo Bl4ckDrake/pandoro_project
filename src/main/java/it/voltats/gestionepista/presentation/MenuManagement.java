@@ -14,15 +14,13 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class MenuManagement {
-    BookingRepoImpl bookingRepo;
-    UserRepoImpl userRepo;
+    BookingBusiness bookingBusiness;
     Scanner scanner;
     UserBusiness userBusiness;
     SimpleDateFormat dateFormat;
 
     public MenuManagement() {
-        this.bookingRepo = new BookingRepoImpl();
-        this.userRepo = new UserRepoImpl();
+        this.bookingBusiness = new BookingBusiness();
         this.userBusiness = new UserBusiness();
         this.scanner = new Scanner(System.in);
         this.dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -64,17 +62,56 @@ public class MenuManagement {
                         "\n\n");
             }
 
+            User user;
+            Booking booking = null;
+            String bookingIDString;
+            int bookingID;
 
-            switch (choice){
-                case -1:
+            switch (choice) {
+                default:
+                    System.err.println("Scelta errata");
                     break;
 
-                case 0:
-
-                    break;
                 case 1:
-                    bookingRepo.update(null);
-                    System.out.println();
+                    user = inputUser();
+
+                    if (userBusiness.insert(user)) {
+                        System.out.println("Cliente inserito nel database!");
+
+                        booking = inputBooking(user);
+
+                        if (bookingBusiness.insert(booking))
+                            System.out.println("Prenotazione inserita nel database!");
+                        else
+                            System.err.println("\n\n" + "Orario non disponibile!" + "\n\n");
+
+                    } else
+                        System.err.println("\n\n" + "Cliente gia' presente o " +
+                                "codice fiscale falso/errato o " + "età minima non soddisfatta" + "\n\n");
+
+
+                    break;
+                case 2:
+                    user = userBusiness.findById(IOManager.getIntInput("Inserisci user id: "));
+
+                    booking = inputBooking(user);
+
+                    if (bookingBusiness.insert(booking))
+                        System.out.println("Prenotazione inserita nel database!");
+                    else
+                        System.err.println("\n\n" + "Orario non disponibile!" + "\n\n");
+
+                    break;
+                case 3:
+                        bookingID = IOManager.getIntInput("Inserisci l'ID della prenotazione da modificare");
+                        booking = bookingBusiness.findById(bookingID);
+                        if (booking != null) {
+                            booking.setStatus(BookingStatus.CONFIRMED);
+                            bookingBusiness.update(booking);
+                            System.out.println("Prenotazione modificata!");
+                        } else
+                            System.err.println("Prenotazione non presente");
+
                     break;
 
                 case 4:
@@ -180,16 +217,44 @@ public class MenuManagement {
 
         Gender gender1 = Gender.valueOf(gender);
 
-        System.out.println("Codice Fiscale: ");
-        cf = scanner.nextLine().trim();
+        do{
+        cf = IOManager.getStringInput("Codice Fiscale");
+        }while(!checkInput(cf));
 
-        System.out.println("Email: ");
-        email = scanner.nextLine().trim();
+        do{
+            email = IOManager.getStringInput("Email");
+        }while(!checkInput(email));
 
-        System.out.println("Numero di telefono: ");
-        telephoneNumber = scanner.nextLine().trim();
+        do{
+            telephoneNumber = IOManager.getStringInput("Numero di telefono");
+        }while(!checkInput(telephoneNumber));
 
-        return new User(name, surname, gender1, null, cf, email, telephoneNumber);
+        User u = new User(name, surname, gender1, birthDate, cf, email, telephoneNumber);
+
+        return u;
+    }
+
+    private Booking inputBooking(User user){
+
+       String startDateString = IOManager.getStringInput("Inserisci la data di inizio della prenotazione");
+       Date startDate = null;
+       try {
+           startDate = dateFormatBooking.parse(startDateString);
+       } catch (ParseException e) {
+           throw new RuntimeException(e);
+       }
+
+        String endDateString = IOManager.getStringInput("Inserisci la data di inizio della prenotazione");
+        Date endDate = null;
+        try {
+            endDate = dateFormatBooking.parse(endDateString);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        Booking b = new Booking(user.getId(), startDate, endDate, BookingStatus.PENDING, 0);
+        b.setPrice(bookingBusiness.totalCost(b));
+        return b;
     }
 
     private boolean checkInput(String s){
@@ -197,6 +262,7 @@ public class MenuManagement {
             return false;
         return true;
     }
+
     private Booking getRandomBooking(){
         Random rand = new Random();
 

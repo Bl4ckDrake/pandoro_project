@@ -1,4 +1,4 @@
-package it.voltats.gestionepista.business;
+package it.voltats.gestionepista.db.entity.model;
 
 public enum Promozioni {
     NOTTURNA(0.50),

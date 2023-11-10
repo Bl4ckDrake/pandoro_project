@@ -1,13 +1,23 @@
 package it.voltats.gestionepista.business;
 
+import it.voltats.gestionepista.db.entity.Booking;
 import it.voltats.gestionepista.db.entity.User;
 import it.voltats.gestionepista.db.entity.model.Gender;
+import it.voltats.gestionepista.db.impl.UserRepoImpl;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.List;
+import java.util.Locale;
 
 public class UserBusiness {
 
     private static final String CONSONANTS = "BCDFGHJKLMNPQRSTVWXYZ";
     private static final String VOWELS = "AEIOU";
     private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVXYZ";
+    private static final int MIN_AGE = 18;
+    private static final UserRepoImpl userRepo = new UserRepoImpl();
 
     public boolean verifyCf(User user){
         String cf = user.getCf();
@@ -29,8 +39,8 @@ public class UserBusiness {
         surname = surname.toUpperCase();
         String consonantsSurname = extractConsonants(surname);
         String consonantsName = extractConsonants(name);
-        String birthYear= birthDate.substring(7, 9);
-        String birthMonth = calculateBirtMonth(birthDate, gender);
+        String birthYear= birthDate.substring(8, 10);
+        String birthMonth = calculateBirthMonth(birthDate, gender);
         String birthDay = birthDate.substring(0,2);
 
         return consonantsSurname + consonantsName + birthYear + birthMonth + birthDay;
@@ -85,5 +95,28 @@ public class UserBusiness {
             consonants.append("X");
 
         return consonants.toString();
+    }
+
+    public boolean insert(User user){
+        if(verifyCf(user) && verifyAge(user)) {
+            userRepo.insert(user);
+            return true;
+        }
+        return false;
+    }
+
+
+    public boolean verifyAge(User user){
+        LocalDate userBirthDate = user.getBirthdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        int cmp = userBirthDate.compareTo(LocalDate.now());
+        return cmp >= MIN_AGE;
+    }
+
+    public List<User> findAll(){
+        return userRepo.findAll();
+    }
+
+    public User findById(int id) {
+        return userRepo.findById(id);
     }
 }
