@@ -1,6 +1,6 @@
 package it.voltats.gestionepista.db.entity.model;
 
-public enum Promozioni {
+public enum Promotions {
     NOTTURNA(0.50),
     FESTIVO(0.25),
     OTTO_ORE(0.25),
@@ -9,7 +9,7 @@ public enum Promozioni {
 
     public final double value;
 
-    private Promozioni(double value) {
+    private Promotions(double value) {
         this.value = value;
     }
 
