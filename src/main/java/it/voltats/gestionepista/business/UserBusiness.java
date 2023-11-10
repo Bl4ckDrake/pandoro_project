@@ -16,16 +16,11 @@ public class UserBusiness {
 
         cf = cf.toUpperCase();
 
+
         if(!cf.substring(0,11).equals(calculateCf(user.getName(), user.getSurname(),
                 user.getGender(), user.getBirthdate().toString())))
             return false;
-        else
-        if(cf.substring(15).equals(calculateControlChar(cf)) )
-            return true;
-
-
-        return false;
-        //verifica
+        return(cf.substring(15).equals(calculateControlChar(cf)) );
     }
 
     private String calculateCf(String name, String surname, Gender gender,
@@ -52,13 +47,14 @@ public class UserBusiness {
             sum += ((i + 1) % 2 == 0) ? value : evenCharWeight[value];
         }
         int remainder = sum % 26;
-        System.out.println(String.valueOf(ALPHABET.charAt(remainder)));
         return String.valueOf(ALPHABET.charAt(remainder));
     }
 
     private String calculateBirtMonth(String birthDate, Gender gender) {
         String[] months = {"A", "B", "C", "D", "E", "H", "L", "M", "P", "R", "S", "T"};
-        int month = Integer.parseInt(birthDate.substring(3,5));
+        System.out.println(birthDate);
+        System.out.println(birthDate.substring(3,5).trim());
+        int month = Integer.parseInt(birthDate.substring(3,5).trim());
         if(gender == Gender.F)
             month += 40;
         return months[month - 1];

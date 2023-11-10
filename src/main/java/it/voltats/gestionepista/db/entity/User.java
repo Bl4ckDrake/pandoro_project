@@ -2,6 +2,7 @@ package it.voltats.gestionepista.db.entity;
 
 import it.voltats.gestionepista.db.entity.model.Gender;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class User {
@@ -84,5 +85,16 @@ public class User {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    /* toString */
+    @Override
+    public String toString(){
+        return  "ID: " + id + " - NAME: " +
+                name + " " + surname + " - BDAY: " +
+                new SimpleDateFormat("dd/MM/yyyy").format(birthdate)
+                + " - " + gender + " - CF: " +
+                cf + " - EMAIL: " + email + " - PHONENUMBER: " +
+                phoneNumber;
     }
 }

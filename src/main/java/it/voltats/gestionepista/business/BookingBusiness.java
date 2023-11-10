@@ -44,11 +44,24 @@ public class BookingBusiness {
             bookings.delete(booking);
     }
 
-    public Booking search(int id){
-        for(Booking b: bookings.findAll())
-            if(b.getId() == id)
-                return b;
-        return null;
+    public Booking findById(int id){
+        return bookings.findById(id);
+    }
+
+    public void update(Booking booking){
+        bookings.update(booking);
+    }
+
+    public List<Booking> findAll(){
+        return bookings.findAll();
+    }
+
+    public List<Booking> findAllByUserId(int userId){
+        return bookings.findAllByUserId(userId);
+    }
+
+    public List<Booking> findAllByDate(Date date) {
+        return bookings.findAllByDate(date);
     }
 
     public double totalCost(Booking booking) {
@@ -56,7 +69,7 @@ public class BookingBusiness {
         long diffHours = diff / (60 * 60 * 1000);
         double result = diffHours * 1200;
 
-        if (booking.getEndDate().getHours() >= 20)
+        if (booking.getEndDate().getHours() >= 20 || booking.getEndDate().getHours() == 0)
             result -= result * Promozioni.NOTTURNA.getValue();
 
         switch ((int)diffHours){

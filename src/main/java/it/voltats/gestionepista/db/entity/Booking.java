@@ -12,11 +12,12 @@ public class Booking {
     private Date endDate;
     private BookingStatus status;
 
-    public Booking(int userId, Date startDate, Date endDate, BookingStatus status) {
+    public Booking(int userId, Date startDate, Date endDate, BookingStatus status, double price) {
         this.userId = userId;
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
+        this.price = price;
     }
 
     public int getId() {

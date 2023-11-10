@@ -24,8 +24,8 @@ public class BookingRepoImpl implements BookingRepo {
         try {
             var statement = connection.prepareStatement(QUERY);
             statement.setInt(1, booking.getUserId());
-            statement.setString(2, new SimpleDateFormat("dd-MM-yyyy HH:mm").format(booking.getStartDate()));
-            statement.setString(3, new SimpleDateFormat("dd-MM-yyyy HH:mm").format(booking.getEndDate()));
+            statement.setString(2, new SimpleDateFormat("dd/MM/yyyy HH:mm").format(booking.getStartDate()));
+            statement.setString(3, new SimpleDateFormat("dd/MM/yyyy HH:mm").format(booking.getEndDate()));
             statement.setString(4, booking.getStatus().name());
             statement.executeUpdate();
         } catch (Exception e) {
@@ -40,8 +40,8 @@ public class BookingRepoImpl implements BookingRepo {
         try {
             var statement = connection.prepareStatement(QUERY);
             statement.setInt(1, booking.getUserId());
-            statement.setString(2, new SimpleDateFormat("dd-MM-yyyy HH:mm").format(booking.getStartDate()));
-            statement.setString(3, new SimpleDateFormat("dd-MM-yyyy HH:mm").format(booking.getEndDate()));
+            statement.setString(2, new SimpleDateFormat("dd/MM/yyyy HH:mm").format(booking.getStartDate()));
+            statement.setString(3, new SimpleDateFormat("dd/MM/yyyy HH:mm").format(booking.getEndDate()));
             statement.setString(4, booking.getStatus().name());
             statement.setString(5, String.valueOf(booking.getId()));
             statement.executeUpdate();
@@ -79,9 +79,10 @@ public class BookingRepoImpl implements BookingRepo {
             while (resultSet.next()) {
                 Booking booking = new Booking(
                         resultSet.getInt("user_id"),
-                        new SimpleDateFormat("dd-MM-yyyy HH:mm").parse(resultSet.getString("start_date")),
-                        new SimpleDateFormat("dd-MM-yyyy HH:mm").parse(resultSet.getString("end_date")),
-                        BookingStatus.valueOf(resultSet.getString("status"))
+                        new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(resultSet.getString("start_date")),
+                        new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(resultSet.getString("end_date")),
+                        BookingStatus.valueOf(resultSet.getString("status")),
+                        resultSet.getDouble("price")
                     );
 
                 result.add(booking);
@@ -109,9 +110,10 @@ public class BookingRepoImpl implements BookingRepo {
             while (resultSet.next()) {
                 Booking booking = new Booking(
                         resultSet.getInt("user_id"),
-                        new SimpleDateFormat("dd-MM-yyyy HH:mm").parse(resultSet.getString("start_date")),
-                        new SimpleDateFormat("dd-MM-yyyy HH:mm").parse(resultSet.getString("end_date")),
-                        BookingStatus.valueOf(resultSet.getString("status"))
+                        new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(resultSet.getString("start_date")),
+                        new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(resultSet.getString("end_date")),
+                        BookingStatus.valueOf(resultSet.getString("status")),
+                        resultSet.getDouble("price")
                 );
 
                 result.add(booking);
@@ -142,9 +144,10 @@ public class BookingRepoImpl implements BookingRepo {
             while (resultSet.next()) {
                 Booking booking = new Booking(
                         resultSet.getInt("user_id"),
-                        new SimpleDateFormat("dd-MM-yyyy HH:mm").parse(resultSet.getString("start_date")),
-                        new SimpleDateFormat("dd-MM-yyyy HH:mm").parse(resultSet.getString("end_date")),
-                        BookingStatus.valueOf(resultSet.getString("status"))
+                        new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(resultSet.getString("start_date")),
+                        new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(resultSet.getString("end_date")),
+                        BookingStatus.valueOf(resultSet.getString("status")),
+                        resultSet.getDouble("price")
                 );
 
                 bookings.add(booking);
@@ -158,6 +161,6 @@ public class BookingRepoImpl implements BookingRepo {
                 return false;
         }
 
-        return false;
+        return true;*/
     }
 }
