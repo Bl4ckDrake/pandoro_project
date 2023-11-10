@@ -1,6 +1,6 @@
 package it.voltats.gestionepista.presentation;
 
-import it.voltats.gestionepista.Main;
+import it.voltats.gestionepista.business.BookingBusiness;
 import it.voltats.gestionepista.business.UserBusiness;
 import it.voltats.gestionepista.db.entity.Booking;
 import it.voltats.gestionepista.db.entity.User;
@@ -19,12 +19,16 @@ public class MenuManagement {
     Scanner scanner;
     UserBusiness userBusiness;
     SimpleDateFormat dateFormat;
+    SimpleDateFormat dateFormatBooking;
+    IOManagement IOManager;
 
     public MenuManagement() {
         this.bookingBusiness = new BookingBusiness();
         this.userBusiness = new UserBusiness();
         this.scanner = new Scanner(System.in);
-        this.dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        this.dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        this.dateFormatBooking = new SimpleDateFormat("dd/MM/yyyy HH");
+        this.IOManager = new IOManagement();
     }
 
     public void execute(){
@@ -126,8 +130,21 @@ public class MenuManagement {
 
                     break;
 
-                case 3:
-                    bookingRepo.delete(null);
+                case 5:
+                    bookingIDString = IOManager.getStringInput("Inserisci l'ID della prenotazione che vuoi cercare");
+                    try{
+                        bookingID = Integer.parseInt(bookingIDString);
+                        booking = bookingBusiness.findById(bookingID);
+                        if (booking != null) {
+                            System.out.println("Prenotazione trovata!" +
+                                    "\n" + booking);
+                        } else
+                            System.err.println("Prenotazione non presente");
+                    }catch (NumberFormatException e) {
+                        System.err.println("\n\n" +
+                                "ID non valido INPUT" +
+                                "\n\n");
+                    }
                     break;
 
                 case 6:

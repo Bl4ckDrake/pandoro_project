@@ -29,8 +29,11 @@ public class BookingBusiness {
     public boolean delete(Booking booking){
         LocalDate bookingDate = booking.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-        if(bookingDate.isAfter(LocalDate.now()))
+        if(bookingDate.isAfter(LocalDate.now())) {
             bookings.delete(booking);
+            return true;
+        }
+        return false;
     }
 
     public Booking findById(int id){
