@@ -25,9 +25,7 @@ public class BookingBusiness {
      * @return true --> Inserito correttamente | false --> prenotazione non valida
      */
     public boolean insert(Booking booking){
-        if(!italianHolidaysUtil.isWeekendOrHoliday(italianHolidaysUtil.fromDate(booking.getStartDate()))
-            && italianHolidaysUtil.getEasterForYear(Integer.parseInt(new SimpleDateFormat("yyyy").format(booking.getStartDate()))).compareTo(italianHolidaysUtil.fromDate(booking.getStartDate())) != 0
-                && bookings.isAvaiable(booking.getStartDate(), booking.getEndDate())) {
+        if(bookings.isAvaiable(booking.getStartDate(), booking.getEndDate())) {
             booking.setPrice(totalCost(booking));
             bookings.insert(booking);
             return true;

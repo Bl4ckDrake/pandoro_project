@@ -152,7 +152,7 @@ public class MenuManagement {
 
                     do {
                         dateString = IOManager.getStringInput("Data da ricercare");
-                    } while(!checkInput(dateString));
+                    } while(!checkInput(dateString) || !isValidDate(dateString));
 
                     Date date = null;
 
@@ -166,7 +166,7 @@ public class MenuManagement {
                         }
 
                     } catch (ParseException e) {
-                        throw new RuntimeException(e);
+                        System.err.println("Data inserita non valida");
                     }
 
                     break;
@@ -224,21 +224,23 @@ public class MenuManagement {
         surname = IOManager.getStringInput("Cognome");
         }while(!checkInput(surname));
 
+
         do{
             birthDateString = IOManager.getStringInput("Data di nascita");
-        }while(!checkInput(birthDateString));
 
+        }while(!checkInput(birthDateString) || !isValidDate(birthDateString));
         Date birthDate = null;
 
         try {
-           birthDate = dateFormat.parse(birthDateString);
+            birthDate = dateFormat.parse(birthDateString);
         } catch (ParseException e) {
-            throw new RuntimeException(e);
+            System.err.println("Data inserita non valida");
         }
 
         do{
         gender = IOManager.getStringInput("Genere (M o F)").toUpperCase();
         }while(!checkInput(gender));
+
 
         Gender gender1 = Gender.valueOf(gender);
 
@@ -259,6 +261,19 @@ public class MenuManagement {
         return u;
     }
 
+    private boolean isValidDate(String dateString) {
+        Date date = null;
+        try{
+            if(dateString.length() > 10)
+                date = dateFormatBooking.parse(dateString);
+            else
+                date = dateFormat.parse(dateString);
+            return true;
+        } catch (ParseException e){
+            return false;
+        }
+    }
+
     /**
      * Ritorna un oggetto Booking creato attraverso gli input datosi dall'utente
      * Non viene passato nessun argomento nel metodo
@@ -266,16 +281,28 @@ public class MenuManagement {
      * @return  Object Booking
      */
     private Booking inputBooking(User user){
+        String startDateString = null;
+        String endDateString = null;
 
-       String startDateString = IOManager.getStringInput("Inserisci la data di inizio della prenotazione");
+        do{
+            startDateString = IOManager.getStringInput("Inserisci la data di inizio della prenotazione");
+            if(!isValidDate(startDateString))
+                System.err.println("Data non valida");
+        }while(!isValidDate(startDateString));
        Date startDate = null;
-       try {
-           startDate = dateFormatBooking.parse(startDateString);
-       } catch (ParseException e) {
-           throw new RuntimeException(e);
-       }
+        try {
+            startDate = dateFormatBooking.parse(startDateString);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
 
-        String endDateString = IOManager.getStringInput("Inserisci la data di inizio della prenotazione");
+
+
+        do{
+            endDateString = IOManager.getStringInput("Inserisci la data di fine della prenotazione");
+            if(!isValidDate(endDateString))
+                System.err.println("Data non valida");
+        }while(!isValidDate(endDateString));
         Date endDate = null;
         try {
             endDate = dateFormatBooking.parse(endDateString);

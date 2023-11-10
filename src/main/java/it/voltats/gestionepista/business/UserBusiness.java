@@ -32,7 +32,6 @@ public class UserBusiness {
 
         cf = cf.toUpperCase();
 
-
         if(!cf.substring(0,11).equals(calculateCf(user.getName(), user.getSurname(),
                 user.getGender(), new SimpleDateFormat("dd/MM/yyyy").format(user.getBirthdate()))))
             return false;
@@ -88,8 +87,6 @@ public class UserBusiness {
     private String calculateBirthMonth(String birthDate, Gender gender) {
         String[] months = {"A", "B", "C", "D", "E", "H", "L", "M", "P", "R", "S", "T"};
         int month = Integer.parseInt(birthDate.substring(3,5).trim());
-        if(gender == Gender.F)
-            month += 40;
         return months[month - 1];
     }
 
@@ -147,7 +144,7 @@ public class UserBusiness {
      */
     public boolean verifyAge(User user){
         LocalDate userBirthDate = user.getBirthdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        int cmp = userBirthDate.compareTo(LocalDate.now());
+        int cmp = LocalDate.now().compareTo(userBirthDate);
         return cmp >= MIN_AGE;
     }
 
