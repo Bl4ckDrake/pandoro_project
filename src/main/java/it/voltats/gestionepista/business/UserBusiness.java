@@ -19,6 +19,12 @@ public class UserBusiness {
     private static final int MIN_AGE = 18;
     private static final UserRepoImpl userRepo = new UserRepoImpl();
 
+    /**
+     * Verifica codice fiscale
+     * Richiama i metodi di calculareCf, calculateControlChar, calculateBirthMonth ,extractConsonants
+     * @param user Utente da cui controllare il suo codice fiscale
+     * @return true --> cf verificato | false --> cf falso
+     */
     public boolean verifyCf(User user){
         String cf = user.getCf();
         if(cf == null || cf.length() != 16)
@@ -33,6 +39,14 @@ public class UserBusiness {
         return(cf.substring(15).equals(calculateControlChar(cf)) );
     }
 
+    /**
+     * Calcola un codice fiscale dato i parametri informazioni sulla persona
+     * @param name  nome della persona
+     * @param surname   cognome della persona
+     * @param gender    genere della persona
+     * @param birthDate compleanno della persona
+     * @return  Stringa con il codice fiscale calcolato
+     */
     private String calculateCf(String name, String surname, Gender gender,
                               String birthDate){
         name = name.toUpperCase();
@@ -46,6 +60,11 @@ public class UserBusiness {
         return consonantsSurname + consonantsName + birthYear + birthMonth + birthDay;
     }
 
+    /**
+     * Calcola il carattere di controllo finale del cf
+     * @param input Codice fiscale
+     * @return carattere controllo
+     */
     private String calculateControlChar(String input){
         int[] evenCharWeight = {1, 0, 5, 7, 9, 13, 15, 17, 19, 21, 2, 4, 18, 20, 11, 3, 6, 8, 12, 14, 16, 10, 22, 25, 24, 23};
 
@@ -60,16 +79,25 @@ public class UserBusiness {
         return String.valueOf(ALPHABET.charAt(remainder));
     }
 
+    /**
+     * Calcola il carattere in base a Mese del compleanno e genere
+     * @param birthDate compleanno utente
+     * @param gender    genere utente
+     * @return Stringa con il carattere del mese
+     */
     private String calculateBirthMonth(String birthDate, Gender gender) {
         String[] months = {"A", "B", "C", "D", "E", "H", "L", "M", "P", "R", "S", "T"};
-        System.out.println(birthDate);
-        System.out.println(birthDate.substring(3,5).trim());
         int month = Integer.parseInt(birthDate.substring(3,5).trim());
         if(gender == Gender.F)
             month += 40;
         return months[month - 1];
     }
 
+    /**
+     * Estrae le consonanti da una Stringa
+     * @param input stringa da cui estrappolare le consonanti
+     * @return Stringa di consonanti
+     */
     private String extractConsonants(String input) {
         StringBuilder consonants = new StringBuilder();
 
@@ -97,6 +125,12 @@ public class UserBusiness {
         return consonants.toString();
     }
 
+    /**
+     * Aggiunta al database di un utente
+     * Prima viene effettuato controllo di codice fiscale ed eta'
+     * @param user
+     * @return true --> Inserito correttamente | false --> cf falso e/o eta' troppo piccola
+     */
     public boolean insert(User user){
         if(verifyCf(user) && verifyAge(user)) {
             userRepo.insert(user);
@@ -106,16 +140,29 @@ public class UserBusiness {
     }
 
 
+    /**
+     * Verifica eta'
+     * @param user Utente da cui controllare l'eta'
+     * @return true --> maggiorenne | false --> minorenne
+     */
     public boolean verifyAge(User user){
         LocalDate userBirthDate = user.getBirthdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         int cmp = userBirthDate.compareTo(LocalDate.now());
         return cmp >= MIN_AGE;
     }
 
+    /**
+     * @return lista di utenti
+     */
     public List<User> findAll(){
         return userRepo.findAll();
     }
 
+    /**
+     * Ritorna Utente dato da un ID
+     * @param id ID da cercare
+     * @return Utente trovato per ID
+     */
     public User findById(int id) {
         return userRepo.findById(id);
     }

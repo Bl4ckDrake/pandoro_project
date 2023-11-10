@@ -15,6 +15,15 @@ public class BookingBusiness {
     private static final BookingRepoImpl bookings = new BookingRepoImpl();
     private static final ItalianHolidaysUtils italianHolidaysUtil = ItalianHolidaysUtils.getInstance();
 
+
+    /**
+     * Metodo per inserire una prenotazione nel database
+     * Fa un controllo per vedere se e' possibile inserire la prenotazione
+     * In modo che non rientri in altre prenotazioni o non capitino nelle festivita'
+     * Viene anche richiamato il metodo per calcolare il costo in caso di esito positivo
+     * @param booking prenotazione da inserire
+     * @return true --> Inserito correttamente | false --> prenotazione non valida
+     */
     public boolean insert(Booking booking){
         if(!italianHolidaysUtil.isWeekendOrHoliday(italianHolidaysUtil.fromDate(booking.getStartDate()))
             && italianHolidaysUtil.getEasterForYear(Integer.parseInt(new SimpleDateFormat("yyyy").format(booking.getStartDate()))).compareTo(italianHolidaysUtil.fromDate(booking.getStartDate())) != 0
@@ -26,6 +35,13 @@ public class BookingBusiness {
         return false;
     }
 
+    /**
+     * Metodo per eliminare una prenotazione
+     * Viene controllato che la prentazione sia successivo al giorno di oggi
+     * In caso non lo sia sara' impossibile cancellare
+     * @param booking Prenotazione da cancellare
+     * @return true --> prenotazione cancellata | false --> prenotazione non cancellata
+     */
     public boolean delete(Booking booking){
         LocalDate bookingDate = booking.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
@@ -36,26 +52,53 @@ public class BookingBusiness {
         return false;
     }
 
+    /**
+     * Ritorna prenotazione con uno specifico ID
+     * @param id ID da cercare
+     * @return prenotazione trovata
+     */
     public Booking findById(int id){
         return bookings.findById(id);
     }
 
+    /**
+     * Aggiornamento pagamento da Pending a Confirmed
+     * @param booking prenotazione da aggiornare
+     */
     public void update(Booking booking){
         bookings.update(booking);
     }
 
+    /**
+     * @return Ritorna lista di prenotazioni
+     */
     public List<Booking> findAll(){
         return bookings.findAll();
     }
 
+    /**
+     * Ritorna lista di prenotazioni di un User
+     * @param userId ID dell'user da cercare
+     * @return lista prenotazioni collegato a un UserID specifico
+     */
     public List<Booking> findAllByUserId(int userId){
         return bookings.findAllByUserId(userId);
     }
 
+    /**
+     * Ritorna lista di prenotazioni di un giorno specifico
+     * @param date Giorno in cui cercare prenotazioni
+     * @return lista prenotazioni di un giornno
+     */
     public List<Booking> findAllByDate(Date date) {
         return bookings.findAllByDate(date);
     }
 
+    /**
+     * Ritorna il costo totale di una prenotazione
+     * @param booking prenotazione da cui calcolare il suo prezzo
+     * @return costo prenotazione
+     */
     public double totalCost(Booking booking) {
         long diff = booking.getEndDate().getTime() - booking.getStartDate().getTime();
         long diffHours = diff / (60 * 60 * 1000);
