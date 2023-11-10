@@ -59,3 +59,6 @@ Realizzare un sw per la gestione delle prenotazioni di una pista da corsa.
 - si può sviluppare un'interfaccia grafica o console;
 
 - si possono usare dei file CSV per la memorizzazione dei dati;
+
+**Diagramma:**
+![alt text](https://github.com/Bl4ckDrake/pandoro_project/blob/master/gestione_pista.png)
