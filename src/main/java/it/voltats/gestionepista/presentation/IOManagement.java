@@ -8,6 +8,12 @@ public class IOManagement {
         this.scanner = new Scanner(System.in);
     }
 
+    /**
+     * Ritorna un valore intero
+     * Prende in input un valore String e lo converte opportunamente in int
+     * @param prompt String di output visualizzazione
+     * @return  intero convertito da Stringa
+     */
     public int getIntInput(String prompt) {
         int input = 0;
         boolean validInput = false;
@@ -25,6 +31,12 @@ public class IOManagement {
         return input;
     }
 
+    /**
+     * Ritorna un valore stringa
+     * Prende in input una Stringa e la ritorna
+     * @param prompt String di output visualizzazione
+     * @return  Stringa messa in input
+     */
     public String getStringInput(String prompt) {
         System.out.print("[+] - " + prompt + ": ");
         return scanner.nextLine();

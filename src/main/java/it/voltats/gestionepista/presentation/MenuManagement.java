@@ -194,7 +194,7 @@ public class MenuManagement {
 
                     break;
                 case 0:
-                    System.out.println("Arrivederci!!!");
+                    System.out.println("Bye bye.");
                     break;
             }
 
@@ -205,7 +205,13 @@ public class MenuManagement {
         scanner.close();
 
     }
-    
+
+    /**
+     * Ritorna un oggetto User creato attraverso gli input datosi dall'utente
+     * Non viene passato nessun argomento nel metodo
+     * L'utente va ad inserire uno a uno gli attributi dell'oggetto User
+     * @return  Object User
+     */
     private User inputUser(){
         System.out.println("Inserimento dati cliente:");
         String name, surname, birthDateString, gender, cf, email, telephoneNumber;
@@ -253,6 +259,12 @@ public class MenuManagement {
         return u;
     }
 
+    /**
+     * Ritorna un oggetto Booking creato attraverso gli input datosi dall'utente
+     * Non viene passato nessun argomento nel metodo
+     * L'utente va ad inserire uno a uno gli attributi dell'oggetto Booking
+     * @return  Object Booking
+     */
     private Booking inputBooking(User user){
 
        String startDateString = IOManager.getStringInput("Inserisci la data di inizio della prenotazione");
@@ -276,31 +288,16 @@ public class MenuManagement {
         return b;
     }
 
+
+    /**
+     * Controllo stringa se e' null o se e' vuota
+     * @param s Stringa da controllare
+     * @return  true --> stringa utilizzabile | false --> stringa null o vuota
+     */
     private boolean checkInput(String s){
         if(s == null || s.isBlank())
             return false;
         return true;
     }
 
-    private Booking getRandomBooking(){
-        Random rand = new Random();
-
-        int uid = rand.nextInt(1000);
-        int currentYear = java.time.LocalDate.now().getYear();
-
-        int startH = rand.nextInt(15)+8;
-        int endH = startH + rand.nextInt(8) + 1;
-        int endM = 0;
-        int endS = 0;
-
-        if(endH > 24) {
-            endH = 24;
-        }
-
-        Date start = new Date(currentYear-1900,1,1, startH ,0 ,0);
-        Date end = new Date(currentYear-1900,1,1, endH ,endM ,endS);
-        //BookingStatus status = BookingStatus.values()[rand.nextInt(BookingStatus.values().length)];
-
-        return new Booking(uid, start, end, BookingStatus.PENDING, 0);
-    }
 }
