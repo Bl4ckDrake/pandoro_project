@@ -69,9 +69,8 @@ public class JFXCalendar extends StackPane {
 
 	public JFXCalendar(CalendarEventManager eventManager) {
 
-		//URL location = getClass().getResource("style/CalendarScheduler.css");
-		//System.out.println(location);
-		//getStylesheets().add("/home/bl4ckdrake/IdeaProjects/pandoro_project/src/main/resources/style/CalendarScheduler.css");
+		URL url = getClass().getResource("/style/CalendarScheduler.css");
+		getStylesheets().add(url.toExternalForm());
 
 		this.eventManager = eventManager;
 		selectedDate = LocalDate.now();

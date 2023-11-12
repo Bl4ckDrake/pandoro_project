@@ -1,4 +1,5 @@
 package it.voltats.gestionepista;
+import it.voltats.gestionepista.ui.model.CalendarEvent;
 import it.voltats.gestionepista.ui.model.CalendarEventManager;
 import it.voltats.gestionepista.ui.views.JFXCalendar;
 import javafx.application.Application;
@@ -9,6 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.Enumeration;
 
 public class GestionePista extends Application {
@@ -17,7 +19,7 @@ public class GestionePista extends Application {
     public void start(Stage stage) throws IOException {
         //debugInfo("home-view.fxml");
 
-        URL location = getClass().getClassLoader().getResource("home-view.fxml");
+        URL location = getClass().getClassLoader().getResource("fxml/home-view.fxml");
         System.out.println(location);
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setClassLoader(getClass().getClassLoader());

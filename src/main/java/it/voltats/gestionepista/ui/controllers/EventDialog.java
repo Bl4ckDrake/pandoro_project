@@ -25,15 +25,7 @@ public class EventDialog extends JFXDialog {
 	public EventDialog(StackPane stackPane) {
 		JFXDialogLayout content = new JFXDialogLayout();
 
-		/*URL location = GestionePista.class.getClassLoader().getResource("fxml/AddEventDialog.fxml");
-		System.out.println(location);
-		FXMLLoader fxmlLoader = new FXMLLoader();
-		fxmlLoader.setClassLoader(getClass().getClassLoader());
-		fxmlLoader.setLocation(location);*/
-
-		//FXMLLoader loader = new FXMLLoader(
-		//		this.getClass().getResource("/views/fxml/AddEventDialog.fxml"));
-		URL location = GestionePista.class.getClassLoader().getResource("AddEventDialog.fxml");
+		URL location = GestionePista.class.getClassLoader().getResource("fxml/AddEventDialog.fxml");
 
 		FXMLLoader loader = new FXMLLoader();
 		loader.setClassLoader(getClass().getClassLoader());
@@ -80,8 +72,8 @@ public class EventDialog extends JFXDialog {
 		setContent(content);
 
 
-
-		//getStylesheets().add("/home/bl4ckdrake/IdeaProjects/pandoro_project/src/main/resources/style/DialogStyle.css");
+		URL url = getClass().getResource("/style/DialogStyle.css");
+		getStylesheets().add(url.toExternalForm());
 
 	}
 
