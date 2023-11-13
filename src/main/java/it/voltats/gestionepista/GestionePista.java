@@ -2,6 +2,7 @@ package it.voltats.gestionepista;
 import it.voltats.gestionepista.ui.model.CalendarEvent;
 import it.voltats.gestionepista.ui.model.CalendarEventManager;
 import it.voltats.gestionepista.ui.views.JFXCalendar;
+import it.voltats.gestionepista.util.ItalianHolidaysUtils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,6 +12,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Enumeration;
 
 public class GestionePista extends Application {
@@ -33,6 +35,32 @@ public class GestionePista extends Application {
 
         // Calendar view
         JFXCalendar calendar = new JFXCalendar(eventManager);
+
+        //eventManager.addEvent(new CalendarEvent(-1, "Natale", 3, "Natale", CalendarEvent.IMPORTANT, CalendarEvent.PER_YEAR, null, "", -1, LocalDate.of(2023, 12, 25)));
+
+        ItalianHolidaysUtils holidaysUtils = ItalianHolidaysUtils.getInstance();
+
+        final String [] FESTIVITY_NAME = {
+                "Capodanno",
+                "Epifania",
+                "Pasqua",
+                "Lunedì dell'Angelo",
+                "Festa della Liberazione",
+                "Festa del Lavoro",
+                "Festa della Repubblica",
+                "Assunzione di Maria",
+                "Tutti i Santi",
+                "Immacolata Concezione",
+                "Natale",
+                "Santo Stefano"
+        };
+
+        int i=0;
+        for (Calendar holidayCalendar: holidaysUtils.fixedHolidays) {
+            // TODO: fix this
+            eventManager.addEvent(new CalendarEvent(-1, FESTIVITY_NAME[i], 3, "Chiuso", CalendarEvent.IMPORTANT, CalendarEvent.PER_YEAR, null, "", -1, LocalDate.of(2023, holidayCalendar.get(Calendar.MONTH) + 1, holidayCalendar.get(Calendar.DAY_OF_MONTH))));
+            ++i;
+        }
 
         Scene scene = new Scene(calendar, 1080, 720);
         stage.setTitle("Hello!");

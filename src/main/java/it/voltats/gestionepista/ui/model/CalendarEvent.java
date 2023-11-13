@@ -233,4 +233,21 @@ public class CalendarEvent {
 	public boolean isCompleted() {
 		return isCompleted == 1 ? true : false;
 	}
+
+	@Override
+	public String toString() {
+		return "CalendarEvent{" +
+				"id=" + id +
+				", title='" + title + '\'' +
+				", priority=" + priority +
+				", description='" + description + '\'' +
+				", type=" + type +
+				", periodicType=" + periodicType +
+				", date=" + date +
+				", daysInWeek='" + daysInWeek + '\'' +
+				", placeInMonth=" + placeInMonth +
+				", yearlyDate=" + yearlyDate +
+				", isCompleted=" + isCompleted +
+				'}';
+	}
 }
