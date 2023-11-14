@@ -43,12 +43,11 @@ public class GestionePista extends Application {
         final String [] FESTIVITY_NAME = {
                 "Capodanno",
                 "Epifania",
-                "Pasqua",
-                "Lunedì dell'Angelo",
                 "Festa della Liberazione",
                 "Festa del Lavoro",
                 "Festa della Repubblica",
-                "Assunzione di Maria",
+                "Ferragosto",
+                "San Cassiano (Patrono Imola)",
                 "Tutti i Santi",
                 "Immacolata Concezione",
                 "Natale",
@@ -57,13 +56,22 @@ public class GestionePista extends Application {
 
         int i=0;
         for (Calendar holidayCalendar: holidaysUtils.fixedHolidays) {
-            // TODO: fix this
-            eventManager.addEvent(new CalendarEvent(-1, FESTIVITY_NAME[i], 3, "Chiuso", CalendarEvent.IMPORTANT, CalendarEvent.PER_YEAR, null, "", -1, LocalDate.of(2023, holidayCalendar.get(Calendar.MONTH) + 1, holidayCalendar.get(Calendar.DAY_OF_MONTH))));
-            ++i;
+            // Calculate month
+            int month = holidayCalendar.get(Calendar.MONTH) + 2;
+            if(month> 12) {
+                month -= 12;
+            }
+
+            // Get day from calendar
+            int day = holidayCalendar.get(Calendar.DAY_OF_MONTH);
+
+            // Add event
+            eventManager.addEvent(new CalendarEvent(-1, FESTIVITY_NAME[i], 3, "Chiuso", CalendarEvent.IMPORTANT, CalendarEvent.PER_YEAR, null, "", -1, LocalDate.of(2022, month, day)));
+            i++;
         }
 
         Scene scene = new Scene(calendar, 1080, 720);
-        stage.setTitle("Hello!");
+        stage.setTitle("Gestione Pista - Home");
         stage.setScene(scene);
         stage.setResizable(true);
         stage.show();
@@ -72,19 +80,6 @@ public class GestionePista extends Application {
     public static void main(String []args){
         //new MenuManagement().execute();
         launch();
-    }
-
-    private void debugInfo(String resourceName) {
-        System.err.println("Working Directory = {}" + System.getProperty("user.dir"));
-        System.err.println("Resources for {}" + resourceName);
-        try {
-            Enumeration<URL> urls = ClassLoader.getSystemClassLoader().getResources(resourceName);
-            while (urls.hasMoreElements()) {
-                System.err.println(urls.nextElement());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
 
