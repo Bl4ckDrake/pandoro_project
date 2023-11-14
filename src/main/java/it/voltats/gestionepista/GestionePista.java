@@ -77,7 +77,10 @@ public class GestionePista extends Application {
         Calendar pasqua = holidaysUtils.getEasterForYear(now.getYear());
         Calendar pasquetta = holidaysUtils.getPasquettaForYear(now.getYear());
 
-        int pasquaMonth = pasqua.get(Calendar.MONTH) + 2;
+        System.out.println(pasqua);
+        System.out.println(pasquetta);
+
+        int pasquaMonth = pasqua.get(Calendar.MONTH) + 1;
         if (pasquaMonth > 12) {
             pasquaMonth -= 12;
         }
@@ -85,7 +88,7 @@ public class GestionePista extends Application {
         // TODO: make action better + fix
         LocalDate pasquaDate = LocalDate.of(pasqua.get(Calendar.YEAR), pasquaMonth, pasqua.get(Calendar.DAY_OF_MONTH));
         if(eventManager.getEventsOn(pasquaDate).isEmpty()) {
-            eventManager.addEvent(new CalendarEvent(-1, "Pasqua", 3, "Chiuso", CalendarEvent.IMPORTANT, CalendarEvent.ONE_TIME_EVENT, pasquaDate, "", -1, null));
+            eventManager.addEvent(new CalendarEvent(-1, "Pasqua", 3, "Chiuso", CalendarEvent.IMPORTANT, -1, pasquaDate, "", -1, null));
         }
 
 
@@ -95,10 +98,9 @@ public class GestionePista extends Application {
         }
 
         LocalDate pasquettaDate = LocalDate.of(pasquetta.get(Calendar.YEAR), pasquettaMonth, pasquetta.get(Calendar.DAY_OF_MONTH));
-        if(eventManager.getEventsOn(pasquaDate).isEmpty()) {
-            eventManager.addEvent(new CalendarEvent(-1, "Pasquetta", 3, "Chiuso", CalendarEvent.IMPORTANT, CalendarEvent.ONE_TIME_EVENT, pasquettaDate, "", -1, null));
-        }
-
+        //if(eventManager.getEventsOn(pasquaDate).isEmpty()) {
+            eventManager.addEvent(new CalendarEvent(-1, "Pasquetta", 3, "Chiuso", CalendarEvent.IMPORTANT, -1, pasquettaDate, "", -1, null));
+        //}
 
         /* Start window */
         Scene scene = new Scene(calendar, 1080, 720);
