@@ -4,6 +4,9 @@
 
 Benvenuto nel **Pandoro Project**, un software per la gestione delle prenotazioni di una pista da corsa. Questo documento fornisce una panoramica dei requisiti, delle funzionalità e dell'architettura del sistema.
 
+![Preview dell'Interfaccia](https://github.com/Bl4ckDrake/pandoro_project/blob/master/preview.png)
+
+
 ## Requisiti
 
 Il software gestisce prenotazioni sulla pista da corsa, con i seguenti requisiti chiave:
