@@ -2,6 +2,7 @@ package it.voltats.gestionepista.ui.views;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.Calendar;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
@@ -11,6 +12,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import it.voltats.gestionepista.GestionePista;
 import it.voltats.gestionepista.ui.model.CalendarEvent;
 import it.voltats.gestionepista.ui.model.CalendarEventManager;
+import it.voltats.gestionepista.util.ItalianHolidaysUtils;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
@@ -393,6 +395,7 @@ public class JFXCalendar extends StackPane {
 	}
 
 	private void moveForward() {
+		LocalDate previousDate = selectedDate;
 		if (currentView == DAY) {
 			selectedDate = selectedDate.plusDays(1);
 			calendarDayView.refreshCalendar(selectedDate);
@@ -403,6 +406,35 @@ public class JFXCalendar extends StackPane {
 			selectedDate = selectedDate.plusMonths(1);
 			calendarMonthView.refreshCalendar(selectedDate);
 		}
+
+		// Add non-fixed festivities
+		if(previousDate.getYear() != selectedDate.getYear()) {
+			Calendar pasqua = ItalianHolidaysUtils.getInstance().getEasterForYear(selectedDate.getYear());
+			Calendar pasquetta = ItalianHolidaysUtils.getInstance().getPasquettaForYear(selectedDate.getYear());
+
+			int pasquaMonth = pasqua.get(Calendar.MONTH) + 2;
+			if (pasquaMonth > 12) {
+				pasquaMonth -= 12;
+			}
+
+			// TODO: make action better + fix
+			LocalDate pasquaDate = LocalDate.of(pasqua.get(Calendar.YEAR), pasquaMonth, pasqua.get(Calendar.DAY_OF_MONTH));
+			if(eventManager.getEventsOn(pasquaDate).isEmpty()) {
+				eventManager.addEvent(new CalendarEvent(-1, "Pasqua", 3, "Chiuso", CalendarEvent.IMPORTANT, CalendarEvent.ONE_TIME_EVENT, pasquaDate, "", -1, null));
+			}
+
+
+			int pasquettaMonth = pasquetta.get(Calendar.MONTH) + 2;
+			if (pasquettaMonth > 12) {
+				pasquettaMonth -= 12;
+			}
+
+			LocalDate pasquettaDate = LocalDate.of(pasquetta.get(Calendar.YEAR), pasquettaMonth, pasquetta.get(Calendar.DAY_OF_MONTH));
+			if(eventManager.getEventsOn(pasquaDate).isEmpty()) {
+				eventManager.addEvent(new CalendarEvent(-1, "Pasquetta", 3, "Chiuso", CalendarEvent.IMPORTANT, CalendarEvent.ONE_TIME_EVENT, pasquettaDate, "", -1, null));
+			}
+		}
+
 		updateDate();
 	}
 

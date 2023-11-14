@@ -40,6 +40,8 @@ public class GestionePista extends Application {
 
         ItalianHolidaysUtils holidaysUtils = ItalianHolidaysUtils.getInstance();
 
+
+        /* Add fixed holidays */
         final String [] FESTIVITY_NAME = {
                 "Capodanno",
                 "Epifania",
@@ -70,6 +72,35 @@ public class GestionePista extends Application {
             i++;
         }
 
+        /* Add pasqua and pasquetta */
+        LocalDate now = LocalDate.now();
+        Calendar pasqua = holidaysUtils.getEasterForYear(now.getYear());
+        Calendar pasquetta = holidaysUtils.getPasquettaForYear(now.getYear());
+
+        int pasquaMonth = pasqua.get(Calendar.MONTH) + 2;
+        if (pasquaMonth > 12) {
+            pasquaMonth -= 12;
+        }
+
+        // TODO: make action better + fix
+        LocalDate pasquaDate = LocalDate.of(pasqua.get(Calendar.YEAR), pasquaMonth, pasqua.get(Calendar.DAY_OF_MONTH));
+        if(eventManager.getEventsOn(pasquaDate).isEmpty()) {
+            eventManager.addEvent(new CalendarEvent(-1, "Pasqua", 3, "Chiuso", CalendarEvent.IMPORTANT, CalendarEvent.ONE_TIME_EVENT, pasquaDate, "", -1, null));
+        }
+
+
+        int pasquettaMonth = pasquetta.get(Calendar.MONTH) + 1;
+        if (pasquettaMonth > 12) {
+            pasquettaMonth -= 12;
+        }
+
+        LocalDate pasquettaDate = LocalDate.of(pasquetta.get(Calendar.YEAR), pasquettaMonth, pasquetta.get(Calendar.DAY_OF_MONTH));
+        if(eventManager.getEventsOn(pasquaDate).isEmpty()) {
+            eventManager.addEvent(new CalendarEvent(-1, "Pasquetta", 3, "Chiuso", CalendarEvent.IMPORTANT, CalendarEvent.ONE_TIME_EVENT, pasquettaDate, "", -1, null));
+        }
+
+
+        /* Start window */
         Scene scene = new Scene(calendar, 1080, 720);
         stage.setTitle("Gestione Pista - Home");
         stage.setScene(scene);
