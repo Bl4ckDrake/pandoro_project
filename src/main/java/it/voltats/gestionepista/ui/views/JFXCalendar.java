@@ -349,9 +349,13 @@ public class JFXCalendar extends StackPane {
 		flagView.setSize("18");
 		tagView.setSize("18");
 
+		Label displayEventLegenda = new Label("Legenda");
+		displayEventLegenda.setStyle("-fx-font-size : 16;");
+		displayEventLegenda.setPadding(new Insets(0, 0, 5, -20));
+
 		Label perWeekEventLabel = new Label(" Weekly");
 		perWeekEventLabel.setGraphic(tagView);
-		perWeekEventLabel.setPadding(new Insets(15, 0, 5, 0));
+		perWeekEventLabel.setPadding(new Insets(0, 0, 5, 0));
 
 		Label perMonthEventLabel = new Label(" Monthly");
 		perMonthEventLabel.setGraphic(flagView);
@@ -366,7 +370,7 @@ public class JFXCalendar extends StackPane {
 
 		checkBoxPane.getChildren().addAll(displayEventLabel, optionalCheckBox,
 				standardCheckBox, importantCheckBox, criticalCheckBox, completedCheckBox,
-				separator, perWeekEventLabel, perMonthEventLabel, yearlyEventLabel);
+				separator, displayEventLegenda, perWeekEventLabel, perMonthEventLabel, yearlyEventLabel);
 
 		leftPane.getChildren().add(checkBoxPane);
 
