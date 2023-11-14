@@ -2,11 +2,11 @@
 
 ## Introduzione
 
-Benvenuto nel progetto **Pandoro**, un software per la gestione delle prenotazioni di una pista da corsa. Questo documento fornisce una panoramica dei requisiti, delle funzionalità e dell'architettura del sistema.
+Benvenuto nel **Pandoro Project**, un software per la gestione delle prenotazioni di una pista da corsa. Questo documento fornisce una panoramica dei requisiti, delle funzionalità e dell'architettura del sistema.
 
 ## Requisiti
 
-Il software Pandoro gestisce prenotazioni sulla pista da corsa, con i seguenti requisiti chiave:
+Il software gestisce prenotazioni sulla pista da corsa, con i seguenti requisiti chiave:
 
 - **Costo Orario**: Ogni ora ha un costo fisso di 1200 euro.
 - **Promozioni**: Sono disponibili diverse promozioni con sconti, come 10% per 4 ore, 20% per 6 ore, ecc.
@@ -14,12 +14,13 @@ Il software Pandoro gestisce prenotazioni sulla pista da corsa, con i seguenti r
 - **Orari Prenotazione**: Le prenotazioni possono essere effettuate dalle 08:00 alle 24:00.
 - **Dati Cliente**: I clienti devono fornire informazioni personali come nome, cognome, data di nascita, codice fiscale, e-mail, numero di telefono.
 - **Check-in e Check-out**: Si richiede un processo di check-in e check-out per ogni cliente.
-- **Codice Univoco**: Ogni prenotazione riceve un codice alfanumerico univoco.
+- **Codice Univoco**: Ogni prenotazione riceve un codice alfanumerico univoco (ID).
 - **Pagamento**: Il pagamento avviene solo tramite bonifico entro 1 giorno dalla data prenotata.
 - **Annullamento**: In caso di annullamento, il cliente riceve un rimborso.
 - **Condizioni Meteo**: In caso di maltempo, vengono rimosse tutte le prenotazioni per quel giorno.
 - **Interazione con Dipendenti**: Solo i dipendenti possono interagire col software.
 - **Gestione Prenotazioni**: I dipendenti possono aggiungere, cancellare e visualizzare prenotazioni pagate e da pagare.
+- **Import/Export Dati**: E' possibile esportare ed importare dati da un database (mySQL) oppure tramite file CSV.
 
 ## Architettura del Sistema
 
