@@ -23,11 +23,11 @@ Il software gestisce prenotazioni sulla pista da corsa, con i seguenti requisiti
 - **Condizioni Meteo**: In caso di maltempo, vengono rimosse tutte le prenotazioni per quel giorno.
 - **Interazione con Dipendenti**: Solo i dipendenti possono interagire col software.
 - **Gestione Prenotazioni**: I dipendenti possono aggiungere, cancellare e visualizzare prenotazioni pagate e da pagare.
-- **Import/Export Dati**: E' possibile esportare ed importare dati da un database (mySQL) oppure tramite file CSV.
+- **Import/Export Dati**: Deve essere possibile esportare ed importare dati tramite file CSV.
 
 ## Architettura del Sistema
 
-Il sistema Pandoro segue un'architettura semplice ma potente. I dati possono essere memorizzati in file CSV. I dipendenti possono interagire con un'interfaccia grafica o console.
+Il software segue un'architettura semplice ma potente. I dati possono essere memorizzati in file CSV o in un database (mySQL). I dipendenti possono interagire con l'interfaccia grafica.
 
 ## Diagramma del Sistema
 
