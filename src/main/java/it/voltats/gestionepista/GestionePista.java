@@ -3,6 +3,7 @@ import it.voltats.gestionepista.ui.model.CalendarEvent;
 import it.voltats.gestionepista.ui.model.CalendarEventManager;
 import it.voltats.gestionepista.ui.views.JFXCalendar;
 import it.voltats.gestionepista.util.ItalianHolidaysUtils;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
