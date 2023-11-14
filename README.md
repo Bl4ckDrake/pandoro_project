@@ -1,64 +1,38 @@
-**Pandoro Project**
+# Pandoro Project
 
-**Consegna:**
+## Introduzione
 
-Realizzare un sw per la gestione delle prenotazioni di una pista da corsa.
+Benvenuto nel progetto **Pandoro**, un software per la gestione delle prenotazioni di una pista da corsa. Questo documento fornisce una panoramica dei requisiti, delle funzionalità e dell'architettura del sistema.
 
-**Requisiti:**
+## Requisiti
 
-- Ogni ora ha un costo di **1200 euro**;
-- le promozioni vengono gestite secondo la seguente tabella:
+Il software Pandoro gestisce prenotazioni sulla pista da corsa, con i seguenti requisiti chiave:
 
-|                                   |                                         |
-| :-------------------------------: | :-------------------------------------: |
-|         **Tipo di promo**         |           **Sconto Applicato**          |
-|               4 ore               |                   10%                   |
-|               6 ore               |                   20%                   |
-|               8 ore               |                   25%                   |
-| notturna (dalle 20:00 alle 24:00) |                   50%                   |
-|      festivi (sabato incluso)     | 25% (sul totale eventualmente scontato) |
+- **Costo Orario**: Ogni ora ha un costo fisso di 1200 euro.
+- **Promozioni**: Sono disponibili diverse promozioni con sconti, come 10% per 4 ore, 20% per 6 ore, ecc.
+- **Limite Ore Prenotazione**: Ogni prenotazione può essere di massimo 8 ore.
+- **Orari Prenotazione**: Le prenotazioni possono essere effettuate dalle 08:00 alle 24:00.
+- **Dati Cliente**: I clienti devono fornire informazioni personali come nome, cognome, data di nascita, codice fiscale, e-mail, numero di telefono.
+- **Check-in e Check-out**: Si richiede un processo di check-in e check-out per ogni cliente.
+- **Codice Univoco**: Ogni prenotazione riceve un codice alfanumerico univoco.
+- **Pagamento**: Il pagamento avviene solo tramite bonifico entro 1 giorno dalla data prenotata.
+- **Annullamento**: In caso di annullamento, il cliente riceve un rimborso.
+- **Condizioni Meteo**: In caso di maltempo, vengono rimosse tutte le prenotazioni per quel giorno.
+- **Interazione con Dipendenti**: Solo i dipendenti possono interagire col software.
+- **Gestione Prenotazioni**: I dipendenti possono aggiungere, cancellare e visualizzare prenotazioni pagate e da pagare.
 
- 
+## Architettura del Sistema
 
-- ogni prenotazione può raggiungere **max 8 ore**;
+Il sistema Pandoro segue un'architettura semplice ma potente. I dati possono essere memorizzati in file CSV. I dipendenti possono interagire con un'interfaccia grafica o console.
 
-- il lasso di tempo in cui si può prenotare la pista va **dalle 08:00 alle 24:00**;
+## Diagramma del Sistema
 
-- il cliente deve avere un **minimo di 18 anni**, e al momento della prenotazione deve fornire:
+![Diagramma del Sistema](https://github.com/Bl4ckDrake/pandoro_project/blob/master/gestione_pista.png)
 
-  - **nome**;
-  - **cognome**;
-  - **data di nascita**;
-  - **codice fiscale**;
-  - _e-mail e numero di telefono_;
-  - **data** per la prenotazione;
-  - numero di **ore da prenotare**;
+## Implementazione
 
-- va effettuato il **check-in** e il **check-out** del cliente
+È possibile implementare l'interfaccia utente grafica o console a discrezione del team di sviluppo. L'uso di file CSV semplifica la persistenza dei dati.
 
-<!---->
+---
 
-- **non è possibile sovrapporre gli orari** delle prenotazioni (es. pren. già presente dalle 12 alle 14 → disponibilità per altre pren .dalle 8 alle 12 e dalle 14 alle 24);
-
-- ad ogni prenotazione deve essere assegnato automaticamente un **codice univoco alfanumerico**, al quale il cliente dovrà fare un bonifico entro 1 giorno dalla data prenotata, in caso di **mancato pagamento** viene rimossa la prenotazione → il pagamento avviene solo tramite bonifico;
-
-- nel caso di **annullamento** della prenotazione da parte del cliente non ci sono penali da far pagare, _va effettuato il rimborso,_ e viene rimossa la prenotazione;
-
-- in caso di **maltempo** vanno rimosse tutte le prenotazioni di quella giornata; è quindi necessario considerare le **condizioni meteo**;
-
-- gli unici soggetti ad interagire col sw sono i **dipendenti** → non serve l’autenticazione per i dipendenti;
-
-- non si possono modificare le tariffe e le promozioni;
-
-- i dipendenti devono poter:
-
-  - **aggiungere** le prenotazioni;
-  - **cancellare** le prenotazioni;
-  - **visualizzare** la lista delle prenotazioni pagate e da pagare;
-
-- si può sviluppare un'interfaccia grafica o console;
-
-- si possono usare dei file CSV per la memorizzazione dei dati;
-
-**Diagramma:**
-![alt text](https://github.com/Bl4ckDrake/pandoro_project/blob/master/gestione_pista.png)
+**Nota**: Questo documento è solo una guida iniziale. Il dettaglio dell'implementazione può variare in base alle specifiche necessità del progetto.
