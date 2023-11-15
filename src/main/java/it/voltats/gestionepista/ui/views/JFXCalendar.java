@@ -65,6 +65,9 @@ public class JFXCalendar extends StackPane {
 	private ToggleButton weekButton;
 	private ToggleButton monthButton;
 
+	// TODO: add search button
+	private JFXButton searchButton;
+
 	private CalendarMonthView calendarMonthView;
 
 	public static JFXButton todayButton;
@@ -106,15 +109,22 @@ public class JFXCalendar extends StackPane {
 		FontAwesomeIconView viewButtonIcon = new FontAwesomeIconView(
 				FontAwesomeIcon.ANGLE_DOWN);
 
+		FontAwesomeIconView searchButtonIcon = new FontAwesomeIconView(FontAwesomeIcon.SEARCH);
+
+
 		hideButtonIcon.setFill(Paint.valueOf(iconPaint));
 		prevWeekButtonIcon.setFill(Paint.valueOf(iconPaint));
 		nextWeekButtonIcon.setFill(Paint.valueOf(iconPaint));
 		viewButtonIcon.setFill(Paint.valueOf(iconPaint));
 
+		searchButtonIcon.setFill(Paint.valueOf(iconPaint));
+
 		hideButtonIcon.setSize("24");
 		prevWeekButtonIcon.setSize("18");
 		nextWeekButtonIcon.setSize("18");
 		viewButtonIcon.setSize("18");
+
+		searchButtonIcon.setSize("18");
 
 		// The Navicon Button on the top left
 		menuButton = new JFXButton();
@@ -127,6 +137,14 @@ public class JFXCalendar extends StackPane {
 			} else {
 				mainPane.setLeft(null);
 			}
+		});
+
+		searchButton = new JFXButton();
+		searchButton.getStyleClass().add("circle_button");
+		searchButton.setGraphic(searchButtonIcon);
+
+		searchButton.setOnAction((ActionEvent evt) -> {
+			// TODO: action
 		});
 
 		// The Calendar Label
@@ -171,7 +189,7 @@ public class JFXCalendar extends StackPane {
 
 		// Add all components
 		toolPane.getChildren().addAll(menuButton, calendarLabel, spacerPane, todayButton,
-				prevButton, nextButton, dateLabel, grownedEmptyPane, viewPane);
+				prevButton, nextButton, dateLabel, grownedEmptyPane, viewPane, searchButton);
 
 		// Set toolPane on top of the BorderPane
 		mainPane.setTop(toolPane);
