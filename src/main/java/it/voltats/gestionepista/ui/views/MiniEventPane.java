@@ -40,13 +40,13 @@ public class MiniEventPane extends VBox {
 			priorityBox.setId("CompletedPriorityBox");
 			setId("completedEvent");
 		} else {
-			if (priority == CalendarEvent.OPTIONAL) {
+			if (priority == CalendarEvent.CONFIRMED) {
 				priorityBox.setId("optionalPriorityBox");
 				setId("optionalEvent");
-			} else if (priority == CalendarEvent.STANDARD) {
+			} else if (priority == CalendarEvent.PENDING) {
 				priorityBox.setId("standardPriorityBox");
 				setId("standardEvent");
-			} else if (priority == CalendarEvent.IMPORTANT) {
+			} else if (priority == CalendarEvent.HOLIDAY) {
 				priorityBox.setId("importantPriorityBox");
 				setId("importandEvent");
 			} else {

@@ -202,11 +202,11 @@ public class CalendarMonthView extends CalendarView {
 			if (eventList.get(i).isCompleted()) {
 				type5Sum++;
 			} else {
-				if (eventList.get(i).getPriority() == CalendarEvent.OPTIONAL) {
+				if (eventList.get(i).getPriority() == CalendarEvent.CONFIRMED) {
 					type1Sum++;
-				} else if (eventList.get(i).getPriority() == CalendarEvent.STANDARD) {
+				} else if (eventList.get(i).getPriority() == CalendarEvent.PENDING) {
 					type2Sum++;
-				} else if (eventList.get(i).getPriority() == CalendarEvent.IMPORTANT) {
+				} else if (eventList.get(i).getPriority() == CalendarEvent.HOLIDAY) {
 					type3Sum++;
 				} else {
 					type4Sum++;
@@ -217,7 +217,7 @@ public class CalendarMonthView extends CalendarView {
 
 		if (type1Sum > 0) {
 			VBox box = createResizableBox(eventRootPane, extraSpacing, type1Sum,
-					CalendarEvent.OPTIONAL);
+					CalendarEvent.CONFIRMED);
 			box.visibleProperty().bind(super.rootParentPane.getOptionalFilterProperty());
 			box.managedProperty().bind(super.rootParentPane.getOptionalFilterProperty());
 
@@ -226,7 +226,7 @@ public class CalendarMonthView extends CalendarView {
 
 		if (type2Sum > 0) {
 			VBox box = createResizableBox(eventRootPane, extraSpacing, type2Sum,
-					CalendarEvent.STANDARD);
+					CalendarEvent.PENDING);
 			box.visibleProperty().bind(super.rootParentPane.getStandardFilterProperty());
 			box.managedProperty().bind(super.rootParentPane.getStandardFilterProperty());
 			eventCountPane.getChildren().add(box);
@@ -234,7 +234,7 @@ public class CalendarMonthView extends CalendarView {
 
 		if (type3Sum > 0) {
 			VBox box = createResizableBox(eventRootPane, extraSpacing, type3Sum,
-					CalendarEvent.IMPORTANT);
+					CalendarEvent.HOLIDAY);
 			box.visibleProperty().bind(super.rootParentPane.getImportantFilterProperty());
 			box.managedProperty().bind(super.rootParentPane.getImportantFilterProperty());
 			eventCountPane.getChildren().add(box);
@@ -242,7 +242,7 @@ public class CalendarMonthView extends CalendarView {
 
 		if (type4Sum > 0) {
 			VBox box = createResizableBox(eventRootPane, extraSpacing, type4Sum,
-					CalendarEvent.URGENT);
+					CalendarEvent.CANCELLED);
 			box.visibleProperty().bind(super.rootParentPane.getCriticalFilterProperty());
 			box.managedProperty().bind(super.rootParentPane.getCriticalFilterProperty());
 			eventCountPane.getChildren().add(box);
@@ -292,13 +292,13 @@ public class CalendarMonthView extends CalendarView {
 		eventCountLabel.setPrefWidth(22);
 		box.getChildren().add(eventCountLabel);
 
-		if (priority == CalendarEvent.OPTIONAL) {
+		if (priority == CalendarEvent.CONFIRMED) {
 			box.setStyle("-fx-background-color : #4C95CE");
-		} else if (priority == CalendarEvent.STANDARD) {
+		} else if (priority == CalendarEvent.PENDING) {
 			box.setStyle("-fx-background-color : #81C457");
-		} else if (priority == CalendarEvent.IMPORTANT) {
+		} else if (priority == CalendarEvent.HOLIDAY) {
 			box.setStyle("-fx-background-color : #F7C531");
-		} else if (priority == CalendarEvent.URGENT) {
+		} else if (priority == CalendarEvent.CANCELLED) {
 			box.setStyle("-fx-background-color : #E85569");
 		} else {
 			box.setStyle("-fx-background-color : #344563");

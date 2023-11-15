@@ -64,19 +64,19 @@ public class EventDetailPaneController {
 		});
 
 		optionalEventButton.setOnAction(e -> {
-			selectPriority(CalendarEvent.OPTIONAL);
+			selectPriority(CalendarEvent.CONFIRMED);
 		});
 
 		standardEventButton.setOnAction(e -> {
-			selectPriority(CalendarEvent.STANDARD);
+			selectPriority(CalendarEvent.PENDING);
 		});
 
 		importantEventButton.setOnAction(e -> {
-			selectPriority(CalendarEvent.IMPORTANT);
+			selectPriority(CalendarEvent.HOLIDAY);
 		});
 
 		criticalEventButton.setOnAction(e -> {
-			selectPriority(CalendarEvent.URGENT);
+			selectPriority(CalendarEvent.CANCELLED);
 		});
 
 		updateEventButton.setOnAction(e -> {

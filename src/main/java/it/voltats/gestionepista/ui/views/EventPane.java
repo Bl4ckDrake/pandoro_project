@@ -152,15 +152,15 @@ public class EventPane extends VBox {
 			setId("completedEvent");
 		} else {
 			int priority = event.getPriority();
-			if (priority == CalendarEvent.OPTIONAL) {
+			if (priority == CalendarEvent.CONFIRMED) {
 				priorityLabel.setText("Optional");
 				priorityBox.setId("optionalPriorityBox");
 				setId("optionalEvent");
-			} else if (priority == CalendarEvent.STANDARD) {
+			} else if (priority == CalendarEvent.PENDING) {
 				priorityLabel.setText("Normal");
 				priorityBox.setId("standardPriorityBox");
 				setId("standardEvent");
-			} else if (priority == CalendarEvent.IMPORTANT) {
+			} else if (priority == CalendarEvent.HOLIDAY) {
 				priorityLabel.setText("Important");
 				priorityBox.setId("importantPriorityBox");
 				setId("importandEvent");

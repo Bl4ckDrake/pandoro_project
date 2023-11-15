@@ -9,7 +9,6 @@ import com.jfoenix.controls.JFXCheckBox;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import it.voltats.gestionepista.GestionePista;
 import it.voltats.gestionepista.ui.model.CalendarEvent;
 import it.voltats.gestionepista.ui.model.CalendarEventManager;
 import it.voltats.gestionepista.util.ItalianHolidaysUtils;
@@ -326,33 +325,33 @@ public class JFXCalendar extends StackPane {
 		displayEventLabel.setStyle("-fx-font-size : 16;");
 		displayEventLabel.setPadding(new Insets(0, 0, 5, -20));
 
-		JFXCheckBox optionalCheckBox = new JFXCheckBox("Optional");
-		JFXCheckBox standardCheckBox = new JFXCheckBox("Normal");
-		JFXCheckBox importantCheckBox = new JFXCheckBox("Important");
-		JFXCheckBox criticalCheckBox = new JFXCheckBox("Urgent");
+		JFXCheckBox pendingCheckBox = new JFXCheckBox("Pending");
+		JFXCheckBox confirmedCheckBox = new JFXCheckBox("Confirmed");
+		JFXCheckBox holidayCheckBox = new JFXCheckBox("Holiday");
+		JFXCheckBox cancelledCheckBox = new JFXCheckBox("Cancelled");
 		JFXCheckBox completedCheckBox = new JFXCheckBox("Completed");
 
-		optionalFilterProperty = optionalCheckBox.selectedProperty();
-		standardFilterProperty = standardCheckBox.selectedProperty();
-		importantFilterProperty = importantCheckBox.selectedProperty();
-		criticalFilterProperty = criticalCheckBox.selectedProperty();
+		optionalFilterProperty = pendingCheckBox.selectedProperty();
+		standardFilterProperty = confirmedCheckBox.selectedProperty();
+		importantFilterProperty = holidayCheckBox.selectedProperty();
+		criticalFilterProperty = cancelledCheckBox.selectedProperty();
 		completedFilterProperty = completedCheckBox.selectedProperty();
 
-		optionalCheckBox.setStyle(
-				"-jfx-checked-color : #4C95CE; -jfx-unchecked-color : #4C95CE ;");
-		standardCheckBox.setStyle(
-				"-jfx-checked-color : #81C457; -jfx-unchecked-color : #81C457 ;");
-		importantCheckBox.setStyle(
+		pendingCheckBox.setStyle(
 				"-jfx-checked-color: #F7C531; -jfx-unchecked-color : #F7C531 ;");
-		criticalCheckBox.setStyle(
+		confirmedCheckBox.setStyle(
+				"-jfx-checked-color : #81C457; -jfx-unchecked-color : #81C457 ;");
+		cancelledCheckBox.setStyle(
 				"-jfx-checked-color : #E85569; -jfx-unchecked-color : #E85569 ;");
+		holidayCheckBox.setStyle(
+				"-jfx-checked-color : #4C95CE; -jfx-unchecked-color : #4C95CE ;");
 		completedCheckBox.setStyle(
 				"-jfx-checked-color : #344563; -jfx-unchecked-color : #344563 ;");
 
-		optionalCheckBox.fire();
-		standardCheckBox.fire();
-		importantCheckBox.fire();
-		criticalCheckBox.fire();
+		pendingCheckBox.fire();
+		confirmedCheckBox.fire();
+		cancelledCheckBox.fire();
+		holidayCheckBox.fire();
 		completedCheckBox.fire();
 
 		FontAwesomeIconView starView = new FontAwesomeIconView(FontAwesomeIcon.STAR);
@@ -386,8 +385,8 @@ public class JFXCalendar extends StackPane {
 		Separator separator = new Separator();
 		VBox.setMargin(separator, new Insets(0, 0, 0, -45));
 
-		checkBoxPane.getChildren().addAll(displayEventLabel, optionalCheckBox,
-				standardCheckBox, importantCheckBox, criticalCheckBox, completedCheckBox,
+		checkBoxPane.getChildren().addAll(displayEventLabel, pendingCheckBox,
+				confirmedCheckBox,cancelledCheckBox, holidayCheckBox, completedCheckBox,
 				separator, displayEventLegenda, perWeekEventLabel, perMonthEventLabel, yearlyEventLabel);
 
 		leftPane.getChildren().add(checkBoxPane);
@@ -442,7 +441,7 @@ public class JFXCalendar extends StackPane {
 			// TODO: make action better + fix
 			LocalDate pasquaDate = LocalDate.of(pasqua.get(Calendar.YEAR), pasquaMonth, pasqua.get(Calendar.DAY_OF_MONTH));
 			if(eventManager.getEventsOn(pasquaDate).isEmpty()) {
-				eventManager.addEvent(new CalendarEvent(-1, "Pasqua", 3, "Chiuso", CalendarEvent.IMPORTANT, CalendarEvent.ONE_TIME_EVENT, pasquaDate, "", -1, null));
+				eventManager.addEvent(new CalendarEvent(-1, "Pasqua", 3, "Chiuso", CalendarEvent.HOLIDAY, CalendarEvent.ONE_TIME_EVENT, pasquaDate, "", -1, null));
 			}
 
 
@@ -453,7 +452,7 @@ public class JFXCalendar extends StackPane {
 
 			LocalDate pasquettaDate = LocalDate.of(pasquetta.get(Calendar.YEAR), pasquettaMonth, pasquetta.get(Calendar.DAY_OF_MONTH));
 			if(eventManager.getEventsOn(pasquaDate).isEmpty()) {
-				eventManager.addEvent(new CalendarEvent(-1, "Pasquetta", 3, "Chiuso", CalendarEvent.IMPORTANT, CalendarEvent.ONE_TIME_EVENT, pasquettaDate, "", -1, null));
+				eventManager.addEvent(new CalendarEvent(-1, "Pasquetta", 3, "Chiuso", CalendarEvent.HOLIDAY, CalendarEvent.ONE_TIME_EVENT, pasquettaDate, "", -1, null));
 			}
 		}
 

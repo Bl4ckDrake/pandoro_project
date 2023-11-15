@@ -26,10 +26,10 @@ public class CalendarEvent {
 			"S", };
 
 	public static final int COMPLETED = 0;
-	public static final int OPTIONAL = 1;
-	public static final int STANDARD = 2;
-	public static final int IMPORTANT = 3;
-	public static final int URGENT = 4;
+	public static final int CANCELLED = 1;
+	public static final int PENDING = 2;
+	public static final int CONFIRMED = 3;
+	public static final int HOLIDAY = 4;
 
 	public static final int ONE_TIME_EVENT = 5;
 	public static final int RECURRING_EVENT = 6;

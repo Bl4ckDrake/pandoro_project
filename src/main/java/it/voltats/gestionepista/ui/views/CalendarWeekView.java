@@ -104,17 +104,17 @@ public class CalendarWeekView extends CalendarView {
 					eventBox.managedProperty()
 							.bind(super.rootParentPane.getCompletedFilterProperty());
 				} else {
-					if (eventPriority == CalendarEvent.OPTIONAL) {
+					if (eventPriority == CalendarEvent.CONFIRMED) {
 						eventBox.visibleProperty()
 								.bind(super.rootParentPane.getOptionalFilterProperty());
 						eventBox.managedProperty()
 								.bind(super.rootParentPane.getOptionalFilterProperty());
-					} else if (eventPriority == CalendarEvent.STANDARD) {
+					} else if (eventPriority == CalendarEvent.PENDING) {
 						eventBox.visibleProperty()
 								.bind(super.rootParentPane.getStandardFilterProperty());
 						eventBox.managedProperty()
 								.bind(super.rootParentPane.getStandardFilterProperty());
-					} else if (eventPriority == CalendarEvent.IMPORTANT) {
+					} else if (eventPriority == CalendarEvent.HOLIDAY) {
 						eventBox.visibleProperty()
 								.bind(super.rootParentPane.getImportantFilterProperty());
 						eventBox.managedProperty()

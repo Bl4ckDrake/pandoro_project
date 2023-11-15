@@ -3,7 +3,6 @@ import it.voltats.gestionepista.ui.model.CalendarEvent;
 import it.voltats.gestionepista.ui.model.CalendarEventManager;
 import it.voltats.gestionepista.ui.views.JFXCalendar;
 import it.voltats.gestionepista.util.ItalianHolidaysUtils;
-import it.voltats.gestionepista.util.CSVUtil;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +14,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.Enumeration;
 
 public class GestionePista extends Application {
 
@@ -69,7 +67,7 @@ public class GestionePista extends Application {
             int day = holidayCalendar.get(Calendar.DAY_OF_MONTH);
 
             // Add event
-            eventManager.addEvent(new CalendarEvent(-1, FESTIVITY_NAME[i], 3, "Chiuso per festività", CalendarEvent.IMPORTANT, CalendarEvent.PER_YEAR, null, "", -1, LocalDate.of(2022, month, day)));
+            eventManager.addEvent(new CalendarEvent(-1, FESTIVITY_NAME[i], 3, "Chiuso per festività", CalendarEvent.HOLIDAY, CalendarEvent.PER_YEAR, null, "", -1, LocalDate.of(2022, month, day)));
             i++;
         }
 
@@ -89,7 +87,7 @@ public class GestionePista extends Application {
         // TODO: make action better + fix
         LocalDate pasquaDate = LocalDate.of(pasqua.get(Calendar.YEAR), pasquaMonth, pasqua.get(Calendar.DAY_OF_MONTH));
         if(eventManager.getEventsOn(pasquaDate).isEmpty()) {
-            eventManager.addEvent(new CalendarEvent(-1, "Pasqua", 3, "Chiuso per festività", CalendarEvent.IMPORTANT, -1, pasquaDate, "", -1, null));
+            eventManager.addEvent(new CalendarEvent(-1, "Pasqua", 3, "Chiuso per festività", CalendarEvent.HOLIDAY, -1, pasquaDate, "", -1, null));
         }
 
 
@@ -99,9 +97,9 @@ public class GestionePista extends Application {
         }
 
         LocalDate pasquettaDate = LocalDate.of(pasquetta.get(Calendar.YEAR), pasquettaMonth, pasquetta.get(Calendar.DAY_OF_MONTH));
-        //if(eventManager.getEventsOn(pasquaDate).isEmpty()) {
-            eventManager.addEvent(new CalendarEvent(-1, "Pasquetta", 3, "Chiuso per festività", CalendarEvent.IMPORTANT, -1, pasquettaDate, "", -1, null));
-        //}
+        if(eventManager.getEventsOn(pasquaDate).isEmpty()) {
+            eventManager.addEvent(new CalendarEvent(-1, "Pasquetta", 3, "Chiuso per festività", CalendarEvent.HOLIDAY, -1, pasquettaDate, "", -1, null));
+        }
 
         /* Start window */
         Scene scene = new Scene(calendar, 1080, 720);
