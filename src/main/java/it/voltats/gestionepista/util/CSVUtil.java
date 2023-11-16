@@ -51,6 +51,8 @@ public class CSVUtil {
     }
 
     public boolean exportBookingsToCSV(String filename, List<Booking> bookings) {
+        SimpleDateFormat dateFormatBooking = new SimpleDateFormat("dd/MM/yyyy HH");
+
         try (FileWriter write = new FileWriter(filename + "_bookings.csv")) {
             String line = String.format("%s,%s,%s,%s,%s,%s", "booking id", "user id", "start date", "end date", "price", "status");
             write.write(line + "\n");
