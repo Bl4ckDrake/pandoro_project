@@ -80,12 +80,12 @@ public class MenuManagement {
                 case 1:
                     user = inputUser();
 
-                    if (userBusiness.insert(user)) {
+                    if (userBusiness.insert(user) != -1) {
                         System.out.println("Cliente inserito nel database!");
 
                         booking = inputBooking(user);
 
-                        if (bookingBusiness.insert(booking))
+                        if (bookingBusiness.insert(booking) != -1)
                             System.out.println("Prenotazione inserita nel database!");
                         else
                             System.err.println("\n\n" + "Orario non disponibile!" + "\n\n");
@@ -101,7 +101,7 @@ public class MenuManagement {
 
                     booking = inputBooking(user);
 
-                    if (bookingBusiness.insert(booking))
+                    if (bookingBusiness.insert(booking) != -1)
                         System.out.println("Prenotazione inserita nel database!");
                     else
                         System.err.println("\n\n" + "Orario non disponibile!" + "\n\n");

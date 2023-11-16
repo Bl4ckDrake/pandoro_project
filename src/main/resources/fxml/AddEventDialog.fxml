@@ -1,62 +1,195 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXCheckBox?>
-<?import com.jfoenix.controls.JFXRadioButton?>
-<?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <?import javafx.scene.control.ComboBox?>
-<?import org.controlsfx.control.RangeSlider?>
+<?import com.sun.javafx.webkit.theme.RenderThemeImpl.FormRadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.RadioButton?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
 <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="468.0" prefWidth="485.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.voltats.gestionepista.ui.controllers.AddEventDialogController">
    <children>
       <HBox prefHeight="20" prefWidth="435.0">
-         <children>
-            <Label prefHeight="29.0" prefWidth="101.0" text="Add booking">
-               <font>
-                  <Font name="Calibri" size="18.0" />
-               </font>
-            </Label>
-         </children>
+         <Label prefHeight="29.0" prefWidth="200.0" text="ADD BOOKING" >
+            <font>
+               <Font name="Calibri" size="24.0"/>
+            </font>
+         </Label>
       </HBox>
+
       <HBox prefHeight="48.0" prefWidth="435.0">
-         <children>
+         <VBox>
             <Label prefHeight="29.0" prefWidth="101.0" text="Date">
                <font>
                   <Font name="Calibri" size="18.0" />
                </font>
             </Label>
             <DatePicker fx:id="dateField" style="-fx-font-size: 16px; -fx-font-family: Calibri;" />
-         </children>
-         <padding>
-            <Insets bottom="10.0" right="10.0" top="15.0" />
-         </padding>
-      </HBox>
-      <HBox prefHeight="30" prefWidth="90">
-         <ComboBox fx:id="userSelector" prefHeight="30.0" prefWidth="435.0" />
-         <JFXButton fx:id="addUserButton" prefHeight="30.0" prefWidth="30.0" />
-         <padding>
-            <Insets bottom="10.0" right="10.0" top="15.0" />
-         </padding>
-      </HBox>
-      <HBox prefHeight="20" prefWidth="435.0">
-         <RangeSlider fx:id="timeRangePicker"></RangeSlider>
-         <padding>
-            <Insets bottom="10.0" right="10.0" top="15.0" />
-         </padding>
+            <padding>
+               <Insets bottom="10.0" right="10.0" top="15.0" />
+            </padding>
+         </VBox>
+
+         <VBox>
+            <Label prefHeight="29.0" prefWidth="101.0" text="Start Time">
+               <font>
+                  <Font name="Calibri" size="18.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="startTimeField" style="-fx-font-size: 16px; -fx-font-family: Calibri;" prefWidth="50" promptText="12:00" />
+            <padding>
+               <Insets bottom="10.0" right="10.0" top="15.0" />
+            </padding>
+         </VBox>
+         <VBox>
+            <Label prefHeight="29.0" prefWidth="101.0" text="End Time">
+               <font>
+                  <Font name="Calibri" size="18.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="endTimeField" style="-fx-font-size: 16px; -fx-font-family: Calibri;" prefWidth="50" promptText="15:00"/>
+            <padding>
+               <Insets bottom="10.0" right="10.0" top="15.0" />
+            </padding>
+         </VBox>
       </HBox>
    </children>
    <padding>
       <Insets bottom="15.0" left="25.0" right="25.0" top="15.0" />
    </padding>
+   <HBox prefHeight="30" prefWidth="90">
+      <VBox>
+         <Label prefHeight="29.0" prefWidth="101.0" text="Select user">
+            <font>
+               <Font name="Calibri" size="18.0" />
+            </font>
+         </Label>
+         <ComboBox fx:id="userSelector" prefHeight="30.0" prefWidth="435.0" />
+      </VBox>
+      <padding>
+         <Insets bottom="10.0" right="10.0" top="15.0" />
+      </padding>
+   </HBox>
+   <HBox fx:id="addUserBox" prefHeight="30" prefWidth="90">
+      <VBox>
+         <HBox prefWidth="435.0">
+            <children>
+               <VBox>
+                  <Label prefHeight="29.0" prefWidth="101.0" text="Name">
+                     <font>
+                        <Font name="Calibri" size="13.0" />
+                     </font>
+                  </Label>
+                  <JFXTextField fx:id="nameField" prefHeight="30.0" prefWidth="145" promptText="Marco"/>
+                  <padding>
+                     <Insets bottom="10.0" right="10.0" top="15.0" />
+                  </padding>
+               </VBox>
+
+               <VBox>
+                  <Label prefHeight="29.0" prefWidth="101.0" text="Surname">
+                     <font>
+                        <Font name="Calibri" size="13.0" />
+                     </font>
+                  </Label>
+                  <JFXTextField fx:id="surnameField" prefHeight="30.0" prefWidth="145" promptText="Rossi"/>
+                  <padding>
+                     <Insets bottom="10.0" right="10.0" top="15.0" />
+                  </padding>
+               </VBox>
+
+               <VBox>
+                  <Label prefHeight="29.0" prefWidth="101.0" text="Fiscal code">
+                     <font>
+                        <Font name="Calibri" size="13.0" />
+                     </font>
+                  </Label>
+                  <JFXTextField fx:id="cfField" prefHeight="30.0" prefWidth="145" promptText="RSSMRC14A01A001O"/>
+               </VBox>
+            </children>
+         </HBox>
+
+         <HBox prefHeight="20">
+         </HBox>
+
+
+         <HBox prefWidth="435.0">
+            <children>
+               <VBox>
+                  <Label prefHeight="29.0" prefWidth="101.0" text="Email">
+                     <font>
+                        <Font name="Calibri" size="13.0" />
+                     </font>
+                  </Label>
+                  <JFXTextField fx:id="emailField" prefHeight="30.0" prefWidth="145" promptText="example@mail.com"/>
+                  <padding>
+                     <Insets bottom="10.0" right="10.0" top="15.0" />
+                  </padding>
+               </VBox>
+
+               <VBox>
+                  <Label prefHeight="29.0" prefWidth="100" text="Phone">
+                     <font>
+                        <Font name="Calibri" size="13.0" />
+                     </font>
+                  </Label>
+                  <JFXTextField fx:id="phoneNumberField" prefHeight="30.0" prefWidth="145" promptText="+39"/>
+                  <padding>
+                     <Insets bottom="10.0" right="10.0" top="15.0" />
+                  </padding>
+               </VBox>
+            </children>
+         </HBox>
+
+         <HBox>
+            <VBox>
+               <Label prefHeight="29.0" prefWidth="100" text="Date">
+                  <font>
+                     <Font name="Calibri" size="13.0" />
+                  </font>
+               </Label>
+               <DatePicker fx:id="birthDatePicker" style="-fx-font-size: 16px; -fx-font-family: Calibri;" prefWidth="145" prefHeight="10"/>
+            </VBox>
+
+            <VBox>
+               <Label prefHeight="29.0" prefWidth="100" text="Gender">
+                  <font>
+                     <Font name="Calibri" size="13.0" />
+                  </font>
+               </Label>
+               <HBox>
+                  <JFXRadioButton fx:id="maleRadioButton" text="Male">
+                     <HBox.margin>
+                        <Insets right="3.0"/>
+                     </HBox.margin>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="group"/>
+                     </toggleGroup>
+                  </JFXRadioButton>
+                  <JFXRadioButton fx:id="femaleRadioButton" text="Female">
+                     <HBox.margin>
+                        <Insets right="30.0"/>
+                        <Insets bottom="10.0"/>
+                     </HBox.margin>
+                     <toggleGroup>
+                        <fx:reference source="group"/>
+                     </toggleGroup>
+                  </JFXRadioButton>
+               </HBox>
+
+            </VBox>
+            <padding>
+               <Insets bottom="10.0" right="10.0" top="15.0" />
+            </padding>
+
+         </HBox>
+      </VBox>
+   </HBox>
 </VBox>

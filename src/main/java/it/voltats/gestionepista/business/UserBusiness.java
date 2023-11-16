@@ -128,12 +128,12 @@ public class UserBusiness {
      * @param user
      * @return true --> Inserito correttamente | false --> cf falso e/o eta' troppo piccola
      */
-    public boolean insert(User user){
+    public int insert(User user){
         if(verifyCf(user) && verifyAge(user)) {
             userRepo.insert(user);
-            return true;
+            return userRepo.findByEmail(user.getEmail()).getId();
         }
-        return false;
+        return -1;
     }
 
 
