@@ -5,18 +5,17 @@ import it.voltats.gestionepista.db.entity.User;
 import it.voltats.gestionepista.db.entity.model.BookingStatus;
 import it.voltats.gestionepista.db.entity.model.Gender;
 
-
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.Path;
+import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import java.util.ArrayList;
-import java.io.IOException;
+import java.util.List;
 
 public class CSVUtil {
 
@@ -53,10 +52,13 @@ public class CSVUtil {
 
     public boolean exportBookingsToCSV(String filename, List<Booking> bookings) {
         try (FileWriter write = new FileWriter(filename + "_bookings.csv")) {
+            String line = String.format("%s,%s,%s,%s,%s,%s", "booking id", "user id", "start date", "end date", "price", "status");
+            write.write(line + "\n");
+
 
             for (Booking booking : bookings) {
-                String csvLine = String.format("%s,%s,%s,%s,%s,%s", booking.getId(), booking.getStartDate(), booking.getEndDate(), booking.getPrice(), booking.getStatus());
-                write.write(csvLine);
+                String csvLine = String.format("%x, %x, %s,%s,%s,%s", booking.getId(), booking.getUserId(), dateFormatBooking.format(booking.getStartDate()), dateFormatBooking.format(booking.getEndDate()), booking.getPrice(), booking.getStatus());
+                write.write(csvLine + "\n");
             }
 
         }catch (IOException e) {
@@ -96,6 +98,8 @@ public class CSVUtil {
 
     public boolean exportUserListToCSV(String filename, List<User> userList) {
         try (FileWriter writer = new FileWriter(filename + "_users.csv")) {
+            String line = String.format("%s,%s,%s,%s,%s,%s,%s", "name", "surname", "gender", "birth date", "cf", "email", "phone number");
+            writer.write(line + "\n");
 
             for (User user : userList) {
                 String csvLine = String.format("%s,%s,%s,%s,%s,%s,%s", user.getName(), user.getSurname(), user.getGender(), user.getBirthdate(), user.getCf(), user.getEmail(), user.getPhoneNumber());

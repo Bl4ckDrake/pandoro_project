@@ -6,12 +6,12 @@ import it.voltats.gestionepista.db.entity.Booking;
 import it.voltats.gestionepista.db.entity.User;
 import it.voltats.gestionepista.db.entity.model.BookingStatus;
 import it.voltats.gestionepista.db.entity.model.Gender;
+import it.voltats.gestionepista.util.CSVUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 public class MenuManagement {
@@ -21,6 +21,8 @@ public class MenuManagement {
     SimpleDateFormat dateFormat;
     SimpleDateFormat dateFormatBooking;
     IOManagement IOManager;
+
+    CSVUtil csvUtil = new CSVUtil();
 
     public MenuManagement() {
         this.bookingBusiness = new BookingBusiness();
@@ -192,6 +194,32 @@ public class MenuManagement {
                         System.out.println(b);
                     }
 
+                    break;
+                case 10:
+                    //export bookings and users
+                    if(csvUtil.exportBookingsToCSV("bookings.csv", bookingBusiness.findAll()))
+                        System.out.println("FILE CSV ESPORTATO");
+
+                    if(csvUtil.exportUserListToCSV("users.csv", userBusiness.findAll()))
+                        System.out.println("FILE CSV ESPORTATO");
+                    break;
+
+                case 11:
+                    //import bookings and users
+                    for(Booking book: csvUtil.importBookingsFromCSV("bookings.csv")){
+                        if (bookingBusiness.insert(book))
+                            System.out.println("Prenotazione inserita nel database!");
+                        else
+                            System.err.println("\n\n" + "Orario non disponibile!" + "\n\n");
+                    }
+
+                    for(User us: csvUtil.importUserListFromCSV("users.csv")){
+                        if (userBusiness.insert(us))
+                            System.out.println("Cliente inserito nel database!");
+                        else
+                            System.err.println("\n\n" + "Cliente gia' presente o " +
+                                    "codice fiscale falso/errato o " + "età minima non soddisfatta" + "\n\n");
+                    }
                     break;
                 case 0:
                     System.out.println("Bye bye.");
