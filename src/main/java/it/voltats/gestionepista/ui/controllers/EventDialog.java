@@ -35,6 +35,7 @@ public class EventDialog extends JFXDialog {
 		try {
 			bodyPane = loader.load();
 			eventDialogController = loader.getController();
+			eventDialogController.setParentPane(stackPane);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

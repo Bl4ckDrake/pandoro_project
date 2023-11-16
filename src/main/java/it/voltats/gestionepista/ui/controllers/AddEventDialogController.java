@@ -15,11 +15,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import org.controlsfx.control.RangeSlider;
 
 public class AddEventDialogController {
-
 
 	@FXML
 	private DatePicker dateField;
@@ -34,6 +34,7 @@ public class AddEventDialogController {
 	private RangeSlider timeRangePicker;
 
 	private int eventType;
+	private boolean showUserFields;
 
 	@FXML
 	public void initialize() {
@@ -47,8 +48,24 @@ public class AddEventDialogController {
 		addUserButton.getStyleClass().add("circle_buttom");
 		addUserButton.setGraphic(icon);
 
-		addUserButton.setOnAction(event -> {
+		/*addUserButton.setOnAction(event -> {
 			// TODO: add user
+			UserDialog dialog = new UserDialog(parentPane);
+			dialog.show();
+			dialog.setOnDialogClosed(ex -> {
+			});
+
+
+		});*/
+		addUserButton.setOnAction(event -> {
+			showUserFields = !showUserFields;
+
+			if(showUserFields) {
+				// TODO: show HBox for adding user + change "plus" icon to "close" icon
+			}
+			else {
+				// TODO: hide HBox for adding user + change "close" icon to "plus" icon
+			}
 		});
 
 		// TODO: user selector
@@ -56,8 +73,14 @@ public class AddEventDialogController {
 				FXCollections.observableArrayList(
 						"Option 1",
 						"Option 2",
-						"Option 3"
+						"Option 3",
+						"Add new user"
 				);
+
+		/*
+		* TODO:
+		* if "Add new user" show row for adding user
+		* */
 
 		userSelector.setItems(options);
 
@@ -107,8 +130,5 @@ public class AddEventDialogController {
 
 		return event;
 	}
-
-
-
 
 }
