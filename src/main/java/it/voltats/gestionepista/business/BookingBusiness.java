@@ -24,13 +24,13 @@ public class BookingBusiness {
      * @param booking prenotazione da inserire
      * @return true --> Inserito correttamente | false --> prenotazione non valida
      */
-    public boolean insert(Booking booking){
+    public int insert(Booking booking){
         if(bookings.isAvaiable(booking.getStartDate(), booking.getEndDate())) {
             booking.setPrice(totalCost(booking));
             bookings.insert(booking);
-            return true;
+            return bookings.findByStartDateAndEndDate(booking.getStartDate(), booking.getEndDate()).getId();
         }
-        return false;
+        return -1;
     }
 
     /**

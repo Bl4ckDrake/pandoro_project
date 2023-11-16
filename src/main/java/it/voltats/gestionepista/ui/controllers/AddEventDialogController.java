@@ -1,129 +1,209 @@
 package it.voltats.gestionepista.ui.controllers;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXCheckBox;
-import com.jfoenix.controls.JFXRadioButton;
-import com.jfoenix.controls.JFXTabPane;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import it.voltats.gestionepista.business.BookingBusiness;
+import it.voltats.gestionepista.business.UserBusiness;
+import it.voltats.gestionepista.db.entity.Booking;
+import it.voltats.gestionepista.db.entity.User;
+import it.voltats.gestionepista.db.entity.model.BookingStatus;
+import it.voltats.gestionepista.db.entity.model.Gender;
+import it.voltats.gestionepista.db.impl.UserRepoImpl;
 import it.voltats.gestionepista.ui.model.CalendarEvent;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import org.controlsfx.control.RangeSlider;
 
-public class AddEventDialogController {
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
 
-	@FXML
-	private DatePicker dateField;
+public class AddEventDialogController {
 
 	@FXML
 	private ComboBox userSelector;
 
 	@FXML
-	private JFXButton addUserButton;
+	private HBox addUserBox;
+
+	// Booking data fields
+	@FXML
+	private DatePicker dateField;
 
 	@FXML
-	private RangeSlider timeRangePicker;
+	private JFXTextField startTimeField;
 
-	private int eventType;
+	@FXML
+	private JFXTextField endTimeField;
+
+	// User fields
+	@FXML
+	private JFXTextField nameField;
+	@FXML
+	private JFXTextField surnameField;
+	@FXML
+	private JFXTextField cfField;
+	@FXML
+	private JFXTextField emailField;
+	@FXML
+	private JFXTextField phoneNumberField;
+
+	private ToggleGroup genderGroup;
+	@FXML
+	private JFXRadioButton maleRadioButton;
+	@FXML
+	private JFXRadioButton femaleRadioButton;
+
+	@FXML
+	private DatePicker birthDatePicker;
+
+
 	private boolean showUserFields;
+	private int selectedUserId;
+
+	private UserBusiness userBusiness = new UserBusiness();
+	private BookingBusiness bookingBusiness = new BookingBusiness();
 
 	@FXML
 	public void initialize() {
-		addPriorityButtonListeners();
+
+		// Set radio buttons in a group
+		genderGroup = new ToggleGroup();
+		maleRadioButton.setToggleGroup(genderGroup);
+		femaleRadioButton.setToggleGroup(genderGroup);
+		maleRadioButton.setUserData(Gender.M);
+		femaleRadioButton.setUserData(Gender.F);
+
+		// Set box to add user invisible
+		addUserBox.setVisible(false);
 
 
-		FontAwesomeIconView icon = new FontAwesomeIconView(FontAwesomeIcon.PLUS);
-		icon.setFill(Paint.valueOf("#767676"));
-		icon.setSize("24");
+		FontAwesomeIconView plusIcon = new FontAwesomeIconView(FontAwesomeIcon.PLUS);
+		plusIcon.setFill(Paint.valueOf("#767676"));
+		plusIcon.setSize("24");
 
-		addUserButton.getStyleClass().add("circle_buttom");
-		addUserButton.setGraphic(icon);
-
-		/*addUserButton.setOnAction(event -> {
-			// TODO: add user
-			UserDialog dialog = new UserDialog(parentPane);
-			dialog.show();
-			dialog.setOnDialogClosed(ex -> {
-			});
+		FontAwesomeIconView closeIcon = new FontAwesomeIconView(FontAwesomeIcon.CLOSE);
+		closeIcon.setFill(Paint.valueOf("#767676"));
+		closeIcon.setSize("24");
 
 
-		});*/
-		addUserButton.setOnAction(event -> {
-			showUserFields = !showUserFields;
+		List<User> userList = userBusiness.findAll();
 
-			if(showUserFields) {
-				// TODO: show HBox for adding user + change "plus" icon to "close" icon
-			}
-			else {
-				// TODO: hide HBox for adding user + change "close" icon to "plus" icon
-			}
-		});
-
-		// TODO: user selector
 		ObservableList<String> options =
-				FXCollections.observableArrayList(
-						"Option 1",
-						"Option 2",
-						"Option 3",
-						"Add new user"
-				);
+				FXCollections.observableArrayList();
 
-		/*
-		* TODO:
-		* if "Add new user" show row for adding user
-		* */
+		for (User user: userList) {
+			options.add("User: " + user.getName() + " " + user.getSurname() + " " + user.getCf());
+		}
+
+		options.add("Add new user");
 
 		userSelector.setItems(options);
 
+		userSelector.valueProperty().addListener((observableValue, o, t1) -> {
+            if(t1.equals("Add new user")) {
+                showUserFields = true;
+                addUserBox.setVisible(true);
+				selectedUserId = -1;
+            }
+            else {
+                showUserFields = false;
+                addUserBox.setVisible(false);
+				selectedUserId = userList.get(options.indexOf(t1)).getId();
+            }
+        });
 
+	}
 
-		// TODO: time range picker
-		timeRangePicker.setShowTickLabels(true);
-		timeRangePicker.setShowTickMarks(false);
-		timeRangePicker.setBlockIncrement(1);
+	private User getUser() {
+		if(nameField.getText().isBlank() || surnameField.getText().isBlank() || cfField.getText().isBlank() || emailField.getText().isBlank() || phoneNumberField.getText().isBlank() || genderGroup.getSelectedToggle() == null || birthDatePicker.getValue() == null) {
+			return null;
+		}
 
-		timeRangePicker.adjustHighValue(480);
-		timeRangePicker.adjustLowValue(60);
-		timeRangePicker.setMax(1440);
+		Gender gender;
+		if(genderGroup.getSelectedToggle().getUserData().equals(Gender.M))
+			gender = Gender.M;
+		else
+			gender = Gender.F;
+
+		return new User(nameField.getText(), surnameField.getText(), gender, Date.from(birthDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), cfField.getText(), emailField.getText(), phoneNumberField.getText());
 	}
 
 
-
-	private void addPriorityButtonListeners() {
-		// Event Button Listeners
-	}
-
-	private void cleanSelection() {
-		eventType = -1;
-	}
-
-	public int getEventType() {
-		return eventType;
-	}
 
 	public void clear() {
-
-		cleanSelection();
-
 		dateField.setValue(null);
+		startTimeField.setText("");
+		endTimeField.setText("");
+		nameField.setText("");
+		surnameField.setText("");
+		cfField.setText("");
+		emailField.setText("");
+		phoneNumberField.setText("");
+		birthDatePicker.setValue(null);
 	}
 
 	public CalendarEvent getEvent() {
 
+		// user
+		int userId = -1;
+		User user;
+
+		if(selectedUserId == -1) {
+			 user = getUser();
+
+			if(user == null) {
+				return null;
+			}
+
+			userId = userBusiness.insert(user);
+
+			selectedUserId = userId;
+		}
+		else {
+			userId = selectedUserId;
+			user = userBusiness.findById(userId);
+		}
+
+        // booking
+		LocalDate date = dateField.getValue();
+		Date startDate;
+		Date endDate;
+
+		try {
+			startDate = new SimpleDateFormat("dd/MM/yyyy HH:ss").parse(date.getDayOfMonth() + "/" + date.getMonthValue() + "/" + date.getYear() + " " + startTimeField.getText());
+			endDate = new SimpleDateFormat("dd/MM/yyyy HH:ss").parse(date.getDayOfMonth() + "/" + date.getMonthValue() + "/" + date.getYear() + " " + endTimeField.getText());
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		int bookingId = bookingBusiness.insert(new Booking(userId, startDate, endDate, BookingStatus.PENDING, -1));
+
+		if(bookingId == -1) {
+			return null;
+		}
+
+		// event
 		CalendarEvent event = null;
 
 		if (dateField.getValue() != null) {
-			// TODO: title
-			event = new CalendarEvent("title", eventType, "eventNote1.getText()");
+			event = new CalendarEvent(user.getName() + " " + user.getSurname(), CalendarEvent.PENDING, "Start time: " + startTimeField.getText() + ", End time: " + endTimeField.getText());
 			event.setType(CalendarEvent.ONE_TIME_EVENT);
 			event.setDate(dateField.getValue());
 		}

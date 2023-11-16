@@ -239,6 +239,41 @@ public class BookingRepoImpl implements BookingRepo {
     }
 
     @Override
+    public Booking findByStartDateAndEndDate(Date startDate, Date endDate) {
+        final String QUERY = "SELECT * FROM booking WHERE start_date=? AND end_date=?";
+
+        try {
+            var statement = connection.prepareStatement(QUERY);
+
+            statement.setString(1, new SimpleDateFormat("dd/MM/yyyy HH:mm").format(startDate));
+            statement.setString(2, new SimpleDateFormat("dd/MM/yyyy HH:mm").format(endDate));
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if(resultSet.getString("start_date") == null ||
+                    resultSet.getString("end_date") == null ||
+                    resultSet.getString("status") == null)
+                return null;
+
+            Booking result = new Booking(
+                    resultSet.getInt("user_id"),
+                    new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(resultSet.getString("start_date")),
+                    new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(resultSet.getString("end_date")),
+                    BookingStatus.valueOf(resultSet.getString("status")),
+                    resultSet.getDouble("price")
+            );
+            result.setId(resultSet.getInt("id"));
+
+            return result;
+
+        } catch (SQLException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
     public List<Booking> findAllByDate(Date date){
         final String QUERY = "SELECT * FROM booking";
         List<Booking> bookings = new ArrayList<>();
