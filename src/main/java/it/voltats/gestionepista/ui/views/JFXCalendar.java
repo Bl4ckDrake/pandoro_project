@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXCheckBox;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import it.voltats.gestionepista.ui.controllers.SearchDialog;
 import it.voltats.gestionepista.ui.model.CalendarEvent;
 import it.voltats.gestionepista.ui.model.CalendarEventManager;
 import it.voltats.gestionepista.util.ItalianHolidaysUtils;
@@ -143,7 +144,14 @@ public class JFXCalendar extends StackPane {
 		searchButton.setGraphic(searchButtonIcon);
 
 		searchButton.setOnAction((ActionEvent evt) -> {
-			// TODO: action
+
+			SearchDialog eventDialog = new SearchDialog(this);
+			eventDialog.clear();
+			eventDialog.show();
+
+
+
+
 		});
 
 		// The Calendar Label

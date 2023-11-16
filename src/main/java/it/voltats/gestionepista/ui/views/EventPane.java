@@ -108,26 +108,18 @@ public class EventPane extends VBox {
 		messageLabel.setId("messageLabel");
 		fromLabel.setId("fromLabel");
 
-		JFXButton removeButton = new JFXButton();
 		JFXButton editButton = new JFXButton();
 
-		removeButton
-				.setGraphic(new FontAwesome().create(FontAwesome.Glyph.REMOVE).size(18));
 		editButton
 				.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PENCIL).size(18));
-
-		removeButton.setOnAction(e -> {
-			removeEvent();
-		});
 
 		editButton.setOnAction(e -> {
 			editEvent();
 		});
 
-		removeButton.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
 		editButton.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
 
-		HBox buttonPane = new HBox(editButton, removeButton);
+		HBox buttonPane = new HBox(editButton);
 		buttonPane.setSpacing(10);
 		buttonPane.setAlignment(Pos.CENTER);
 
