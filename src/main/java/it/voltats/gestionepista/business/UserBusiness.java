@@ -1,6 +1,5 @@
 package it.voltats.gestionepista.business;
 
-import it.voltats.gestionepista.db.entity.Booking;
 import it.voltats.gestionepista.db.entity.User;
 import it.voltats.gestionepista.db.entity.model.Gender;
 import it.voltats.gestionepista.db.impl.UserRepoImpl;
@@ -9,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
-import java.util.Locale;
 
 public class UserBusiness {
 
@@ -53,8 +51,8 @@ public class UserBusiness {
         String consonantsSurname = extractConsonants(surname);
         String consonantsName = extractConsonants(name);
         String birthYear= birthDate.substring(8, 10);
-        String birthMonth = calculateBirthMonth(birthDate, gender);
-        String birthDay = birthDate.substring(0,2);
+        String birthMonth = calculateBirthMonth(birthDate);
+        String birthDay = calculateBirthDay(birthDate, gender);
 
         return consonantsSurname + consonantsName + birthYear + birthMonth + birthDay;
     }
@@ -75,19 +73,32 @@ public class UserBusiness {
             sum += ((i + 1) % 2 == 0) ? value : evenCharWeight[value];
         }
         int remainder = sum % 26;
+
         return String.valueOf(ALPHABET.charAt(remainder));
     }
 
     /**
-     * Calcola il carattere in base a Mese del compleanno e genere
+     * Calcola il carattere in base a Mese del compleanno
      * @param birthDate compleanno utente
-     * @param gender    genere utente
      * @return Stringa con il carattere del mese
      */
-    private String calculateBirthMonth(String birthDate, Gender gender) {
+    private String calculateBirthMonth(String birthDate) {
         String[] months = {"A", "B", "C", "D", "E", "H", "L", "M", "P", "R", "S", "T"};
         int month = Integer.parseInt(birthDate.substring(3,5).trim());
         return months[month - 1];
+    }
+
+    /**
+     * Calcola il carattere in base a giorno del compleanno e genere
+     * @param birthDate compleanno utente
+     * @return Stringa con il carattere del giorno
+     */
+    private String calculateBirthDay(String birthDate, Gender gender){
+        int day = Integer.parseInt(birthDate.substring(0,2).trim());
+        if(gender == Gender.F)
+            day += 40;
+        String dayString = Integer.toString(day);
+        return dayString;
     }
 
     /**
