@@ -53,6 +53,25 @@ public class BookingRepoImpl implements BookingRepo {
     }
 
     @Override
+    public void storeFinishedBooking(Booking booking) {
+
+        final String QUERY = "UPDATE booking SET (user_id, start_date, end_date, status, price) = (?,?,?,?,?) WHERE id=?";
+
+        try {
+            var statement = connection.prepareStatement(QUERY);
+            statement.setInt(1, booking.getUserId());
+            statement.setString(2, new SimpleDateFormat("dd/MM/yyyy HH:mm").format(booking.getStartDate()));
+            statement.setString(3, new SimpleDateFormat("dd/MM/yyyy HH:mm").format(booking.getEndDate()));
+            statement.setString(4, BookingStatus.STORED.name());
+            statement.setDouble(5, booking.getPrice());
+            statement.setInt(6, booking.getId());
+            statement.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Override
     public void delete(Booking booking) {
         final String QUERY = "DELETE FROM booking WHERE id=?";
 

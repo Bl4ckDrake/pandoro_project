@@ -9,6 +9,7 @@ public interface BookingRepo {
     public void insert(Booking booking);
     public void update(Booking booking);
     public void delete(Booking booking);
+    public void storeFinishedBooking(Booking booking);
     public Booking findById(int id);
     public List<Booking> findAllByUserId(int userId);
     public List<Booking> findAllByDate(Date date);
