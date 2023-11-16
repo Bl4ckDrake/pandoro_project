@@ -97,7 +97,12 @@ public class UserBusiness {
         int day = Integer.parseInt(birthDate.substring(0,2).trim());
         if(gender == Gender.F)
             day += 40;
+
         String dayString = Integer.toString(day);
+
+        if(dayString.length() < 2)
+            dayString = "0" + dayString;
+
         return dayString;
     }
 
