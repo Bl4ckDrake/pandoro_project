@@ -1,6 +1,5 @@
 package it.voltats.gestionepista.business;
 
-import it.voltats.gestionepista.db.entity.Booking;
 import it.voltats.gestionepista.db.entity.User;
 import it.voltats.gestionepista.db.entity.model.Gender;
 import it.voltats.gestionepista.db.impl.UserRepoImpl;
@@ -9,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
-import java.util.Locale;
 
 public class UserBusiness {
 
@@ -53,8 +51,8 @@ public class UserBusiness {
         String consonantsSurname = extractConsonants(surname);
         String consonantsName = extractConsonants(name);
         String birthYear= birthDate.substring(8, 10);
-        String birthMonth = calculateBirthMonth(birthDate, gender);
-        String birthDay = birthDate.substring(0,2);
+        String birthMonth = calculateBirthMonth(birthDate);
+        String birthDay = calculateBirthDay(birthDate, gender);
 
         return consonantsSurname + consonantsName + birthYear + birthMonth + birthDay;
     }
@@ -75,6 +73,7 @@ public class UserBusiness {
             sum += ((i + 1) % 2 == 0) ? value : evenCharWeight[value];
         }
         int remainder = sum % 26;
+
         return String.valueOf(ALPHABET.charAt(remainder));
     }
 
