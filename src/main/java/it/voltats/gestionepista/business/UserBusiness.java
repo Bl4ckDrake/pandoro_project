@@ -78,15 +78,27 @@ public class UserBusiness {
     }
 
     /**
-     * Calcola il carattere in base a Mese del compleanno e genere
+     * Calcola il carattere in base a Mese del compleanno
      * @param birthDate compleanno utente
-     * @param gender    genere utente
      * @return Stringa con il carattere del mese
      */
-    private String calculateBirthMonth(String birthDate, Gender gender) {
+    private String calculateBirthMonth(String birthDate) {
         String[] months = {"A", "B", "C", "D", "E", "H", "L", "M", "P", "R", "S", "T"};
         int month = Integer.parseInt(birthDate.substring(3,5).trim());
         return months[month - 1];
+    }
+
+    /**
+     * Calcola il carattere in base a giorno del compleanno e genere
+     * @param birthDate compleanno utente
+     * @return Stringa con il carattere del giorno
+     */
+    private String calculateBirthDay(String birthDate, Gender gender){
+        int day = Integer.parseInt(birthDate.substring(0,2).trim());
+        if(gender == Gender.F)
+            day += 40;
+        String dayString = Integer.toString(day);
+        return dayString;
     }
 
     /**
