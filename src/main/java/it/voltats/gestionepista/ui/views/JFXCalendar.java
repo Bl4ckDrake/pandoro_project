@@ -14,6 +14,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import it.voltats.gestionepista.business.BookingBusiness;
 import it.voltats.gestionepista.business.UserBusiness;
 import it.voltats.gestionepista.db.entity.User;
+import it.voltats.gestionepista.ui.controllers.CSVDialog;
 import it.voltats.gestionepista.ui.controllers.SearchDialog;
 import it.voltats.gestionepista.ui.model.CalendarEvent;
 import it.voltats.gestionepista.ui.model.CalendarEventManager;
@@ -24,10 +25,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -71,6 +69,7 @@ public class JFXCalendar extends StackPane {
 	private ToggleButton monthButton;
 
 	private JFXButton searchButton;
+	private JFXButton csvButton;
 
 	private CalendarMonthView calendarMonthView;
 
@@ -209,7 +208,7 @@ public class JFXCalendar extends StackPane {
 				FontAwesomeIcon.ANGLE_DOWN);
 
 		FontAwesomeIconView searchButtonIcon = new FontAwesomeIconView(FontAwesomeIcon.SEARCH);
-
+		FontAwesomeIconView csvButtonIcon = new FontAwesomeIconView(FontAwesomeIcon.CLIPBOARD);
 
 		hideButtonIcon.setFill(Paint.valueOf(iconPaint));
 		prevWeekButtonIcon.setFill(Paint.valueOf(iconPaint));
@@ -236,6 +235,21 @@ public class JFXCalendar extends StackPane {
 			} else {
 				mainPane.setLeft(null);
 			}
+		});
+
+
+		csvButton = new JFXButton();
+		csvButton.getStyleClass().add("circle_button");
+		csvButton.setGraphic(csvButtonIcon);
+		Tooltip csvTooltip = new Tooltip("");
+		csvButton.setTooltip(csvTooltip);
+
+		csvButton.setOnAction((ActionEvent evt) -> {
+
+			CSVDialog csvDialog = new CSVDialog(this);
+			csvDialog.clear();
+			csvDialog.show();
+
 		});
 
 		searchButton = new JFXButton();
@@ -292,7 +306,7 @@ public class JFXCalendar extends StackPane {
 
 		// Add all components
 		toolPane.getChildren().addAll(menuButton, calendarLabel, spacerPane, todayButton,
-				prevButton, nextButton, dateLabel, grownedEmptyPane, viewPane, searchButton);
+				prevButton, nextButton, dateLabel, grownedEmptyPane, viewPane, csvButton, searchButton);
 
 		// Set toolPane on top of the BorderPane
 		mainPane.setTop(toolPane);
@@ -432,7 +446,7 @@ public class JFXCalendar extends StackPane {
 		JFXCheckBox pendingCheckBox = new JFXCheckBox("Pending");
 		JFXCheckBox confirmedCheckBox = new JFXCheckBox("Confirmed");
 		JFXCheckBox holidayCheckBox = new JFXCheckBox("Holiday");
-		JFXCheckBox cancelledCheckBox = new JFXCheckBox("Cancelled");
+		JFXCheckBox cancelledCheckBox = new JFXCheckBox("Stored");
 
 		confirmedFilterProperty = confirmedCheckBox.selectedProperty();
 		pendingFilterProperty = pendingCheckBox.selectedProperty();

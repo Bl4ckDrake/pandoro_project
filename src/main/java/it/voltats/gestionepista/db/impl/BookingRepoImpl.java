@@ -85,6 +85,18 @@ public class BookingRepoImpl implements BookingRepo {
     }
 
     @Override
+    public void deleteAll() {
+        final String QUERY = "DELETE * FROM booking";
+
+        try {
+            var statement = connection.prepareStatement(QUERY);
+            statement.executeQuery();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Override
     public List<Booking> findAllByUserId(int userId) {
         final String QUERY = "SELECT * FROM booking WHERE user_id=?";
         List<Booking> result = new ArrayList<>();

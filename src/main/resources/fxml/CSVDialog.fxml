@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.control.ComboBox?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.layout.Region?>
+<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="268.0" prefWidth="485.0" spacing="10.0"
+      xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="it.voltats.gestionepista.ui.controllers.CSVDialogController">
+    <padding>
+        <Insets bottom="15.0" left="25.0" right="25.0" top="15.0"/>
+    </padding>
+    <HBox prefHeight="20" prefWidth="435.0">
+        <Label prefHeight="29.0" prefWidth="200.0" text="EXPORT DATA">
+            <font>
+                <Font name="Calibri" size="24.0"/>
+            </font>
+        </Label>
+    </HBox>
+    <HBox prefHeight="48.0" prefWidth="435.0">
+        <Label prefHeight="29.0" prefWidth="101.0" text="Select table">
+            <font>
+                <Font name="Calibri" size="18.0"/>
+            </font>
+        </Label>
+        <Region HBox.hgrow="ALWAYS"/>
+        <ComboBox prefHeight="70.0" prefWidth="301.0" fx:id="selectExportType"/>
+        <padding>
+            <Insets bottom="10.0" right="10.0" top="15.0"/>
+        </padding>
+    </HBox>
+    <HBox>
+        <Label prefHeight="29.0" prefWidth="101.0" text="Import CSV">
+            <font>
+                <Font name="Calibri" size="18.0"/>
+            </font>
+        </Label>
+        <Region HBox.hgrow="ALWAYS"/>
+        <JFXButton fx:id="chooseFileButton" text="Choose File"/>
+        <Label text=".csv"/>
+        <JFXButton fx:id="importConfirmButton"/>
+        <padding>
+            <Insets bottom="10.0" right="10.0" top="15.0"/>
+        </padding>
+    </HBox>
+    <HBox>
+        <Label prefHeight="29.0" prefWidth="101.0" text="Export CSV">
+            <font>
+                <Font name="Calibri" size="18.0"/>
+            </font>
+        </Label>
+        <Region HBox.hgrow="ALWAYS"/>
+        <JFXButton fx:id="choosePathButton" text="Choose Path">
+        </JFXButton>
+        <Label text="/"/>
+        <JFXTextField fx:id="exportTextField" promptText="example.csv"/>
+        <JFXButton fx:id="exportConfirmButton"/>
+        <padding>
+            <Insets bottom="10.0" right="10.0" top="15.0"/>
+        </padding>
+    </HBox>
+</VBox>
