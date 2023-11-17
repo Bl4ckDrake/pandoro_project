@@ -22,7 +22,7 @@ public class CSVUtil {
     public List<Booking> importBookingsFromCSV(String filename) {
 
         List<Booking> bookings = new ArrayList<>();
-        Path pathToFile = Paths.get(filename + ".csv");
+        Path pathToFile = Paths.get(filename);
 
         try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8)) {
 
@@ -51,12 +51,9 @@ public class CSVUtil {
     }
 
     public boolean exportBookingsToCSV(String filename, List<Booking> bookings) {
-        SimpleDateFormat dateFormatBooking = new SimpleDateFormat("dd/MM/yyyy HH");
+        SimpleDateFormat dateFormatBooking = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
         try (FileWriter write = new FileWriter(filename + "_bookings.csv")) {
-            String line = String.format("%s,%s,%s,%s,%s,%s", "booking id", "user id", "start date", "end date", "price", "status");
-            write.write(line + "\n");
-
 
             for (Booking booking : bookings) {
                 String csvLine = String.format("%x, %x, %s,%s,%s,%s", booking.getId(), booking.getUserId(), dateFormatBooking.format(booking.getStartDate()), dateFormatBooking.format(booking.getEndDate()), booking.getPrice(), booking.getStatus());
@@ -72,7 +69,7 @@ public class CSVUtil {
 
     public List<User> importUserListFromCSV(String filename) {
         List<User> userList = new ArrayList<>();
-        Path pathToFile = Paths.get(filename + ".csv");
+        Path pathToFile = Paths.get(filename);
 
         try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8)) {
 
@@ -100,11 +97,11 @@ public class CSVUtil {
 
     public boolean exportUserListToCSV(String filename, List<User> userList) {
         try (FileWriter writer = new FileWriter(filename + "_users.csv")) {
-            String line = String.format("%s,%s,%s,%s,%s,%s,%s", "name", "surname", "gender", "birth date", "cf", "email", "phone number");
-            writer.write(line + "\n");
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
             for (User user : userList) {
-                String csvLine = String.format("%s,%s,%s,%s,%s,%s,%s", user.getName(), user.getSurname(), user.getGender(), user.getBirthdate(), user.getCf(), user.getEmail(), user.getPhoneNumber());
+                String csvLine = String.format("%s,%s,%s,%s,%s,%s,%s", user.getName(), user.getSurname(), user.getGender(), dateFormat.format(user.getBirthdate()), user.getCf(), user.getEmail(), user.getPhoneNumber());
                 writer.write(csvLine + "\n");
             }
 

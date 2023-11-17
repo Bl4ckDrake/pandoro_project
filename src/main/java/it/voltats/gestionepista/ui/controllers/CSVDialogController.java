@@ -128,6 +128,7 @@ public class CSVDialogController {
             CSVUtil csvUtil = new CSVUtil();
 
             if(selectedTable == TABLE_BOOKING) {
+                System.out.println(fileChoice.getAbsolutePath());
                 List<Booking> importedBookings = csvUtil.importBookingsFromCSV(fileChoice.getAbsolutePath());
                 for (Booking booking: importedBookings) {
                     bookingRepo.insert(booking);
@@ -137,6 +138,9 @@ public class CSVDialogController {
 
             if(selectedTable == TABLE_USER) {
                 List<User> importedUsers = csvUtil.importUserListFromCSV(fileChoice.getAbsolutePath());
+                for(User user: importedUsers) {
+                    userRepo.insert(user);
+                }
             }
         });
 
@@ -148,13 +152,12 @@ public class CSVDialogController {
             CSVUtil csvUtil = new CSVUtil();
 
             if(selectedTable == TABLE_BOOKING) {
-                System.out.println("EXPORTING...");
-                csvUtil.exportBookingsToCSV(pathChoice.getAbsolutePath() + exportTextField.getText(), bookingRepo.findAll());
+                csvUtil.exportBookingsToCSV(pathChoice.getAbsolutePath() + "/" + exportTextField.getText(), bookingRepo.findAll());
                 return;
             }
 
             if(selectedTable == TABLE_USER) {
-                csvUtil.exportUserListToCSV(pathChoice.getAbsolutePath() + exportTextField.getText(), userRepo.findAll());
+                csvUtil.exportUserListToCSV(pathChoice.getAbsolutePath() + "/" + exportTextField.getText(), userRepo.findAll());
             }
         });
     }
