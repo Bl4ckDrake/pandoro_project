@@ -1,6 +1,7 @@
 package it.voltats.gestionepista.ui.views;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -176,7 +177,9 @@ public class JFXCalendar extends StackPane {
 				case STORED -> priority = CalendarEvent.CANCELLED;
 			}
 
-			event = new CalendarEvent(user.getName() + " " + user.getSurname(), priority, "Start time: " + booking.getStartDate().toString() + ", End time: " + booking.getEndDate().toString());
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+			event = new CalendarEvent(user.getName() + " " + user.getSurname(), priority, "Start time: " + simpleDateFormat.format(booking.getStartDate()) + ", End time: " + simpleDateFormat.format(booking.getEndDate()));
 			event.setId(booking.getId());
 			event.setType(CalendarEvent.ONE_TIME_EVENT);
 			event.setDate(LocalDate.ofInstant(booking.getStartDate().toInstant(), ZoneId.systemDefault()));

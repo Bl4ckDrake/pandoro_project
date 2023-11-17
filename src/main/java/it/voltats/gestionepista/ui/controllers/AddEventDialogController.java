@@ -206,7 +206,8 @@ public class AddEventDialogController {
 		CalendarEvent event = null;
 
 		if (startDateField.getValue() != null && endDateField.getValue() != null) {
-			event = new CalendarEvent(user.getName() + " " + user.getSurname(), CalendarEvent.PENDING, "Start time: " + startDate.toString() + ", End time: " + endDate.toString());
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			event = new CalendarEvent(user.getName() + " " + user.getSurname(), CalendarEvent.PENDING, "Start time: " + simpleDateFormat.format(startDate) + ", End time: " + simpleDateFormat.format(endDate));
 			event.setId(bookingId);
 			event.setType(CalendarEvent.ONE_TIME_EVENT);
 			event.setDate(startDateField.getValue());

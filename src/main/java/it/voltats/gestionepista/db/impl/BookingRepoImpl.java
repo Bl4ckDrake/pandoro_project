@@ -87,6 +87,7 @@ public class BookingRepoImpl implements BookingRepo {
     @Override
     public List<Booking> findAllByUserId(int userId) {
         final String QUERY = "SELECT * FROM booking WHERE user_id=?";
+        List<Booking> result = new ArrayList<>();
 
         try {
             var statement = connection.prepareStatement(QUERY);
@@ -95,7 +96,7 @@ public class BookingRepoImpl implements BookingRepo {
 
             ResultSet resultSet = statement.executeQuery();
 
-            List<Booking> result = new ArrayList<>();
+
 
             while (resultSet.next()) {
                 Booking booking = new Booking(
@@ -111,12 +112,10 @@ public class BookingRepoImpl implements BookingRepo {
                 result.add(booking);
             }
 
-            return result;
-
         } catch (SQLException | ParseException e) {
             e.printStackTrace();
         }
-        return null;
+        return result;
     }
 
     @Override
@@ -255,8 +254,9 @@ public class BookingRepoImpl implements BookingRepo {
 
             if(resultSet.getString("start_date") == null ||
                     resultSet.getString("end_date") == null ||
-                    resultSet.getString("status") == null)
+                    resultSet.getString("status") == null) {
                 return null;
+            }
 
             Booking result = new Booking(
                     resultSet.getInt("user_id"),
@@ -296,7 +296,10 @@ public class BookingRepoImpl implements BookingRepo {
                 );
                 booking.setId(resultSet.getInt("id"));
 
-                bookings.add(booking);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                if(dateFormat.format(date).equals(dateFormat.format(booking.getStartDate()))) {
+                    bookings.add(booking);
+                }
             }
         } catch (SQLException | ParseException e) {
             e.printStackTrace();
@@ -306,6 +309,42 @@ public class BookingRepoImpl implements BookingRepo {
         for(Booking booking: bookings){
             if(new SimpleDateFormat("dd/MM/yyyy").format(booking.getStartDate()).equals(new SimpleDateFormat("dd/MM/yyyy").format(date)))
                 result.add(booking);
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<Booking> findAllByUserIdAnddate(int userId, Date date) {
+        final String QUERY = "SELECT * FROM booking WHERE user_id=?";
+        List<Booking> result = new ArrayList<>();
+
+        try {
+            var statement = connection.prepareStatement(QUERY);
+
+            statement.setInt(1, userId);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Booking booking = new Booking(
+                        resultSet.getInt("user_id"),
+                        new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(resultSet.getString("start_date")),
+                        new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(resultSet.getString("end_date")),
+                        BookingStatus.valueOf(resultSet.getString("status")),
+                        resultSet.getDouble("price")
+                );
+
+                booking.setId(resultSet.getInt("id"));
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                if(dateFormat.format(date).equals(dateFormat.format(booking.getStartDate()))) {
+                    result.add(booking);
+                }
+            }
+
+        } catch (SQLException | ParseException e) {
+            e.printStackTrace();
         }
 
         return result;

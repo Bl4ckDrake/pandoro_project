@@ -14,6 +14,7 @@ public interface BookingRepo {
     public Booking findByStartDateAndEndDate(Date startDate, Date endDate);
     public List<Booking> findAllByUserId(int userId);
     public List<Booking> findAllByDate(Date date);
+    public List<Booking> findAllByUserIdAnddate(int userId, Date date);
     public List<Booking> findAll();
     public boolean isAvaiable(Date requestedStartDate, Date requestedEndDate);
 }

@@ -127,4 +127,7 @@ public class BookingBusiness {
         return result;
     }
 
+    public List<Booking> findAllByUserIdAndDate(int userId, Date date) {
+        return bookings.findAllByUserIdAnddate(userId, date);
+    }
 }

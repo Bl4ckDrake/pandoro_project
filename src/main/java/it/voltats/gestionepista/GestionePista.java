@@ -1,23 +1,13 @@
 package it.voltats.gestionepista;
-import it.voltats.gestionepista.business.BookingBusiness;
-import it.voltats.gestionepista.business.UserBusiness;
-import it.voltats.gestionepista.db.entity.User;
-import it.voltats.gestionepista.ui.model.CalendarEvent;
+import it.voltats.gestionepista.presentation.MenuManagement;
 import it.voltats.gestionepista.ui.model.CalendarEventManager;
 import it.voltats.gestionepista.ui.views.JFXCalendar;
-import it.voltats.gestionepista.util.ItalianHolidaysUtils;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Calendar;
 
 public class GestionePista extends Application {
 
@@ -31,8 +21,6 @@ public class GestionePista extends Application {
         // Calendar view
         JFXCalendar calendar = new JFXCalendar(eventManager);
 
-
-
         /* Start window */
         Scene scene = new Scene(calendar, 1080, 720);
         stage.setTitle("Gestione Pista - Home");
@@ -41,9 +29,19 @@ public class GestionePista extends Application {
         stage.show();
     }
 
-    public static void main(String []args){
-        //new MenuManagement().execute();
-        launch();
+    public static void main(String []args) {
+        boolean isCli = false;
+        for(String arg: args) {
+            if(arg.equals("--cli")) {
+                isCli = true;
+                break;
+            }
+        }
+
+        if(isCli)
+            new MenuManagement().execute();
+        else
+            launch();
     }
 }
 
