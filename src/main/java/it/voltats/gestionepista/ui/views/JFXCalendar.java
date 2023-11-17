@@ -2,6 +2,7 @@ package it.voltats.gestionepista.ui.views;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Calendar;
 
 import com.jfoenix.controls.JFXButton;
@@ -9,6 +10,9 @@ import com.jfoenix.controls.JFXCheckBox;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import it.voltats.gestionepista.business.BookingBusiness;
+import it.voltats.gestionepista.business.UserBusiness;
+import it.voltats.gestionepista.db.entity.User;
 import it.voltats.gestionepista.ui.controllers.SearchDialog;
 import it.voltats.gestionepista.ui.model.CalendarEvent;
 import it.voltats.gestionepista.ui.model.CalendarEventManager;
@@ -56,16 +60,15 @@ public class JFXCalendar extends StackPane {
 
 	private VBox leftPane;
 
-	private BooleanProperty optionalFilterProperty;
-	private BooleanProperty standardFilterProperty;
-	private BooleanProperty importantFilterProperty;
-	private BooleanProperty criticalFilterProperty;
+	private BooleanProperty confirmedFilterProperty;
+	private BooleanProperty pendingFilterProperty;
+	private BooleanProperty holidayFilterProperty;
+	private BooleanProperty cancelledFilterProperty;
 	private BooleanProperty completedFilterProperty;
 	private ToggleButton dayButton;
 	private ToggleButton weekButton;
 	private ToggleButton monthButton;
 
-	// TODO: add search button
 	private JFXButton searchButton;
 
 	private CalendarMonthView calendarMonthView;
@@ -73,6 +76,8 @@ public class JFXCalendar extends StackPane {
 	public static JFXButton todayButton;
 
 	public JFXCalendar(CalendarEventManager eventManager) {
+
+		initBookingsAndHolidays(eventManager);
 
 		URL url = getClass().getResource("/style/CalendarScheduler.css");
 		getStylesheets().add(url.toExternalForm());
@@ -86,6 +91,97 @@ public class JFXCalendar extends StackPane {
 		initLeftPane();
 		initMainPane();
 		initToolBar();
+	}
+
+	private void initBookingsAndHolidays(CalendarEventManager eventManager) {
+		ItalianHolidaysUtils holidaysUtils = ItalianHolidaysUtils.getInstance();
+
+
+		/* Add fixed holidays */
+		final String [] FESTIVITY_NAME = {
+				"Capodanno",
+				"Epifania",
+				"Festa della Liberazione",
+				"Festa del Lavoro",
+				"Festa della Repubblica",
+				"Ferragosto",
+				"San Cassiano (Patrono Imola)",
+				"Tutti i Santi",
+				"Immacolata Concezione",
+				"Natale",
+				"Santo Stefano"
+		};
+
+		int i=0;
+		for (Calendar holidayCalendar: holidaysUtils.fixedHolidays) {
+			// Calculate month
+			int month = holidayCalendar.get(Calendar.MONTH) + 2;
+			if(month> 12) {
+				month -= 12;
+			}
+
+			// Get day from calendar
+			int day = holidayCalendar.get(Calendar.DAY_OF_MONTH);
+
+			// Add event
+			eventManager.addEvent(new CalendarEvent(-1, FESTIVITY_NAME[i], CalendarEvent.HOLIDAY, "Chiuso per festività", 3, CalendarEvent.PER_YEAR, null, "", -1, LocalDate.of(2022, month, day)));
+			i++;
+		}
+
+		/* Add pasqua and pasquetta */
+		LocalDate now = LocalDate.now();
+		Calendar pasqua = holidaysUtils.getEasterForYear(now.getYear());
+		Calendar pasquetta = holidaysUtils.getPasquettaForYear(now.getYear());
+
+		int pasquaMonth = pasqua.get(Calendar.MONTH) + 1;
+		if (pasquaMonth > 12) {
+			pasquaMonth -= 12;
+		}
+
+		LocalDate pasquaDate = LocalDate.of(pasqua.get(Calendar.YEAR), pasquaMonth, pasqua.get(Calendar.DAY_OF_MONTH));
+		if(eventManager.getEventsOn(pasquaDate).isEmpty()) {
+			CalendarEvent event = new CalendarEvent("Pasqua", CalendarEvent.HOLIDAY, "Chiuso per festività");
+			event.setId(-1);
+			event.setType(CalendarEvent.ONE_TIME_EVENT);
+			event.setDate(pasquaDate);
+			eventManager.addEvent(event);
+		}
+
+
+		int pasquettaMonth = pasquetta.get(Calendar.MONTH) + 1;
+		if (pasquettaMonth > 12) {
+			pasquettaMonth -= 12;
+		}
+
+		LocalDate pasquettaDate = LocalDate.of(pasquetta.get(Calendar.YEAR), pasquettaMonth, pasquetta.get(Calendar.DAY_OF_MONTH));
+		if(eventManager.getEventsOn(pasquaDate).isEmpty()) {
+			CalendarEvent event = new CalendarEvent("Pasquetta", CalendarEvent.HOLIDAY, "Chiuso per festività");
+			event.setId(-1);
+			event.setType(CalendarEvent.ONE_TIME_EVENT);
+			event.setDate(pasquettaDate);
+			eventManager.addEvent(event);
+		}
+
+		// Add bookings
+		BookingBusiness bookingBusiness = new BookingBusiness();
+		UserBusiness userBusiness = new UserBusiness();
+		bookingBusiness.findAll().forEach(booking -> {
+			CalendarEvent event;
+			User user = userBusiness.findById(booking.getUserId());
+
+			int priority = -1;
+			switch (booking.getStatus()) {
+				case CONFIRMED -> priority = CalendarEvent.CONFIRMED;
+				case PENDING -> priority = CalendarEvent.PENDING;
+				case STORED -> priority = CalendarEvent.CANCELLED;
+			}
+
+			event = new CalendarEvent(user.getName() + " " + user.getSurname(), priority, "Start time: " + booking.getStartDate().toString() + ", End time: " + booking.getEndDate().toString());
+			event.setId(booking.getId());
+			event.setType(CalendarEvent.ONE_TIME_EVENT);
+			event.setDate(LocalDate.ofInstant(booking.getStartDate().toInstant(), ZoneId.systemDefault()));
+			eventManager.addEvent(event);
+		});
 	}
 
 	public void setEventManager(CalendarEventManager eventManager) {
@@ -148,9 +244,6 @@ public class JFXCalendar extends StackPane {
 			SearchDialog eventDialog = new SearchDialog(this);
 			eventDialog.clear();
 			eventDialog.show();
-
-
-
 
 		});
 
@@ -337,13 +430,11 @@ public class JFXCalendar extends StackPane {
 		JFXCheckBox confirmedCheckBox = new JFXCheckBox("Confirmed");
 		JFXCheckBox holidayCheckBox = new JFXCheckBox("Holiday");
 		JFXCheckBox cancelledCheckBox = new JFXCheckBox("Cancelled");
-		JFXCheckBox completedCheckBox = new JFXCheckBox("Completed");
 
-		optionalFilterProperty = pendingCheckBox.selectedProperty();
-		standardFilterProperty = confirmedCheckBox.selectedProperty();
-		importantFilterProperty = holidayCheckBox.selectedProperty();
-		criticalFilterProperty = cancelledCheckBox.selectedProperty();
-		completedFilterProperty = completedCheckBox.selectedProperty();
+		confirmedFilterProperty = confirmedCheckBox.selectedProperty();
+		pendingFilterProperty = pendingCheckBox.selectedProperty();
+		holidayFilterProperty = holidayCheckBox.selectedProperty();
+		cancelledFilterProperty = cancelledCheckBox.selectedProperty();
 
 		pendingCheckBox.setStyle(
 				"-jfx-checked-color: #F7C531; -jfx-unchecked-color : #F7C531 ;");
@@ -353,14 +444,11 @@ public class JFXCalendar extends StackPane {
 				"-jfx-checked-color : #E85569; -jfx-unchecked-color : #E85569 ;");
 		holidayCheckBox.setStyle(
 				"-jfx-checked-color : #4C95CE; -jfx-unchecked-color : #4C95CE ;");
-		completedCheckBox.setStyle(
-				"-jfx-checked-color : #344563; -jfx-unchecked-color : #344563 ;");
 
 		pendingCheckBox.fire();
 		confirmedCheckBox.fire();
 		cancelledCheckBox.fire();
 		holidayCheckBox.fire();
-		completedCheckBox.fire();
 
 		FontAwesomeIconView starView = new FontAwesomeIconView(FontAwesomeIcon.STAR);
 		FontAwesomeIconView flagView = new FontAwesomeIconView(FontAwesomeIcon.FLAG);
@@ -394,7 +482,7 @@ public class JFXCalendar extends StackPane {
 		VBox.setMargin(separator, new Insets(0, 0, 0, -45));
 
 		checkBoxPane.getChildren().addAll(displayEventLabel, pendingCheckBox,
-				confirmedCheckBox,cancelledCheckBox, holidayCheckBox, completedCheckBox,
+				confirmedCheckBox, cancelledCheckBox, holidayCheckBox,
 				separator, displayEventLegenda, perWeekEventLabel, perMonthEventLabel, yearlyEventLabel);
 
 		leftPane.getChildren().add(checkBoxPane);
@@ -410,6 +498,7 @@ public class JFXCalendar extends StackPane {
 	}
 
 	private void moveBackward() {
+		LocalDate previousDate = selectedDate;
 		if (currentView == DAY) {
 			selectedDate = selectedDate.minusDays(1);
 			calendarDayView.refreshCalendar(selectedDate);
@@ -420,6 +509,9 @@ public class JFXCalendar extends StackPane {
 			selectedDate = selectedDate.minusMonths(1);
 			calendarMonthView.refreshCalendar(selectedDate);
 		}
+
+		addPasquaAndPasquetta(previousDate);
+
 		updateDate();
 	}
 
@@ -436,35 +528,48 @@ public class JFXCalendar extends StackPane {
 			calendarMonthView.refreshCalendar(selectedDate);
 		}
 
+		addPasquaAndPasquetta(previousDate);
+
+		updateDate();
+	}
+
+	private void addPasquaAndPasquetta(LocalDate previousDate) {
 		// Add non-fixed festivities
 		if(previousDate.getYear() != selectedDate.getYear()) {
 			Calendar pasqua = ItalianHolidaysUtils.getInstance().getEasterForYear(selectedDate.getYear());
 			Calendar pasquetta = ItalianHolidaysUtils.getInstance().getPasquettaForYear(selectedDate.getYear());
 
-			int pasquaMonth = pasqua.get(Calendar.MONTH) + 2;
+			int pasquaMonth = pasqua.get(Calendar.MONTH) + 1;
 			if (pasquaMonth > 12) {
 				pasquaMonth -= 12;
 			}
 
-			// TODO: make action better + fix
 			LocalDate pasquaDate = LocalDate.of(pasqua.get(Calendar.YEAR), pasquaMonth, pasqua.get(Calendar.DAY_OF_MONTH));
-			if(eventManager.getEventsOn(pasquaDate).isEmpty()) {
-				eventManager.addEvent(new CalendarEvent(-1, "Pasqua", 3, "Chiuso", CalendarEvent.HOLIDAY, CalendarEvent.ONE_TIME_EVENT, pasquaDate, "", -1, null));
-			}
+			eventManager.getEventsOn(pasquaDate).removeAll();
+
+			CalendarEvent pasquaEvent = new CalendarEvent("Pasqua", CalendarEvent.HOLIDAY, "Chiuso per festività");
+			pasquaEvent.setId(-1);
+			pasquaEvent.setType(CalendarEvent.ONE_TIME_EVENT);
+			pasquaEvent.setDate(pasquaDate);
+			eventManager.addEvent(pasquaEvent);
 
 
-			int pasquettaMonth = pasquetta.get(Calendar.MONTH) + 2;
+
+			int pasquettaMonth = pasquetta.get(Calendar.MONTH) + 1;
 			if (pasquettaMonth > 12) {
 				pasquettaMonth -= 12;
 			}
 
 			LocalDate pasquettaDate = LocalDate.of(pasquetta.get(Calendar.YEAR), pasquettaMonth, pasquetta.get(Calendar.DAY_OF_MONTH));
-			if(eventManager.getEventsOn(pasquaDate).isEmpty()) {
-				eventManager.addEvent(new CalendarEvent(-1, "Pasquetta", 3, "Chiuso", CalendarEvent.HOLIDAY, CalendarEvent.ONE_TIME_EVENT, pasquettaDate, "", -1, null));
-			}
-		}
+			eventManager.getEventsOn(pasquaDate).removeAll();
 
-		updateDate();
+			CalendarEvent pasquettaEvent = new CalendarEvent("Pasquetta", CalendarEvent.HOLIDAY, "Chiuso per festività");
+			pasquettaEvent.setId(-1);
+			pasquettaEvent.setType(CalendarEvent.ONE_TIME_EVENT);
+			pasquettaEvent.setDate(pasquettaDate);
+			eventManager.addEvent(pasquettaEvent);
+
+		}
 	}
 
 	public void removeEvent(CalendarEvent event) {
@@ -475,20 +580,20 @@ public class JFXCalendar extends StackPane {
 		return eventManager.getEventsOn(LocalDate.of(year, month, dayOfMonth));
 	}
 
-	public BooleanProperty getOptionalFilterProperty() {
-		return optionalFilterProperty;
+	public BooleanProperty getConfirmedFilterProperty() {
+		return confirmedFilterProperty;
 	}
 
-	public BooleanProperty getStandardFilterProperty() {
-		return standardFilterProperty;
+	public BooleanProperty getPendingFilterProperty() {
+		return pendingFilterProperty;
 	}
 
-	public BooleanProperty getImportantFilterProperty() {
-		return importantFilterProperty;
+	public BooleanProperty getHolidayFilterProperty() {
+		return holidayFilterProperty;
 	}
 
-	public BooleanProperty getCriticalFilterProperty() {
-		return criticalFilterProperty;
+	public BooleanProperty getCancelledFilterProperty() {
+		return cancelledFilterProperty;
 	}
 
 	public BooleanProperty getCompletedFilterProperty() {

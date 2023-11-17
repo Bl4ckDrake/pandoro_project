@@ -43,11 +43,12 @@ public class AddEventDialogController {
 
 	// Booking data fields
 	@FXML
-	private DatePicker dateField;
+	private DatePicker startDateField;
+	@FXML
+	private DatePicker endDateField;
 
 	@FXML
 	private JFXTextField startTimeField;
-
 	@FXML
 	private JFXTextField endTimeField;
 
@@ -147,7 +148,8 @@ public class AddEventDialogController {
 
 
 	public void clear() {
-		dateField.setValue(null);
+		startDateField.setValue(null);
+		endDateField.setValue(null);
 		startTimeField.setText("");
 		endTimeField.setText("");
 		nameField.setText("");
@@ -181,13 +183,14 @@ public class AddEventDialogController {
 		}
 
         // booking
-		LocalDate date = dateField.getValue();
+		LocalDate startLocalDate = startDateField.getValue();
+		LocalDate endLocalDate = endDateField.getValue();
 		Date startDate;
 		Date endDate;
 
 		try {
-			startDate = new SimpleDateFormat("dd/MM/yyyy HH:ss").parse(date.getDayOfMonth() + "/" + date.getMonthValue() + "/" + date.getYear() + " " + startTimeField.getText());
-			endDate = new SimpleDateFormat("dd/MM/yyyy HH:ss").parse(date.getDayOfMonth() + "/" + date.getMonthValue() + "/" + date.getYear() + " " + endTimeField.getText());
+			startDate = new SimpleDateFormat("dd/MM/yyyy HH:ss").parse(startLocalDate.getDayOfMonth() + "/" + startLocalDate.getMonthValue() + "/" + startLocalDate.getYear() + " " + startTimeField.getText());
+			endDate = new SimpleDateFormat("dd/MM/yyyy HH:ss").parse(endLocalDate.getDayOfMonth() + "/" + endLocalDate.getMonthValue() + "/" + endLocalDate.getYear() + " " + endTimeField.getText());
 		} catch (ParseException e) {
 			e.printStackTrace();
 			return null;
@@ -202,10 +205,11 @@ public class AddEventDialogController {
 		// event
 		CalendarEvent event = null;
 
-		if (dateField.getValue() != null) {
-			event = new CalendarEvent(user.getName() + " " + user.getSurname(), CalendarEvent.PENDING, "Start time: " + startTimeField.getText() + ", End time: " + endTimeField.getText());
+		if (startDateField.getValue() != null && endDateField.getValue() != null) {
+			event = new CalendarEvent(user.getName() + " " + user.getSurname(), CalendarEvent.PENDING, "Start time: " + startDate.toString() + ", End time: " + endDate.toString());
+			event.setId(bookingId);
 			event.setType(CalendarEvent.ONE_TIME_EVENT);
-			event.setDate(dateField.getValue());
+			event.setDate(startDateField.getValue());
 		}
 
 		return event;

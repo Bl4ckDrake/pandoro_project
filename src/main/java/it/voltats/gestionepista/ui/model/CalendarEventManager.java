@@ -14,7 +14,6 @@ public class CalendarEventManager {
 	}
 
 	public void addEvent(CalendarEvent event) {
-		System.out.println(event.toString());
 		eventList.add(event);
 	}
 

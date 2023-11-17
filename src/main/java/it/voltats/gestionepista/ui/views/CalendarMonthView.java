@@ -199,64 +199,52 @@ public class CalendarMonthView extends CalendarView {
 		int type5Sum = 0;
 
 		for (int i = 0; i < eventList.size(); i++) {
-			if (eventList.get(i).isCompleted()) {
-				type5Sum++;
+			if (eventList.get(i).getPriority() == CalendarEvent.CONFIRMED) {
+				type1Sum++;
+			} else if (eventList.get(i).getPriority() == CalendarEvent.PENDING) {
+				type2Sum++;
+			} else if (eventList.get(i).getPriority() == CalendarEvent.HOLIDAY) {
+				type3Sum++;
 			} else {
-				if (eventList.get(i).getPriority() == CalendarEvent.CONFIRMED) {
-					type1Sum++;
-				} else if (eventList.get(i).getPriority() == CalendarEvent.PENDING) {
-					type2Sum++;
-				} else if (eventList.get(i).getPriority() == CalendarEvent.HOLIDAY) {
-					type3Sum++;
-				} else {
-					type4Sum++;
-				}
+				type4Sum++;
 			}
 
 		}
 
 		if (type1Sum > 0) {
 			VBox box = createResizableBox(eventRootPane, extraSpacing, type1Sum,
-					CalendarEvent.CONFIRMED);
-			box.visibleProperty().bind(super.rootParentPane.getOptionalFilterProperty());
-			box.managedProperty().bind(super.rootParentPane.getOptionalFilterProperty());
+					CalendarEvent.PENDING);
+			box.visibleProperty().bind(super.rootParentPane.getConfirmedFilterProperty());
+			box.managedProperty().bind(super.rootParentPane.getConfirmedFilterProperty());
 
 			eventCountPane.getChildren().add(box);
 		}
 
 		if (type2Sum > 0) {
 			VBox box = createResizableBox(eventRootPane, extraSpacing, type2Sum,
-					CalendarEvent.PENDING);
-			box.visibleProperty().bind(super.rootParentPane.getStandardFilterProperty());
-			box.managedProperty().bind(super.rootParentPane.getStandardFilterProperty());
+					CalendarEvent.HOLIDAY);
+			box.visibleProperty().bind(super.rootParentPane.getPendingFilterProperty());
+			box.managedProperty().bind(super.rootParentPane.getPendingFilterProperty());
 			eventCountPane.getChildren().add(box);
 		}
 
 		if (type3Sum > 0) {
 			VBox box = createResizableBox(eventRootPane, extraSpacing, type3Sum,
-					CalendarEvent.HOLIDAY);
-			box.visibleProperty().bind(super.rootParentPane.getImportantFilterProperty());
-			box.managedProperty().bind(super.rootParentPane.getImportantFilterProperty());
+					CalendarEvent.CONFIRMED);
+			box.visibleProperty().bind(super.rootParentPane.getHolidayFilterProperty());
+			box.managedProperty().bind(super.rootParentPane.getHolidayFilterProperty());
 			eventCountPane.getChildren().add(box);
 		}
 
 		if (type4Sum > 0) {
 			VBox box = createResizableBox(eventRootPane, extraSpacing, type4Sum,
 					CalendarEvent.CANCELLED);
-			box.visibleProperty().bind(super.rootParentPane.getCriticalFilterProperty());
-			box.managedProperty().bind(super.rootParentPane.getCriticalFilterProperty());
+			box.visibleProperty().bind(super.rootParentPane.getCancelledFilterProperty());
+			box.managedProperty().bind(super.rootParentPane.getCancelledFilterProperty());
 			eventCountPane.getChildren().add(box);
 		}
 
-		if (type5Sum > 0) {
-			VBox box = createResizableBox(eventRootPane, extraSpacing, type5Sum,
-					CalendarEvent.COMPLETED);
-			box.visibleProperty().bind(super.rootParentPane.getCompletedFilterProperty());
-			box.managedProperty().bind(super.rootParentPane.getCompletedFilterProperty());
-			eventCountPane.getChildren().add(box);
-		}
-
-		return eventCountPane;
+        return eventCountPane;
 	}
 
 	private VBox createResizableBox(VBox eventRootPane, double padding, int eventCount,

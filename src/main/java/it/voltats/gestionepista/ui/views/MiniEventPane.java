@@ -36,7 +36,7 @@ public class MiniEventPane extends VBox {
 		int priority = event.getPriority();
 		String title = event.getTitle();
 
-		if (event.isCompleted()) {
+		/*if (event.isCompleted()) {
 			priorityBox.setId("CompletedPriorityBox");
 			setId("completedEvent");
 		} else {
@@ -53,6 +53,19 @@ public class MiniEventPane extends VBox {
 				priorityBox.setId("urgentPriorityBox");
 				setId("urgentEvent");
 			}
+		}*/
+		if (priority == CalendarEvent.HOLIDAY) {
+			priorityBox.setId("optionalPriorityBox");
+			setId("optionalEvent");
+		} else if (priority == CalendarEvent.CONFIRMED) {
+			priorityBox.setId("standardPriorityBox");
+			setId("standardEvent");
+		} else if (priority == CalendarEvent.PENDING) {
+			priorityBox.setId("importantPriorityBox");
+			setId("importantEvent");
+		} else {
+			priorityBox.setId("urgentPriorityBox");
+			setId("urgentEvent");
 		}
 
 		titleLabel.setText(title);

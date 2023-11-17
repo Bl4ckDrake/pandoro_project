@@ -54,21 +54,7 @@ public class EventPane extends VBox {
 		setSpacing(10);
 		setPrefHeight(100);
 
-		JFXCheckBox completedCheckButton = new JFXCheckBox();
-		completedCheckButton.setSelected(event.isCompleted());
-		completedCheckButton.setStyle(
-				"-jfx-checked-color : #344563; -jfx-unchecked-color : #344563 ;");
-		HBox.setMargin(completedCheckButton, new Insets(3, 0, 0, 0));
-
-		completedCheckButton.setOnAction(e -> {
-			event.setCompleted(completedCheckButton.isSelected());
-			if (calendarDayView != null) {
-				calendarDayView.refreshCalendar(calendarDayView.currectDate);
-			} else {
-				refreshStyle();
-				JFXCalendar.todayButton.fire();
-			}
-		});
+		HBox.setMargin(this, new Insets(3, 0, 0, 0));
 
 		priorityBox = new VBox();
 		priorityBox.setAlignment(Pos.CENTER);
@@ -76,7 +62,7 @@ public class EventPane extends VBox {
 		priorityBox.setPrefSize(125, 25);
 		priorityBox.setMaxSize(125, 25);
 
-		HBox topPane = new HBox(priorityBox, completedCheckButton);
+		HBox topPane = new HBox(priorityBox);
 		topPane.setSpacing(7);
 
 		getStylesheets().add(this.getClass().getResource("/style/EventPaneStyle.css")
@@ -87,13 +73,7 @@ public class EventPane extends VBox {
 
 		priorityBox.getChildren().add(priorityLabel);
 
-		if (event.isCompleted()) {
-			priorityLabel.setText("Completed");
-			priorityBox.setId("CompletedPriorityBox");
-			setId("completedEvent");
-		} else {
-			refreshStyle();
-		}
+		refreshStyle();
 
 		titleLabel.setText("Title : " + title);
 		messageLabel.setText("Description : " + text);
@@ -113,9 +93,7 @@ public class EventPane extends VBox {
 		editButton
 				.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PENCIL).size(18));
 
-		editButton.setOnAction(e -> {
-			editEvent();
-		});
+		editButton.setOnAction(e -> editEvent());
 
 		editButton.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
 
@@ -138,41 +116,42 @@ public class EventPane extends VBox {
 		titleLabel.setText("Title : " + event.getTitle());
 		messageLabel.setText("Description : " + event.getDescription());
 
-		if (event.isCompleted()) {
-			priorityLabel.setText("Completed");
-			priorityBox.setId("CompletedPriorityBox");
-			setId("completedEvent");
+		int priority = event.getPriority();
+		if (priority == CalendarEvent.HOLIDAY) {
+			priorityLabel.setText("Holiday");
+			priorityBox.setId("optionalPriorityBox");
+			setId("optionalEvent");
+		} else if (priority == CalendarEvent.CONFIRMED) {
+			priorityLabel.setText("Confirmed");
+			priorityBox.setId("standardPriorityBox");
+			setId("standardEvent");
+		} else if (priority == CalendarEvent.PENDING) {
+			priorityLabel.setText("Pending");
+			priorityBox.setId("importantPriorityBox");
+			setId("importantEvent");
 		} else {
-			int priority = event.getPriority();
-			if (priority == CalendarEvent.CONFIRMED) {
-				priorityLabel.setText("Optional");
-				priorityBox.setId("optionalPriorityBox");
-				setId("optionalEvent");
-			} else if (priority == CalendarEvent.PENDING) {
-				priorityLabel.setText("Normal");
-				priorityBox.setId("standardPriorityBox");
-				setId("standardEvent");
-			} else if (priority == CalendarEvent.HOLIDAY) {
-				priorityLabel.setText("Important");
-				priorityBox.setId("importantPriorityBox");
-				setId("importandEvent");
-			} else {
-				priorityLabel.setText("Urgent");
-				priorityBox.setId("urgentPriorityBox");
-				setId("urgentEvent");
-			}
+			priorityLabel.setText("Cancelled");
+			priorityBox.setId("urgentPriorityBox");
+			setId("urgentEvent");
 		}
 	}
 
+
 	private void editEvent() {
+
+		if (event.getPriority() == CalendarEvent.HOLIDAY) {
+			DialogHandler.showErrorDialog("Holiday event cannot be edited");
+			return;
+		}
+
 		JFXDialog dialog = new JFXDialog();
 		JFXDialogLayout content = new JFXDialogLayout();
 
 		FXMLLoader eventDetailsPaneLoader = new FXMLLoader(this.getClass()
-				.getResource("/views/fxml/EventDetailPane.fxml"));
+				.getResource("/fxml/EventDetailPane.fxml"));
 
 		try {
-			HBox mainPane = eventDetailsPaneLoader.load();
+			VBox mainPane = eventDetailsPaneLoader.load();
 			content.setBody(mainPane);
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -195,24 +174,11 @@ public class EventPane extends VBox {
 				if (calendarDayView != null) {
 					calendarDayView.refreshCalendar(calendarDayView.currectDate);
 				} else {
-					if (event.isCompleted()) {
-						priorityLabel.setText("Ολοκληρωμένο");
-						priorityBox.setId("CompletedPriorityBox");
-						setId("completedEvent");
-					} else {
-						refreshStyle();
-					}
+					refreshStyle();
 					JFXCalendar.todayButton.fire();
 				}
 			}
 		});
-	}
-
-	private void removeEvent() {
-		if (DialogHandler.showConfirmationDialog("Delete selected event")) {
-			eventManager.removeEvent(event);
-			parentPane.getChildren().remove(this);
-		}
 	}
 
 	public void setEventParentPane(VBox parentPane) {

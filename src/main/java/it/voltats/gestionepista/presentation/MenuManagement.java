@@ -207,14 +207,14 @@ public class MenuManagement {
                 case 11:
                     //import bookings and users
                     for(Booking book: csvUtil.importBookingsFromCSV("bookings.csv")){
-                        if (bookingBusiness.insert(book))
+                        if (bookingBusiness.insert(book) != -1)
                             System.out.println("Prenotazione inserita nel database!");
                         else
                             System.err.println("\n\n" + "Orario non disponibile!" + "\n\n");
                     }
 
                     for(User us: csvUtil.importUserListFromCSV("users.csv")){
-                        if (userBusiness.insert(us))
+                        if (userBusiness.insert(us) != -1)
                             System.out.println("Cliente inserito nel database!");
                         else
                             System.err.println("\n\n" + "Cliente gia' presente o " +

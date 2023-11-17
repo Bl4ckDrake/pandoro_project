@@ -98,33 +98,26 @@ public class CalendarWeekView extends CalendarView {
 					rootParentPane.selectDate(date);
 				});
 
-				if (event.isCompleted()) {
+				if (eventPriority == CalendarEvent.CONFIRMED) {
 					eventBox.visibleProperty()
-							.bind(super.rootParentPane.getCompletedFilterProperty());
+							.bind(super.rootParentPane.getConfirmedFilterProperty());
 					eventBox.managedProperty()
-							.bind(super.rootParentPane.getCompletedFilterProperty());
+							.bind(super.rootParentPane.getConfirmedFilterProperty());
+				} else if (eventPriority == CalendarEvent.PENDING) {
+					eventBox.visibleProperty()
+							.bind(super.rootParentPane.getPendingFilterProperty());
+					eventBox.managedProperty()
+							.bind(super.rootParentPane.getPendingFilterProperty());
+				} else if (eventPriority == CalendarEvent.HOLIDAY) {
+					eventBox.visibleProperty()
+							.bind(super.rootParentPane.getHolidayFilterProperty());
+					eventBox.managedProperty()
+							.bind(super.rootParentPane.getHolidayFilterProperty());
 				} else {
-					if (eventPriority == CalendarEvent.CONFIRMED) {
-						eventBox.visibleProperty()
-								.bind(super.rootParentPane.getOptionalFilterProperty());
-						eventBox.managedProperty()
-								.bind(super.rootParentPane.getOptionalFilterProperty());
-					} else if (eventPriority == CalendarEvent.PENDING) {
-						eventBox.visibleProperty()
-								.bind(super.rootParentPane.getStandardFilterProperty());
-						eventBox.managedProperty()
-								.bind(super.rootParentPane.getStandardFilterProperty());
-					} else if (eventPriority == CalendarEvent.HOLIDAY) {
-						eventBox.visibleProperty()
-								.bind(super.rootParentPane.getImportantFilterProperty());
-						eventBox.managedProperty()
-								.bind(super.rootParentPane.getImportantFilterProperty());
-					} else {
-						eventBox.visibleProperty()
-								.bind(super.rootParentPane.getCriticalFilterProperty());
-						eventBox.managedProperty()
-								.bind(super.rootParentPane.getCriticalFilterProperty());
-					}
+					eventBox.visibleProperty()
+							.bind(super.rootParentPane.getCancelledFilterProperty());
+					eventBox.managedProperty()
+							.bind(super.rootParentPane.getCancelledFilterProperty());
 				}
 
 				((VBox) daysPane.getChildren().get(index)).getChildren().add(eventBox);

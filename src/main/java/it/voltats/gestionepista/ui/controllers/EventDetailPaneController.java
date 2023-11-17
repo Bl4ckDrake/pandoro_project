@@ -3,12 +3,11 @@ package it.voltats.gestionepista.ui.controllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 
+import it.voltats.gestionepista.business.BookingBusiness;
+import it.voltats.gestionepista.db.entity.Booking;
+import it.voltats.gestionepista.db.entity.model.BookingStatus;
 import it.voltats.gestionepista.ui.model.CalendarEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 
 public class EventDetailPaneController {
 
@@ -18,35 +17,16 @@ public class EventDetailPaneController {
 	@FXML
 	private JFXButton closeDialogButton;
 
-	@FXML
-	private TextField titleEventField;
 
 	@FXML
-	private DatePicker eventDatePicker;
+	private JFXButton confirmedEventButton;
 
 	@FXML
-	private TextArea eventDescriptionArea;
+	private JFXButton pendingEventButton;
 
 	@FXML
-	private JFXButton optionalEventButton;
+	private JFXButton cancelledEventButton;
 
-	@FXML
-	private JFXButton standardEventButton;
-
-	@FXML
-	private JFXButton importantEventButton;
-
-	@FXML
-	private JFXButton criticalEventButton;
-
-	@FXML
-	private Label dateL;
-
-	@FXML
-	private Label typeLabel;
-
-	@FXML
-	private TextField typeField;
 
 	private JFXDialog dialog;
 
@@ -56,6 +36,8 @@ public class EventDetailPaneController {
 
 	private boolean hasChanged = false;
 
+	private BookingBusiness bookingBusiness = new BookingBusiness();
+
 	@FXML
 	private void initialize() {
 
@@ -63,31 +45,38 @@ public class EventDetailPaneController {
 			dialog.close();
 		});
 
-		optionalEventButton.setOnAction(e -> {
+
+		confirmedEventButton.setOnAction(e -> {
 			selectPriority(CalendarEvent.CONFIRMED);
 		});
 
-		standardEventButton.setOnAction(e -> {
+		pendingEventButton.setOnAction(e -> {
 			selectPriority(CalendarEvent.PENDING);
 		});
 
-		importantEventButton.setOnAction(e -> {
-			selectPriority(CalendarEvent.HOLIDAY);
-		});
-
-		criticalEventButton.setOnAction(e -> {
+		cancelledEventButton.setOnAction(e -> {
 			selectPriority(CalendarEvent.CANCELLED);
 		});
 
 		updateEventButton.setOnAction(e -> {
 			// update event information
+			Booking booking = bookingBusiness.findById(event.getId());
 
-			event.setTitle(titleEventField.getText());
-			event.setDescription(eventDescriptionArea.getText());
-			event.setPriority(selectedPriority);
-			if (event.getType() == CalendarEvent.ONE_TIME_EVENT) {
-				event.setDate(eventDatePicker.getValue());
+			switch (selectedPriority) {
+				case CalendarEvent.CONFIRMED:
+					booking.setStatus(BookingStatus.CONFIRMED);
+					break;
+				case CalendarEvent.PENDING:
+					booking.setStatus(BookingStatus.PENDING);
+					break;
+				case CalendarEvent.CANCELLED:
+					booking.setStatus(BookingStatus.STORED);
+					break;
 			}
+
+			bookingBusiness.update(booking);
+
+			event.setPriority(selectedPriority);
 
 			hasChanged = true;
 			dialog.close();
@@ -96,55 +85,30 @@ public class EventDetailPaneController {
 
 	public void loadEvent(CalendarEvent event) {
 		this.event = event;
-		titleEventField.setText(event.getTitle());
-		eventDescriptionArea.setText(event.getDescription());
 
 		selectPriority(event.getPriority());
-
-		if (event.getType() == CalendarEvent.ONE_TIME_EVENT) {
-			typeLabel.setText("Date");
-			eventDatePicker.setValue(event.getDate());
-
-		} else {
-			eventDatePicker.setVisible(false);
-			typeLabel.setText("Event type");
-
-			typeField.setVisible(true);
-			if (event.getPeriodicType() == CalendarEvent.PER_WEEK) {
-				typeField.setText("Weekly");
-			} else if (event.getPeriodicType() == CalendarEvent.PER_MONTH) {
-				typeField.setText("Monthly");
-			} else {
-				typeField.setText("Yearly");
-			}
-		}
 	}
 
 	private void clearPriorityOptions() {
-		optionalEventButton
+		confirmedEventButton
 				.setStyle("-fx-background-color: #BDC6CC; -fx-background-radius:15px; ");
-		standardEventButton
+		pendingEventButton
 				.setStyle("-fx-background-color: #BDC6CC; -fx-background-radius:15px; ");
-		importantEventButton
-				.setStyle("-fx-background-color: #BDC6CC; -fx-background-radius:15px; ");
-		criticalEventButton
+		cancelledEventButton
 				.setStyle("-fx-background-color: #BDC6CC; -fx-background-radius:15px; ");
 	}
 
 	private void selectPriority(int priority) {
 		clearPriorityOptions();
 
-		if (priority == 1) {
-			optionalEventButton.setStyle(
-					"-fx-background-color: #4C95CE; -fx-background-radius:15px; ");
-		} else if (priority == 2) {
-			standardEventButton.setStyle(
+		if (priority == CalendarEvent.CONFIRMED) {
+			confirmedEventButton.setStyle(
 					"-fx-background-color: #81C457; -fx-background-radius:15px; ");
-		} else if (priority == 3) {
-			importantEventButton.setStyle(
+		} else if (priority == CalendarEvent.PENDING) {
+			pendingEventButton.setStyle(
 					"-fx-background-color: #F7C531; -fx-background-radius:15px; ");
-		} else {
-			criticalEventButton.setStyle(
+		} else if(priority == CalendarEvent.CANCELLED) {
+			cancelledEventButton.setStyle(
 					"-fx-background-color: #E85569; -fx-background-radius:15px; ");
 		}
 		this.selectedPriority = priority;

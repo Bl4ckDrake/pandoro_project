@@ -59,7 +59,7 @@ public class CalendarEvent {
 	private LocalDate yearlyDate;
 
 	// if task is completed
-	private int isCompleted = -1;
+	//private int isCompleted = -1;
 
 	/**
 	 * Constructor
@@ -226,13 +226,13 @@ public class CalendarEvent {
 		return false;
 	}
 
-	public void setCompleted(boolean selected) {
+	/*public void setCompleted(boolean selected) {
 		isCompleted = selected ? 1 : -1;
-	}
+	}*/
 
-	public boolean isCompleted() {
+	/*public boolean isCompleted() {
 		return isCompleted == 1 ? true : false;
-	}
+	}*/
 
 	@Override
 	public String toString() {
@@ -247,7 +247,6 @@ public class CalendarEvent {
 				", daysInWeek='" + daysInWeek + '\'' +
 				", placeInMonth=" + placeInMonth +
 				", yearlyDate=" + yearlyDate +
-				", isCompleted=" + isCompleted +
 				'}';
 	}
 }
