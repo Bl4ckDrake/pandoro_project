@@ -157,6 +157,9 @@ public class BookingRepoImpl implements BookingRepo {
         if((requestedEndDate.getTime() - requestedStartDate.getTime())/(60*60*1000) > 8)
             return false;
 
+        if(requestedStartDate.getHours() < 8 || requestedStartDate.getHours() == 23 || requestedEndDate.getHours() <= 8)
+            return false;
+
         final String QUERY = "SELECT * FROM booking";
         List<Booking> bookings = new ArrayList<>();
 
