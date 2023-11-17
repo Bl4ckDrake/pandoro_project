@@ -70,7 +70,7 @@
 
 
 
-#importandEvent{
+#importantEvent{
 	-fx-border-color: #F8D566; 
 	-fx-border-width: 0 0 0 5; 
 	-fx-background-color: WHITE;
@@ -79,7 +79,7 @@
 }
 
 
-#importandEvent:hover{
+#importantEvent:hover{
 	-fx-border-color: #F8D566; 
 	-fx-border-width: 0 0 0 5; 
 	-fx-background-color: WHITE;
