@@ -10,6 +10,7 @@ import it.voltats.gestionepista.db.entity.Booking;
 import it.voltats.gestionepista.db.entity.User;
 import it.voltats.gestionepista.db.impl.BookingRepoImpl;
 import it.voltats.gestionepista.db.impl.UserRepoImpl;
+import it.voltats.gestionepista.ui.dialog.DialogHandler;
 import it.voltats.gestionepista.util.CSVUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -133,6 +134,7 @@ public class CSVDialogController {
                 for (Booking booking: importedBookings) {
                     bookingRepo.insert(booking);
                 }
+                DialogHandler.showConfirmationDialog("Imported " + importedBookings.size() + " bookings");
                 return;
             }
 
@@ -141,6 +143,7 @@ public class CSVDialogController {
                 for(User user: importedUsers) {
                     userRepo.insert(user);
                 }
+                DialogHandler.showConfirmationDialog("Imported " + importedUsers.size() + " users");
             }
         });
 
@@ -153,11 +156,13 @@ public class CSVDialogController {
 
             if(selectedTable == TABLE_BOOKING) {
                 csvUtil.exportBookingsToCSV(pathChoice.getAbsolutePath() + "/" + exportTextField.getText(), bookingRepo.findAll());
+                DialogHandler.showConfirmationDialog("Exported " + bookingRepo.findAll().size() + " bookings to " + pathChoice.getAbsolutePath() + "/" + exportTextField.getText());
                 return;
             }
 
             if(selectedTable == TABLE_USER) {
                 csvUtil.exportUserListToCSV(pathChoice.getAbsolutePath() + "/" + exportTextField.getText(), userRepo.findAll());
+                DialogHandler.showConfirmationDialog("Exported " + userRepo.findAll().size() + " users to " + pathChoice.getAbsolutePath() + "/" + exportTextField.getText());
             }
         });
     }
