@@ -1,6 +1,6 @@
 # Pandoro Project
 
-## Introduzione
+## Presentazione
 
 Benvenuto nel **Pandoro Project**, un software per la gestione delle prenotazioni di una pista da corsa. Questo documento fornisce una panoramica dei requisiti, delle funzionalità e dell'architettura del sistema.
 
