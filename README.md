@@ -24,42 +24,42 @@ Benvenuto nel **Pandoro Project**, un software per la gestione delle prenotazion
 
 ## 2. Requisiti Funzionali - Casi d'Uso
 
-  - a. Aggiunta di una prenotazione:
+  - Aggiunta di una prenotazione:
       Attori: dipendenti;
       Descrizione: i dipendenti inseriscono i dati del cliente e della prenotazione, e quest'ultima viene registrata dal sistema;
       Scenari alternativi: se l'orario è già prenotato o il cliente non raggiunge l'età minima il sistema stampa un messaggio di avviso;
   
-  - b. Rimozione di una prenotazione:
+  - Rimozione di una prenotazione:
       Attori: dipendenti;
       Descrizione: i dipendenti inseriscono l'ID della prenotazione da rimuovere, ed il sistema procede contrassegnare la prenotazione come cancellata;
       Scenari alternativi: nel caso in cui la prenotazione non dovesse essere presente, o nel caso in cui l'operazione di cancellazione venga effettuata il giorno stesso rispetto alla data prenotata, il sistema provvede a stampare un messaggio di avviso.
   
-  - c. Modifica di una prenotazione:
+  - Modifica di una prenotazione:
       Attori: dipendenti;
       Descrizione: i dipendenti inseriscono l'ID della prenotazione da modificare, ed il sistema procede all'aggiornamento dello stato di pagamento (confermata/pagata o da pagare);
       Scenari alternativi: nel caso in cui la prenotazione non dovesse essere presente il sistema provvede a stampare un messaggio di avviso.
   
-  - d. Visualizzazione delle prenotazioni per giornata
+  - Visualizzazione delle prenotazioni per giornata
       Attori: dipendenti;
       Descrizione: i dipendenti inseriscono la data che vogliono visualizzare ed il sistema provvede a visualizzare la lista di prenotazioni relative alla giornata;
       Scenari alternativi: nel caso in cui la data non dovesse essere valida o non contenga prenotazioni il sistema provvede a stampare un messaggio di avviso.
   
-  - e. Visualizzazione di una prenotazione per ID
+  - Visualizzazione di una prenotazione per ID
       Attori: dipendenti;
       Descrizione: i dipendenti inseriscono l'ID della prenotazione da visualizzare e il sistema provvede a stampare i dati relativi a quella prenotazione;
       Scenari alternativi: nel caso in cui dovessero esserci prenotazioni con l'ID inserito il sistema provvede a stampare un messaggio di avviso.
   
-  - f. Visualizzazione delle prenotazioni per ID di un utente
+  - Visualizzazione delle prenotazioni per ID di un utente
       Attori: dipendenti;
       Descrizione: i dipendenti inseriscono l'ID del cliente di cui vogliono visualizzare le prenotazioni;
       Scenari alternativi: nel caso in cui non dovessero esistere clienti con l'ID inserito il sistema provvede a stampare un messaggio di avviso.
 
 ## 3. Requisiti non funzionali 
 
-  - a. Salvataggio dei dati:
+  - Salvataggio dei dati:
       I dati relativi a clienti e prenotazioni possono essere salvati in un file con estensione .csv, ed eventualmente anche in un database.
 
-  - b. Interfaccia utente:
+  - Interfaccia utente:
       L'interfaccia fornita all'utilizzatore del sistema può essere su console o grafica.
 
 ## 4. Architettura del Sistema
