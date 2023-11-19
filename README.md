@@ -77,7 +77,7 @@ Benvenuto nel **Pandoro Project**, un software per la gestione delle prenotazion
 
 ## 7. Test del software
 
-![Google Fogli per la tabella di testing](https://docs.google.com/spreadsheets/d/1VC72SiuOT3WFe17jWZ1_F-meQi5BZ-pQ/edit#gid=169976682)
+![Tabella di testing](https://github.com/Bl4ckDrake/pandoro_project/blob/master/pandoro_project_tests.xlsx)
 
 ## Requisiti e Guida per l'uso
 
