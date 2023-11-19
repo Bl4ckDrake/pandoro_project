@@ -1,6 +1,6 @@
-# Pandoro Project
+# **Pandoro Project**
 
-## Presentazione
+## **Presentazione**
 
 Benvenuto nel **Pandoro Project**, un software per la gestione delle prenotazioni di una pista da corsa. Questo documento fornisce una panoramica dei requisiti, delle funzionalità e dell'architettura del sistema.
 
@@ -8,7 +8,7 @@ Benvenuto nel **Pandoro Project**, un software per la gestione delle prenotazion
 
 ---
 
-## 1. Introduzione
+## **1. Introduzione**
 
   È richiesta l'implementazione di un software necessario a semplificare la gestione di una pista da corse, situata ad Imola, per i dipendenti. 
   I clienti, i quali devono avere un minimo di 18 anni, possono effettuare le prenotazioni a partire dalle 08:00 fino alle 24:00, con una tariffa oraria di 1200. 
@@ -22,37 +22,37 @@ Benvenuto nel **Pandoro Project**, un software per la gestione delle prenotazion
 
   Inoltre, il limite massimo di ore da poter prenotare equivale ad 8. Per quanto riguarda la cancellazione di una prenotazione, essa può essere effettuata entro un giorno rispetto alla data prenotata.
 
-## 2. Requisiti Funzionali - Casi d'Uso
+## **2. Requisiti Funzionali - Casi d'Uso**
 
-  - Aggiunta di una prenotazione:
-      Attori: dipendenti;
-      Descrizione: i dipendenti inseriscono i dati del cliente e della prenotazione, e quest'ultima viene registrata dal sistema;
-      Scenari alternativi: se l'orario è già prenotato o il cliente non raggiunge l'età minima il sistema stampa un messaggio di avviso;
+  - Aggiunta di una prenotazione: <br>
+      **Attori:** dipendenti; <br>
+      **Descrizione:** i dipendenti inseriscono i dati del cliente e della prenotazione, e quest'ultima viene registrata dal sistema; <br>
+      **Scenari alternativi:** se l'orario è già prenotato o il cliente non raggiunge l'età minima il sistema stampa un messaggio di avviso; <br>
   
-  - Rimozione di una prenotazione:
-      Attori: dipendenti;
-      Descrizione: i dipendenti inseriscono l'ID della prenotazione da rimuovere, ed il sistema procede contrassegnare la prenotazione come cancellata;
-      Scenari alternativi: nel caso in cui la prenotazione non dovesse essere presente, o nel caso in cui l'operazione di cancellazione venga effettuata il giorno stesso rispetto alla data prenotata, il sistema provvede a stampare un messaggio di avviso.
+  - Rimozione di una prenotazione: <br>
+      **Attori:** dipendenti; <br>
+      **Descrizione:** i dipendenti inseriscono l'ID della prenotazione da rimuovere, ed il sistema procede contrassegnare la prenotazione come cancellata;<br>
+      **Scenari alternativi:** nel caso in cui la prenotazione non dovesse essere presente, o nel caso in cui l'operazione di cancellazione venga effettuata il giorno stesso rispetto alla data prenotata, il sistema provvede a stampare un messaggio di avviso.<br>
   
-  - Modifica di una prenotazione:
-      Attori: dipendenti;
-      Descrizione: i dipendenti inseriscono l'ID della prenotazione da modificare, ed il sistema procede all'aggiornamento dello stato di pagamento (confermata/pagata o da pagare);
-      Scenari alternativi: nel caso in cui la prenotazione non dovesse essere presente il sistema provvede a stampare un messaggio di avviso.
+  - Modifica di una prenotazione: <br>
+      **Attori:** dipendenti;<br>
+      **Descrizione:** i dipendenti inseriscono l'ID della prenotazione da modificare, ed il sistema procede all'aggiornamento dello stato di pagamento (confermata/pagata o da pagare);<br>
+      **Scenari alternativi:** nel caso in cui la prenotazione non dovesse essere presente il sistema provvede a stampare un messaggio di avviso.<br>
   
-  - Visualizzazione delle prenotazioni per giornata
-      Attori: dipendenti;
-      Descrizione: i dipendenti inseriscono la data che vogliono visualizzare ed il sistema provvede a visualizzare la lista di prenotazioni relative alla giornata;
-      Scenari alternativi: nel caso in cui la data non dovesse essere valida o non contenga prenotazioni il sistema provvede a stampare un messaggio di avviso.
+  - Visualizzazione delle prenotazioni per giornata: <br>
+      **Attori:** dipendenti;<br>
+      **Descrizione:** i dipendenti inseriscono la data che vogliono visualizzare ed il sistema provvede a visualizzare la lista di prenotazioni relative alla giornata;<br>
+      **Scenari alternativi:** nel caso in cui la data non dovesse essere valida o non contenga prenotazioni il sistema provvede a stampare un messaggio di avviso.<br>
   
-  - Visualizzazione di una prenotazione per ID
-      Attori: dipendenti;
-      Descrizione: i dipendenti inseriscono l'ID della prenotazione da visualizzare e il sistema provvede a stampare i dati relativi a quella prenotazione;
-      Scenari alternativi: nel caso in cui dovessero esserci prenotazioni con l'ID inserito il sistema provvede a stampare un messaggio di avviso.
+  - Visualizzazione di una prenotazione per ID: <br>
+      **Attori:** dipendenti;<br>
+      **Descrizione:** i dipendenti inseriscono l'ID della prenotazione da visualizzare e il sistema provvede a stampare i dati relativi a quella prenotazione;<br>
+      **Scenari alternativi:** nel caso in cui dovessero esserci prenotazioni con l'ID inserito il sistema provvede a stampare un messaggio di avviso.<br>
   
-  - Visualizzazione delle prenotazioni per ID di un utente
-      Attori: dipendenti;
-      Descrizione: i dipendenti inseriscono l'ID del cliente di cui vogliono visualizzare le prenotazioni;
-      Scenari alternativi: nel caso in cui non dovessero esistere clienti con l'ID inserito il sistema provvede a stampare un messaggio di avviso.
+  - Visualizzazione delle prenotazioni per ID di un utente: <br>
+      **Attori:** dipendenti;<br>
+      **Descrizione:** i dipendenti inseriscono l'ID del cliente di cui vogliono visualizzare le prenotazioni;<br>
+      **Scenari alternativi:** nel caso in cui non dovessero esistere clienti con l'ID inserito il sistema provvede a stampare un messaggio di avviso.<br>
 
 ## 3. Requisiti non funzionali 
 
@@ -73,26 +73,32 @@ Benvenuto nel **Pandoro Project**, un software per la gestione delle prenotazion
 
 ## 6. Diagramma dei Casi d'Uso
 
-![Diagramma Casi d'Uso](https://github.com/Bl4ckDrake/pandoro_project/blob/master/use_cases.png)
+![Diagramma Use Case](https://github.com/Bl4ckDrake/pandoro_project/blob/master/use_cases.png)
 
-## Come avviare il codice
+## 7. Test del software
+
+![Google Fogli per la tabella di testing](https://docs.google.com/spreadsheets/d/1VC72SiuOT3WFe17jWZ1_F-meQi5BZ-pQ/edit#gid=169976682)
+
+## Requisiti e Guida per l'uso
 
   Steps:
   1. Avviare IntelliJ ed importare il progetto.
-  2. Andare sulla sezione File cliccare su Project Structure
-  3. Nella sezione Project Settings cliccare su modules e alla destra cliccare sulla sezione Dependencies
-  4. Cliccare sul + e importare la libreria di JavaFX, fare apply e ok
-  5. Tasto destro su GestionePista e cliccare su 'Modify Run Configuration' che si trova nella sezione 'More Run/Debug'
-  6. Cliccare su 'Modify options' e cliccare sull'opzione 'Add VM options'
-  7. Accanto alla versione di Java è comparsa una casella in cui importare le VM options
-  8. Incollare il seguente testo:
-     
-      --module-path "/path/to/javafx-sdk-21.0.1/lib/"   --add-modules javafx.base,javafx.controls,javafx.fxml,javafx.graphics --add-opens javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED --add-opens javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED
+  2. Scaricare la libreria di interfaccia grafica JavaFX dal sito ufficiale: [Link to JavaFX SDK Download](https://download2.gluonhq.com/openjfx/21.0.1/openjfx-21.0.1_windows-x64_bin-sdk.zip)
+  3. Esportare il file ``.zip`` in una path a scelta.
+  4. Andare sulla sezione File cliccare su ``Project Structure``
+  5. Nella sezione Project Settings cliccare su modules e alla destra cliccare sulla sezione Dependencies
+  6. Cliccare sul ``+`` e importare la libreria di ``JavaFX``, fare apply e ok
+  7. Tasto destro su GestionePista e cliccare su ``Modify Run Configuration`` che si trova nella sezione ``More Run/Debug``
+  8. Cliccare su ``Modify options`` e cliccare sull'opzione ``Add VM options``
+  9. Accanto alla versione di Java è comparsa una casella in cui importare le VM options
+  10. Incollare il seguente testo:
 
-     e modificare la sezione del path to in cui viene messo il percorso file della libreria di javafx
-     
-  10. Cliccare su apply e ok
-  11. In caso non vada fare tasto destro sul file pom.xml andare sulla sezione Maven e cliccare il tasto 'Reload Project'
-  12. E ripetere i primi 4 passaggi.
-    
-     
+```--module-path "/path/to/javafx-sdk-21.0.1/lib/" --add-modules javafx.base,javafx.controls,javafx.fxml,javafx.graphics --add-opens javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED --add-opens javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED```
+
+   11. Modificare la path dell'SDK e applicare le modifiche.
+   12. In caso funzioni correttamente, fare tasto destro sul file ``pom.xml`` andare sulla sezione Maven e cliccare il tasto ``Reload Project``
+   13. E ripetere i primi 4 passaggi.
+
+## Argomenti al programma 
+
+  Qualsivoglia avviare l'interfaccia di console di debug (CLI) e' necessario aggiungere ``--cli`` come argomento all'interno della lista degli argomenti passati all'entry point. <br> ***Attenzione: quando la CLI e' attiva, l'interfaccia grafica non verra' caricata.***
