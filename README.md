@@ -69,3 +69,8 @@ Benvenuto nel **Pandoro Project**, un software per la gestione delle prenotazion
 ## 5. Diagramma del Sistema
 
 ![Diagramma del Sistema](https://github.com/Bl4ckDrake/pandoro_project/blob/master/pandoro_project.png)
+
+
+## 6. Diagramma degli Use Case
+
+![Diagramma Use Case](https://github.com/Bl4ckDrake/pandoro_project/blob/master/use_cases.png)
