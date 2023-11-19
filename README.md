@@ -71,6 +71,28 @@ Benvenuto nel **Pandoro Project**, un software per la gestione delle prenotazion
 ![Diagramma del Sistema](https://github.com/Bl4ckDrake/pandoro_project/blob/master/pandoro_project.png)
 
 
-## 6. Diagramma degli Use Case
+## 6. Diagramma dei Casi d'Uso
 
-![Diagramma Use Case](https://github.com/Bl4ckDrake/pandoro_project/blob/master/use_cases.png)
+![Diagramma Casi d'Uso](https://github.com/Bl4ckDrake/pandoro_project/blob/master/use_cases.png)
+
+## Come avviare il codice
+
+  Steps:
+  1. Avviare IntelliJ ed importare il progetto.
+  2. Andare sulla sezione File cliccare su Project Structure
+  3. Nella sezione Project Settings cliccare su modules e alla destra cliccare sulla sezione Dependencies
+  4. Cliccare sul + e importare la libreria di JavaFX, fare apply e ok
+  5. Tasto destro su GestionePista e cliccare su 'Modify Run Configuration' che si trova nella sezione 'More Run/Debug'
+  6. Cliccare su 'Modify options' e cliccare sull'opzione 'Add VM options'
+  7. Accanto alla versione di Java è comparsa una casella in cui importare le VM options
+  8. Incollare il seguente testo:
+     
+      --module-path "/path/to/javafx-sdk-21.0.1/lib/"   --add-modules javafx.base,javafx.controls,javafx.fxml,javafx.graphics --add-opens javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED --add-opens javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED
+
+     e modificare la sezione del path to in cui viene messo il percorso file della libreria di javafx
+     
+  10. Cliccare su apply e ok
+  11. In caso non vada fare tasto destro sul file pom.xml andare sulla sezione Maven e cliccare il tasto 'Reload Project'
+  12. E ripetere i primi 4 passaggi.
+    
+     
