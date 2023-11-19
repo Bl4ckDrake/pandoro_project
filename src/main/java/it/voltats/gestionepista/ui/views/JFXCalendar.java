@@ -165,6 +165,7 @@ public class JFXCalendar extends StackPane {
 		// Add bookings
 		BookingBusiness bookingBusiness = new BookingBusiness();
 		UserBusiness userBusiness = new UserBusiness();
+		bookingBusiness.setOldBookingsExpired();
 		bookingBusiness.findAll().forEach(booking -> {
 			CalendarEvent event;
 			User user = userBusiness.findById(booking.getUserId());
@@ -178,7 +179,7 @@ public class JFXCalendar extends StackPane {
 
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-			event = new CalendarEvent(user.getName() + " " + user.getSurname(), priority, "Start time: " + simpleDateFormat.format(booking.getStartDate()) + ", End time: " + simpleDateFormat.format(booking.getEndDate()));
+			event = new CalendarEvent(user.getName() + " " + user.getSurname() + " (Booking ID: " + booking.getId() + ")", priority, "Start time: " + simpleDateFormat.format(booking.getStartDate()) + ", End time: " + simpleDateFormat.format(booking.getEndDate()));
 			event.setId(booking.getId());
 			event.setType(CalendarEvent.ONE_TIME_EVENT);
 			event.setDate(LocalDate.ofInstant(booking.getStartDate().toInstant(), ZoneId.systemDefault()));
@@ -446,7 +447,7 @@ public class JFXCalendar extends StackPane {
 		JFXCheckBox pendingCheckBox = new JFXCheckBox("Pending");
 		JFXCheckBox confirmedCheckBox = new JFXCheckBox("Confirmed");
 		JFXCheckBox holidayCheckBox = new JFXCheckBox("Holiday");
-		JFXCheckBox cancelledCheckBox = new JFXCheckBox("Stored");
+		JFXCheckBox cancelledCheckBox = new JFXCheckBox("Expired / Cancelled");
 
 		confirmedFilterProperty = confirmedCheckBox.selectedProperty();
 		pendingFilterProperty = pendingCheckBox.selectedProperty();

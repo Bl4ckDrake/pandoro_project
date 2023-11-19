@@ -22,9 +22,6 @@ public class EventDetailPaneController {
 	private JFXButton confirmedEventButton;
 
 	@FXML
-	private JFXButton pendingEventButton;
-
-	@FXML
 	private JFXButton cancelledEventButton;
 
 
@@ -50,10 +47,6 @@ public class EventDetailPaneController {
 			selectPriority(CalendarEvent.CONFIRMED);
 		});
 
-		pendingEventButton.setOnAction(e -> {
-			selectPriority(CalendarEvent.PENDING);
-		});
-
 		cancelledEventButton.setOnAction(e -> {
 			selectPriority(CalendarEvent.CANCELLED);
 		});
@@ -64,13 +57,16 @@ public class EventDetailPaneController {
 
 			switch (selectedPriority) {
 				case CalendarEvent.CONFIRMED:
-					booking.setStatus(BookingStatus.CONFIRMED);
-					break;
-				case CalendarEvent.PENDING:
-					booking.setStatus(BookingStatus.PENDING);
+					if (bookingBusiness.getIsForewarned(booking.getStartDate()))
+						booking.setStatus(BookingStatus.CONFIRMED);
+					else
+						selectedPriority = CalendarEvent.CANCELLED;
 					break;
 				case CalendarEvent.CANCELLED:
-					booking.setStatus(BookingStatus.STORED);
+					if (bookingBusiness.getIsForewarned(booking.getStartDate()))
+						booking.setStatus(BookingStatus.STORED);
+					else
+						selectedPriority = CalendarEvent.CONFIRMED;
 					break;
 			}
 
@@ -92,8 +88,6 @@ public class EventDetailPaneController {
 	private void clearPriorityOptions() {
 		confirmedEventButton
 				.setStyle("-fx-background-color: #BDC6CC; -fx-background-radius:15px; ");
-		pendingEventButton
-				.setStyle("-fx-background-color: #BDC6CC; -fx-background-radius:15px; ");
 		cancelledEventButton
 				.setStyle("-fx-background-color: #BDC6CC; -fx-background-radius:15px; ");
 	}
@@ -104,9 +98,6 @@ public class EventDetailPaneController {
 		if (priority == CalendarEvent.CONFIRMED) {
 			confirmedEventButton.setStyle(
 					"-fx-background-color: #81C457; -fx-background-radius:15px; ");
-		} else if (priority == CalendarEvent.PENDING) {
-			pendingEventButton.setStyle(
-					"-fx-background-color: #F7C531; -fx-background-radius:15px; ");
 		} else if(priority == CalendarEvent.CANCELLED) {
 			cancelledEventButton.setStyle(
 					"-fx-background-color: #E85569; -fx-background-radius:15px; ");

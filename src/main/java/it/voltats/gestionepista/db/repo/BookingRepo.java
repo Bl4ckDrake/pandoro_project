@@ -18,4 +18,5 @@ public interface BookingRepo {
     public List<Booking> findAllByUserIdAnddate(int userId, Date date);
     public List<Booking> findAll();
     public boolean isAvaiable(Date requestedStartDate, Date requestedEndDate);
+    public boolean isForewarned(Date requestedEndDate);
 }

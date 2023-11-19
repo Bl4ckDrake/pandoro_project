@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -163,12 +165,29 @@ public class BookingRepoImpl implements BookingRepo {
     }
 
     @Override
+    public boolean isForewarned(Date requestedEndDate) {
+        long currentTime = System.currentTimeMillis();
+        long nextDayTime = currentTime + (24 * 60 * 60 * 1000);
+
+        if (requestedEndDate.getTime() <= nextDayTime)
+            return false;
+
+        return true;
+    }
+
+    @Override
     public boolean isAvaiable(Date requestedStartDate, Date requestedEndDate) {
 
         if((requestedEndDate.getTime() - requestedStartDate.getTime())/(60*60*1000) > 8)
             return false;
 
+        if((requestedEndDate.getTime() - requestedStartDate.getTime())/(60*60*1000) < 1)
+            return false;
+
         if(requestedStartDate.getHours() < 8 || requestedStartDate.getHours() == 23 || requestedEndDate.getHours() <= 8)
+            return false;
+
+        if (!isForewarned(requestedEndDate))
             return false;
 
         final String QUERY = "SELECT * FROM booking";
@@ -195,14 +214,17 @@ public class BookingRepoImpl implements BookingRepo {
         }
 
         for(Booking b: bookings){
-            if(b.getStartDate().getYear() == requestedStartDate.getYear() &&
-                    b.getStartDate().getMonth() == requestedStartDate.getMonth() &&
-                    b.getStartDate().getDate() == requestedStartDate.getDate()){
-                for(int h = b.getStartDate().getHours(); h<b.getEndDate().getHours(); h++){
-                    if(h == requestedStartDate.getHours())
-                        return false;   //CONTROLLO ORE
-                } if(b.getEndDate().getMinutes() > requestedEndDate.getMinutes())
-                    return false;   //CONTROLLO MINUTI
+            if (b.getStatus() != BookingStatus.STORED) {
+                if (b.getStartDate().getYear() == requestedStartDate.getYear() &&
+                        b.getStartDate().getMonth() == requestedStartDate.getMonth() &&
+                        b.getStartDate().getDate() == requestedStartDate.getDate()) {
+                    for (int h = b.getStartDate().getHours(); h < b.getEndDate().getHours(); h++) {
+                        if (h == requestedStartDate.getHours())
+                            return false;   //CONTROLLO ORE
+                    }
+                    if (b.getEndDate().getMinutes() > requestedEndDate.getMinutes())
+                        return false;   //CONTROLLO MINUTI
+                }
             }
 
         }   return true;

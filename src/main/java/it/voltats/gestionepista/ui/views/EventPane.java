@@ -130,7 +130,7 @@ public class EventPane extends VBox {
 			priorityBox.setId("importantPriorityBox");
 			setId("importantEvent");
 		} else {
-			priorityLabel.setText("Stored");
+			priorityLabel.setText("Expired / Cancelled");
 			priorityBox.setId("urgentPriorityBox");
 			setId("urgentEvent");
 		}

@@ -1,6 +1,7 @@
 package it.voltats.gestionepista.business;
 
 import it.voltats.gestionepista.db.entity.Booking;
+import it.voltats.gestionepista.db.entity.model.BookingStatus;
 import it.voltats.gestionepista.db.entity.model.Promotions;
 import it.voltats.gestionepista.db.impl.BookingRepoImpl;
 import it.voltats.gestionepista.util.ItalianHolidaysUtils;
@@ -67,6 +68,17 @@ public class BookingBusiness {
         bookings.update(booking);
     }
 
+    public void setOldBookingsExpired() {
+        List<Booking> bookingList = findAll();
+
+        for (Booking booking : bookingList) {
+            if (!bookings.isForewarned(booking.getEndDate())) {
+                booking.setStatus(BookingStatus.STORED);
+                update(booking);
+            }
+        }
+    }
+
     /**
      * @return Ritorna lista di prenotazioni
      */
@@ -129,5 +141,9 @@ public class BookingBusiness {
 
     public List<Booking> findAllByUserIdAndDate(int userId, Date date) {
         return bookings.findAllByUserIdAnddate(userId, date);
+    }
+
+    public boolean getIsForewarned(Date date) {
+        return bookings.isForewarned(date);
     }
 }

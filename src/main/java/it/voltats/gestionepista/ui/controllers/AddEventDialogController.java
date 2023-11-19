@@ -75,7 +75,7 @@ public class AddEventDialogController {
 
 
 	private boolean showUserFields;
-	private int selectedUserId;
+	private int selectedUserId = -1;
 
 	private UserBusiness userBusiness = new UserBusiness();
 	private BookingBusiness bookingBusiness = new BookingBusiness();
@@ -188,6 +188,12 @@ public class AddEventDialogController {
 		Date startDate;
 		Date endDate;
 
+		if (startLocalDate == null)
+			return null;
+
+		if (endLocalDate == null)
+			return null;
+
 		try {
 			startDate = new SimpleDateFormat("dd/MM/yyyy HH:ss").parse(startLocalDate.getDayOfMonth() + "/" + startLocalDate.getMonthValue() + "/" + startLocalDate.getYear() + " " + startTimeField.getText());
 			endDate = new SimpleDateFormat("dd/MM/yyyy HH:ss").parse(endLocalDate.getDayOfMonth() + "/" + endLocalDate.getMonthValue() + "/" + endLocalDate.getYear() + " " + endTimeField.getText());
@@ -195,6 +201,12 @@ public class AddEventDialogController {
 			e.printStackTrace();
 			return null;
 		}
+
+		if (selectedUserId == -1)
+			return null;
+
+		if (userId == -1)
+			return null;
 
 		int bookingId = bookingBusiness.insert(new Booking(userId, startDate, endDate, BookingStatus.PENDING, -1));
 

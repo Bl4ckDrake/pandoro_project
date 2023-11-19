@@ -28,7 +28,7 @@
         </HBox>
         <HBox prefHeight="48.0" prefWidth="435.0">
             <VBox>
-                <Label prefHeight="29.0" prefWidth="101.0" text="Select user">
+                <Label prefHeight="29.0" prefWidth="101.0" text="Select User">
                     <font>
                         <Font name="Calibri" size="18.0" />
                     </font>
@@ -50,38 +50,7 @@
         </HBox>
         <HBox>
             <VBox>
-                <Label prefHeight="29.0" prefWidth="101.0" text="Select day">
-                    <font>
-                        <Font name="Calibri" size="18.0" />
-                    </font>
-                </Label>
-                <DatePicker fx:id="searchDatePicker"></DatePicker>
-                <padding>
-                    <Insets bottom="10.0" right="10.0" top="15.0" />
-                </padding>
-            </VBox>
-            <VBox>
-                <Region VBox.vgrow="ALWAYS" />
-                <JFXButton fx:id="resetDateButton"></JFXButton>
-                <padding>
-                    <Insets bottom="10.0" right="10.0" top="15.0" />
-                </padding>
-            </VBox>
-
-            <VBox>
-                <Region VBox.vgrow="ALWAYS" />
-                <Label prefHeight="29.0" prefWidth="101.0" text="OR">
-                    <font>
-                        <Font name="Calibri" size="18.0" />
-                    </font>
-                </Label>
-                <padding>
-                    <Insets bottom="10.0" right="10.0" top="15.0" />
-                </padding>
-            </VBox>
-
-            <VBox>
-                <Label prefHeight="29.0" prefWidth="101.0" text="Booking id">
+                <Label prefHeight="29.0" prefWidth="101.0" text="Booking Identifier">
                 <font>
                     <Font name="Calibri" size="18.0" />
                 </font>

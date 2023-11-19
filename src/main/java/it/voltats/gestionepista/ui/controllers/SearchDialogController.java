@@ -26,11 +26,6 @@ public class SearchDialogController {
     private JFXButton resetUserButton;
 
     @FXML
-    private DatePicker searchDatePicker;
-    @FXML
-    private JFXButton resetDateButton;
-
-    @FXML
     private JFXTextField idTextField;
 
 
@@ -71,18 +66,12 @@ public class SearchDialogController {
             update();
         });
 
-        /* Date filter */
-        searchDatePicker.valueProperty().addListener(e -> {
-            idTextField.setText("");
-            update();
-        });
 
         // Id text field
         idTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 idTextField.setText(newValue.replaceAll("[^\\d]", ""));
             }
-            searchDatePicker.setValue(null);
             selectUserBox.valueProperty().setValue(null);
             update();
         });
@@ -104,12 +93,6 @@ public class SearchDialogController {
             update();
         });
 
-        // Reset date selection button
-        resetDateButton.setGraphic(resetDateButtonIcon);
-        resetDateButton.setOnAction(e -> {
-            searchDatePicker.setValue(null);
-            update();
-        });
     }
 
 
@@ -127,14 +110,6 @@ public class SearchDialogController {
             return;
         }
 
-        if(selectedUserId != -1 && searchDatePicker.getValue() != null) {
-            for(Booking booking: bookingBusiness.findAllByUserIdAndDate(selectedUserId, Date.from(searchDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()))) {
-                bookings.add(booking.toString());
-            }
-            resultListView.setItems(bookings);
-            return;
-        }
-
         if(selectedUserId != -1) {
             for (Booking booking: bookingBusiness.findAllByUserId(selectedUserId)) {
                 bookings.add(booking.toString());
@@ -143,13 +118,6 @@ public class SearchDialogController {
             return;
         }
 
-        if(searchDatePicker.getValue() != null) {
-            for (Booking booking: bookingBusiness.findAllByDate(Date.from(searchDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()))) {
-                bookings.add(booking.toString());
-            }
-            resultListView.setItems(bookings);
-            return;
-        }
 
         bookings.removeAll();
         resultListView.setItems(bookings);
