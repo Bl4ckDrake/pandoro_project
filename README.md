@@ -62,6 +62,9 @@ Benvenuto nel **Pandoro Project**, un software per la gestione delle prenotazion
   - Interfaccia utente:
       L'interfaccia fornita all'utilizzatore del sistema può essere su console o grafica.
 
+  - Modifica automatica delle prenotazioni passate:
+      Ad ogni avvio del programma, il flag di ogni prenotazione viene settato come Stored quando e' stata svolta in passato.
+
 ## 4. Architettura del Sistema
 
   Il software segue un'architettura semplice. I dati possono essere memorizzati in file CSV o in un database (mySQL). I dipendenti possono interagire con l'interfaccia grafica.
