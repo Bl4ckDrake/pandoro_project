@@ -89,8 +89,8 @@ Benvenuto nel **Pandoro Project**, un software per la gestione delle prenotazion
   2. Scaricare la libreria di interfaccia grafica JavaFX dal sito ufficiale: [Link to JavaFX SDK Download](https://download2.gluonhq.com/openjfx/21.0.1/openjfx-21.0.1_windows-x64_bin-sdk.zip)
   3. Esportare il file ``.zip`` in una path a scelta.
   4. Andare sulla sezione File cliccare su ``Project Structure``
-  5. Nella sezione Project Settings cliccare su modules e alla destra cliccare sulla sezione Dependencies
-  6. Cliccare sul ``+`` e importare la libreria di ``JavaFX``, fare apply e ok
+  5. Nella sezione ``Project Settings`` cliccare su ``modules`` e alla destra cliccare sulla sezione ``Dependencies``
+  6. Cliccare sul ``+`` e importare la libreria di ``JavaFX``, selezionando la cartella delle librerie. Fare ``apply`` e ``ok``
   7. Tasto destro su GestionePista e cliccare su ``Modify Run Configuration`` che si trova nella sezione ``More Run/Debug``
   8. Cliccare su ``Modify options`` e cliccare sull'opzione ``Add VM options``
   9. Accanto alla versione di Java è comparsa una casella in cui importare le VM options
