@@ -68,6 +68,9 @@ public class EventDetailPaneController {
 			Booking booking = bookingBusiness.findById(event.getId());
 			initPriceLabel.setText(booking.getPrice() + "$");
 
+			finalPrice = booking.getPrice();
+			finalPriceLabel.setText(finalPrice + "$");
+
 			discountTextField.textProperty().addListener((observable, oldValue, newValue) -> {
                 if (!newValue.matches("\\d*")) {
                     discountTextField.setText(newValue.replaceAll("[^\\d]", ""));
@@ -79,8 +82,8 @@ public class EventDetailPaneController {
 					finalPriceLabel.setText(finalPrice + "$");
 				}
 				else {
-					finalPriceLabel.setText("-$");
 					finalPrice = booking.getPrice();
+					finalPriceLabel.setText(finalPrice + "$");
 				}
 			});
 		});
