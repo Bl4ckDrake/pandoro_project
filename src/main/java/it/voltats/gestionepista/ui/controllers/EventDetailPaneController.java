@@ -3,11 +3,16 @@ package it.voltats.gestionepista.ui.controllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 
+import com.jfoenix.controls.JFXTextField;
 import it.voltats.gestionepista.business.BookingBusiness;
 import it.voltats.gestionepista.db.entity.Booking;
 import it.voltats.gestionepista.db.entity.model.BookingStatus;
 import it.voltats.gestionepista.ui.model.CalendarEvent;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 
 public class EventDetailPaneController {
 
@@ -24,6 +29,18 @@ public class EventDetailPaneController {
 	@FXML
 	private JFXButton cancelledEventButton;
 
+	@FXML
+	private HBox applyDiscountBox;
+
+	@FXML
+	private Label initPriceLabel;
+
+	@FXML
+	private JFXTextField discountTextField;
+
+	@FXML
+	private Label finalPriceLabel;
+
 
 	private JFXDialog dialog;
 
@@ -35,6 +52,8 @@ public class EventDetailPaneController {
 
 	private BookingBusiness bookingBusiness = new BookingBusiness();
 
+	private double finalPrice;
+
 	@FXML
 	private void initialize() {
 
@@ -45,10 +64,30 @@ public class EventDetailPaneController {
 
 		confirmedEventButton.setOnAction(e -> {
 			selectPriority(CalendarEvent.CONFIRMED);
+			applyDiscountBox.setVisible(true);
+			Booking booking = bookingBusiness.findById(event.getId());
+			initPriceLabel.setText(booking.getPrice() + "$");
+
+			discountTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue.matches("\\d*")) {
+                    discountTextField.setText(newValue.replaceAll("[^\\d]", ""));
+
+                }
+
+				if(!discountTextField.getText().isBlank()) {
+					finalPrice = booking.getPrice() - booking.getPrice()/100*Integer.parseInt(discountTextField.getText());
+					finalPriceLabel.setText(finalPrice + "$");
+				}
+				else {
+					finalPriceLabel.setText("-$");
+					finalPrice = booking.getPrice();
+				}
+			});
 		});
 
 		cancelledEventButton.setOnAction(e -> {
 			selectPriority(CalendarEvent.CANCELLED);
+			applyDiscountBox.setVisible(false);
 		});
 
 		updateEventButton.setOnAction(e -> {
@@ -57,8 +96,10 @@ public class EventDetailPaneController {
 
 			switch (selectedPriority) {
 				case CalendarEvent.CONFIRMED:
-					if (bookingBusiness.getIsForewarned(booking.getStartDate()))
+					if (bookingBusiness.getIsForewarned(booking.getStartDate())) {
 						booking.setStatus(BookingStatus.CONFIRMED);
+						booking.setPrice(finalPrice);
+					}
 					else
 						selectedPriority = CalendarEvent.CANCELLED;
 					break;

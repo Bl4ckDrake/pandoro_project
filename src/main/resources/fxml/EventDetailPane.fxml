@@ -7,26 +7,57 @@
 
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.Label?>
+<?import com.jfoenix.controls.JFXTextField?>
 <VBox style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="it.voltats.gestionepista.ui.controllers.EventDetailPaneController">
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="15.0"/>
    </padding>
    <HBox alignment="CENTER_LEFT" layoutX="3.0" layoutY="95.0" prefHeight="37.0" prefWidth="448.0" spacing="10.0">
-      <JFXButton fx:id="confirmedEventButton" buttonType="RAISED" prefHeight="30.0" prefWidth="100.0"
-                 style="-fx-background-color: #81C457; -fx-background-radius: 15;" text="Confirmed"
-                 textFill="WHITE">
-         <font>
-            <Font name="Calibri" size="14.0"/>
-         </font>
-      </JFXButton>
-      <JFXButton fx:id="cancelledEventButton" buttonType="RAISED" prefHeight="30.0" prefWidth="100.0"
+      <JFXButton fx:id="cancelledEventButton" buttonType="RAISED" prefHeight="30.0" prefWidth="200.0"
                  style="-fx-background-color: #E85569; -fx-background-radius: 15;" text="Expired / Cancelled"
                  textFill="WHITE">
          <font>
             <Font name="Calibri" size="14.0"/>
          </font>
       </JFXButton>
+      <JFXButton fx:id="confirmedEventButton" buttonType="RAISED" prefHeight="30.0" prefWidth="200.0"
+                 style="-fx-background-color: #81C457; -fx-background-radius: 15;" text="Confirmed"
+                 textFill="WHITE">
+         <font>
+            <Font name="Calibri" size="14.0"/>
+         </font>
+      </JFXButton>
+      <padding>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="15.0"/>
+      </padding>
+   </HBox>
+   <HBox fx:id="applyDiscountBox" visible="false">
+      <VBox>
+         <Label prefHeight="14.0" prefWidth="151.0" text="Initial Price">
+            <font>
+               <Font name="Calibri" size="18.0" />
+            </font>
+         </Label>
+         <Label fx:id="initPriceLabel"></Label>
+      </VBox>
+      <VBox>
+         <Label prefHeight="14.0" prefWidth="151.0" text="Discount">
+            <font>
+               <Font name="Calibri" size="18.0" />
+            </font>
+         </Label>
+         <JFXTextField fx:id="discountTextField" prefWidth="20" promptText="25%"></JFXTextField>
+      </VBox>
+      <VBox>
+         <Label prefHeight="14.0" prefWidth="151.0" text="Final Price">
+            <font>
+               <Font name="Calibri" size="18.0" />
+            </font>
+         </Label>
+         <Label fx:id="finalPriceLabel" text="- $"></Label>
+      </VBox>
       <padding>
          <Insets bottom="5.0" left="5.0" right="5.0" top="15.0"/>
       </padding>
