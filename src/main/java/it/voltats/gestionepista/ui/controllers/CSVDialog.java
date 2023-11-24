@@ -22,7 +22,7 @@ public class CSVDialog extends JFXDialog {
     public CSVDialog(StackPane stackPane) {
         JFXDialogLayout content = new JFXDialogLayout();
 
-        URL location = GestionePista.class.getClassLoader().getResource("fxml/CSVDialog.fxml");
+        URL location = GestionePista.class.getResource("/fxml/CSVDialog.fxml");
 
         FXMLLoader loader = new FXMLLoader();
         loader.setClassLoader(getClass().getClassLoader());

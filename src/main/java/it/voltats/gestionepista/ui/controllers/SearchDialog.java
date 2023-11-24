@@ -22,7 +22,7 @@ public class SearchDialog extends JFXDialog {
     public SearchDialog(StackPane stackPane) {
         JFXDialogLayout content = new JFXDialogLayout();
 
-        URL location = GestionePista.class.getClassLoader().getResource("fxml/SearchDialog.fxml");
+        URL location = GestionePista.class.getResource("/fxml/SearchDialog.fxml");
 
         FXMLLoader loader = new FXMLLoader();
         loader.setClassLoader(getClass().getClassLoader());

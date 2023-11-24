@@ -25,7 +25,7 @@ public class EventDialog extends JFXDialog {
 	public EventDialog(StackPane stackPane) {
 		JFXDialogLayout content = new JFXDialogLayout();
 
-		URL location = GestionePista.class.getClassLoader().getResource("fxml/AddEventDialog.fxml");
+		URL location = GestionePista.class.getResource("/fxml/AddEventDialog.fxml");
 
 		FXMLLoader loader = new FXMLLoader();
 		loader.setClassLoader(getClass().getClassLoader());

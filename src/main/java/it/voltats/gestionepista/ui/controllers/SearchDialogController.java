@@ -126,6 +126,6 @@ public class SearchDialogController {
 
     public void clear() {
         selectUserBox.valueProperty().setValue(null);
-        searchDatePicker.setValue(null);
+        //searchDatePicker.setValue(null);
     }
 }
