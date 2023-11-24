@@ -134,7 +134,7 @@ public class CSVDialogController {
                 for (Booking booking: importedBookings) {
                     bookingRepo.insert(booking);
                 }
-                DialogHandler.showConfirmationDialog("Imported " + importedBookings.size() + " bookings");
+                DialogHandler.showSuccessDialog("Import CSV info", "Imported " + importedBookings.size() + " bookings");
                 return;
             }
 
@@ -143,7 +143,7 @@ public class CSVDialogController {
                 for(User user: importedUsers) {
                     userRepo.insert(user);
                 }
-                DialogHandler.showConfirmationDialog("Imported " + importedUsers.size() + " users");
+                DialogHandler.showSuccessDialog("Import CSV info", "Imported " + importedUsers.size() + " users");
             }
         });
 
@@ -156,13 +156,13 @@ public class CSVDialogController {
 
             if(selectedTable == TABLE_BOOKING) {
                 csvUtil.exportBookingsToCSV(pathChoice.getAbsolutePath() + "/" + exportTextField.getText(), bookingRepo.findAll());
-                DialogHandler.showConfirmationDialog("Exported " + bookingRepo.findAll().size() + " bookings to " + pathChoice.getAbsolutePath() + "/" + exportTextField.getText());
+                DialogHandler.showSuccessDialog("Export CSV info", "Exported " + bookingRepo.findAll().size() + " bookings to " + pathChoice.getAbsolutePath() + "/" + exportTextField.getText());
                 return;
             }
 
             if(selectedTable == TABLE_USER) {
                 csvUtil.exportUserListToCSV(pathChoice.getAbsolutePath() + "/" + exportTextField.getText(), userRepo.findAll());
-                DialogHandler.showConfirmationDialog("Exported " + userRepo.findAll().size() + " users to " + pathChoice.getAbsolutePath() + "/" + exportTextField.getText());
+                DialogHandler.showSuccessDialog("Export CSV info", "Exported " + userRepo.findAll().size() + " users to " + pathChoice.getAbsolutePath() + "/" + exportTextField.getText());
             }
         });
     }

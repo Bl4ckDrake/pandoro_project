@@ -51,6 +51,26 @@ public class DialogHandler {
 		}
 	}
 
+	public static boolean showSuccessDialog(String successMessageHeader, String successMessage) {
+
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.getDialogPane().setStyle(
+				".dialog-pane > .content.label {-fx-padding: 0.5em 0.5em 0.5em 0.5em; -fx-font-size:14px;}");
+
+		setDialogIcon(alert);
+
+		alert.setTitle("Success");
+		alert.setHeaderText(successMessageHeader);
+		alert.setContentText(successMessage);
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	private static void setDialogIcon(Dialog<?> dialog) {
 		// if you want to load your custom icon
 		// Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
