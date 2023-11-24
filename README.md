@@ -91,16 +91,8 @@ Benvenuto nel **Pandoro Project**, un software per la gestione delle prenotazion
   4. Andare sulla sezione File cliccare su ``Project Structure``
   5. Nella sezione ``Project Settings`` cliccare su ``modules`` e alla destra cliccare sulla sezione ``Dependencies``
   6. Cliccare sul ``+`` e importare la libreria di ``JavaFX``, selezionando la cartella delle librerie. Fare ``apply`` e ``ok``
-  7. Tasto destro su GestionePista e cliccare su ``Modify Run Configuration`` che si trova nella sezione ``More Run/Debug``
-  8. Cliccare su ``Modify options`` e cliccare sull'opzione ``Add VM options``
-  9. Accanto alla versione di Java è comparsa una casella in cui importare le VM options
-  10. Incollare il seguente testo:
-
-```--module-path "/path/to/javafx-sdk-21.0.1/lib/" --add-modules javafx.base,javafx.controls,javafx.fxml,javafx.graphics --add-opens javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED --add-opens javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED```
-
-   11. Modificare la path dell'SDK e applicare le modifiche.
-   12. In caso funzioni correttamente, fare tasto destro sul file ``pom.xml`` andare sulla sezione Maven e cliccare il tasto ``Reload Project``
-   13. E ripetere i primi 4 passaggi.
+  7. In caso non funzioni correttamente, fare tasto destro sul file ``pom.xml`` andare sulla sezione Maven e cliccare il tasto ``Reload Project``
+  8. E ripetere i passaggi dal punto 4.
 
 ## Argomenti al programma 
 
